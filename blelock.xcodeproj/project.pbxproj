@@ -19,6 +19,10 @@
 		E963F37C1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F37B1B65F81A00EB9784 /* SFHFKeychainUtils.m */; };
 		E963F37D1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F37B1B65F81A00EB9784 /* SFHFKeychainUtils.m */; };
 		E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA940B01B651A2B00A63DFA /* BLLoginViewController.m */; };
+		E963F3821B65FF2500EB9784 /* BLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */; };
+		E963F3831B65FF2500EB9784 /* BLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */; };
+		E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */; };
+		E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +57,10 @@
 		E963F3781B65F49500EB9784 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E963F37A1B65F81A00EB9784 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		E963F37B1B65F81A00EB9784 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		E963F3801B65FEF500EB9784 /* BLRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLRegisterViewController.h; sourceTree = "<group>"; };
+		E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLRegisterViewController.m; path = login/BLRegisterViewController.m; sourceTree = "<group>"; };
+		E963F3841B66038800EB9784 /* BLLoginForFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLoginForFirstViewController.h; sourceTree = "<group>"; };
+		E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLLoginForFirstViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +188,7 @@
 		0FA940701B6506AA00A63DFA /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E963F37F1B65FE7C00EB9784 /* register */,
 				0FA940AE1B651A0800A63DFA /* login */,
 			);
 			path = UI;
@@ -192,6 +201,8 @@
 				E963F37B1B65F81A00EB9784 /* SFHFKeychainUtils.m */,
 				0FA940AF1B651A2B00A63DFA /* BLLoginViewController.h */,
 				0FA940B01B651A2B00A63DFA /* BLLoginViewController.m */,
+				E963F3841B66038800EB9784 /* BLLoginForFirstViewController.h */,
+				E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -212,6 +223,15 @@
 				3000DE348F3830A9BB18BDD6 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		E963F37F1B65FE7C00EB9784 /* register */ = {
+			isa = PBXGroup;
+			children = (
+				E963F3801B65FEF500EB9784 /* BLRegisterViewController.h */,
+				E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */,
+			);
+			name = register;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,9 +370,11 @@
 				0FA940AD1B65101200A63DFA /* BlLoginManager.m in Sources */,
 				0FA940AA1B650FFB00A63DFA /* BLInitManager.m in Sources */,
 				E963F37C1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
+				E963F3821B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,
 				0FA9404B1B65027200A63DFA /* AppDelegate.m in Sources */,
 				0FA940B11B651A2B00A63DFA /* BLLoginViewController.m in Sources */,
 				0FA940481B65027200A63DFA /* main.m in Sources */,
+				E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,8 +383,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */,
+				E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 				E963F37D1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
 				0FA940621B65027200A63DFA /* blelockTests.m in Sources */,
+				E963F3831B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
