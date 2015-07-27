@@ -7,6 +7,7 @@
 //
 
 #import "BLLoginViewController.h"
+#import "SFHFKeychainUtils.h"
 
 @interface BLLoginViewController () < UITextFieldDelegate >
 
@@ -18,6 +19,7 @@
 @end
 
 @implementation BLLoginViewController
+//@synthesize avatarImageView,mobilephoneLabel,passwordTextField,loginButton;
 
 - (void)loadView {
     
@@ -99,8 +101,27 @@
 
 #pragma mark - login Button Action
 
-- (void)loginButtonAction:(id)sender {
-
+- (void)loginButtonAction:(id)sender
+{
+    if(_mobilephoneLabel.text.length==0||_passwordTextField.text.length==0)
+    {
+        UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"用户名或密码不能为空" message:@"请键入用户名或密码" delegate:self cancelButtonTitle:@"OK,I know" otherButtonTitles:nil];
+        [alertView show];
+    }
+    else
+    {
+        //NSLog(@"%@ %@",[SFHFKeychainUtils getPasswordForUsername:user.text andServiceName:@"passwordTest" error:nil],password.text);
+        if([[SFHFKeychainUtils getPasswordForUsername:_mobilephoneLabel.text andServiceName:@"passwordTest" error:nil] isEqual: _passwordTextField.text])
+        {
+            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"登陆成功" message:nil delegate:self cancelButtonTitle:@"OK,I know" otherButtonTitles:nil];
+            [alertView show];
+        }
+        else
+        {
+            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"登陆失败" message:@"用户名或密码不正确" delegate:self cancelButtonTitle:@"OK,I know" otherButtonTitles:nil];
+            [alertView show];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {

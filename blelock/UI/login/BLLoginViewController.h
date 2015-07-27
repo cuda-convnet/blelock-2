@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface BLLoginViewController : UIViewController
+- (void) loginButtonAction:(id) sender;
 
 @end
