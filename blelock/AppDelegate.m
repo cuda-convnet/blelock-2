@@ -20,6 +20,7 @@
     // Override point for customization after application launch.
     
     [[BLInitManager sharedInstance] launch];
+   
     
     return YES;
 }

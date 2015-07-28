@@ -9,7 +9,7 @@
 #import "BLLoginForFirstViewController.h"
 #import "SFHFKeychainUtils.h"
 
-@interface BLLoginForFirstViewController () < UITextFieldDelegate >
+@interface BLLoginForFirstViewController () 
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UITextField *userTextField;

@@ -23,6 +23,10 @@
 		E963F3831B65FF2500EB9784 /* BLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */; };
 		E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */; };
 		E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */; };
+		E9DBC6931B6727D30063C92D /* BLKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6921B6727D30063C92D /* BLKeyViewController.m */; };
+		E9DBC6941B6727D30063C92D /* BLKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6921B6727D30063C92D /* BLKeyViewController.m */; };
+		E9DBC69A1B672D820063C92D /* KeyTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6991B672D820063C92D /* KeyTableCell.m */; };
+		E9DBC69B1B672D820063C92D /* KeyTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6991B672D820063C92D /* KeyTableCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +65,10 @@
 		E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLRegisterViewController.m; path = login/BLRegisterViewController.m; sourceTree = "<group>"; };
 		E963F3841B66038800EB9784 /* BLLoginForFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLoginForFirstViewController.h; sourceTree = "<group>"; };
 		E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLLoginForFirstViewController.m; sourceTree = "<group>"; };
+		E9DBC6911B67278C0063C92D /* BLKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKeyViewController.h; sourceTree = "<group>"; };
+		E9DBC6921B6727D30063C92D /* BLKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLKeyViewController.m; sourceTree = "<group>"; };
+		E9DBC6981B672D430063C92D /* KeyTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyTableCell.h; sourceTree = "<group>"; };
+		E9DBC6991B672D820063C92D /* KeyTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyTableCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +196,7 @@
 		0FA940701B6506AA00A63DFA /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E9DBC6901B6727490063C92D /* key */,
 				E963F37F1B65FE7C00EB9784 /* register */,
 				0FA940AE1B651A0800A63DFA /* login */,
 			);
@@ -232,6 +241,17 @@
 				E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */,
 			);
 			name = register;
+			sourceTree = "<group>";
+		};
+		E9DBC6901B6727490063C92D /* key */ = {
+			isa = PBXGroup;
+			children = (
+				E9DBC6911B67278C0063C92D /* BLKeyViewController.h */,
+				E9DBC6921B6727D30063C92D /* BLKeyViewController.m */,
+				E9DBC6981B672D430063C92D /* KeyTableCell.h */,
+				E9DBC6991B672D820063C92D /* KeyTableCell.m */,
+			);
+			name = key;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,10 +389,12 @@
 			files = (
 				0FA940AD1B65101200A63DFA /* BlLoginManager.m in Sources */,
 				0FA940AA1B650FFB00A63DFA /* BLInitManager.m in Sources */,
+				E9DBC69A1B672D820063C92D /* KeyTableCell.m in Sources */,
 				E963F37C1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
 				E963F3821B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,
 				0FA9404B1B65027200A63DFA /* AppDelegate.m in Sources */,
 				0FA940B11B651A2B00A63DFA /* BLLoginViewController.m in Sources */,
+				E9DBC6931B6727D30063C92D /* BLKeyViewController.m in Sources */,
 				0FA940481B65027200A63DFA /* main.m in Sources */,
 				E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 			);
@@ -382,9 +404,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9DBC6941B6727D30063C92D /* BLKeyViewController.m in Sources */,
 				E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */,
 				E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 				E963F37D1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
+				E9DBC69B1B672D820063C92D /* KeyTableCell.m in Sources */,
 				0FA940621B65027200A63DFA /* blelockTests.m in Sources */,
 				E963F3831B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,
 			);

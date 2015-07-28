@@ -6,4 +6,3 @@
 //  Copyright (c) 2015年 Netease. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
