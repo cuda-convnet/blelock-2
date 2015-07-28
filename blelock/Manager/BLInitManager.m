@@ -9,6 +9,7 @@
 #import "BLInitManager.h"
 #import "BLLoginViewController.h"
 #import "BLLoginForFirstViewController.h"
+#import "BLKeyViewController.h"
 
 #define BLLoginUserID  @"blelock.login.uid"
 
@@ -40,7 +41,7 @@
 //    }
 //    else
 //        [self showLoginViewController];
-    [self showLoginForFirstViewController];
+    [self showKeyViewController];
 }
 
 - (NSString *)loginUserID {
@@ -66,6 +67,15 @@
     [self showNewWindowWithViewController:_rootNavigationController animated:YES];
     
 }
+- (void)showKeyViewController {
+    
+    BLKeyViewController *loginVC = [[BLKeyViewController alloc] init];
+    _rootNavigationController = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    
+    [self showNewWindowWithViewController:_rootNavigationController animated:YES];
+    
+}
+
 
 - (void)showNewWindowWithViewController:(UIViewController*)vc animated:(BOOL)animated {
     
