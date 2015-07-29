@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BLKeyViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
-- (void) openBLButtonAction:(id) sender;
 
 @end
