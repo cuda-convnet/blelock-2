@@ -7,10 +7,15 @@
 //
 
 #import "BLKeyViewController.h"
-
+#import "BLUserViewController.h"
 @interface BLKeyViewController ()
 
+@property (nonatomic, strong) UINavigationBar *navigationBar;
+@property (nonatomic, strong) UIView *operateUIView;
+@property (nonatomic, strong) UIImageView *operateUIImageView;
+@property (nonatomic, strong) UILabel *hintLabel;
 @property (nonatomic, strong) UITableView *keyTableView;
+
 
 @end
 
@@ -21,70 +26,128 @@
 }
 
 - (void)loadView {
-    CGRect tmp = [UIApplication sharedApplication].keyWindow.bounds;
-    UIView *view = [[UIView alloc] initWithFrame:tmp];
+    //Creates the view that the controller manages.
+    CGRect frame = [UIScreen mainScreen].bounds;
+    CGRect rectStatus = [[UIApplication sharedApplication] statusBarFrame];
+    CGRect navframe = self.navigationController.navigationBar.frame;
+    
+    UIView *view = [[UIView alloc] initWithFrame:frame];
     view.backgroundColor = [UIColor lightGrayColor];
     
-    // Initialize table data
+    //导航栏
     
-    
-    
-    _keyTableView = [[UITableView alloc] initWithFrame:tmp];
-    //_keyTableView.header =  [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    // 设置回调（一旦进入刷新状态，就调用target的action，也就是调用self的loadMoreData方法）
-    //_keyTableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-
-    _keyTableView.backgroundColor = [UIColor whiteColor];
-    _keyTableView.dataSource = self;
-    _keyTableView.delegate = self;
-    [view addSubview:_keyTableView];
-    
-    dataArray = [NSArray arrayWithObjects:@"翠苑四区",@"工商管理楼", @"土木科技楼", @"阿木的家", @"网易六楼", @"网易宿舍837", @"浙大玉泉", @"浙大紫金港", @"浙大西溪", @"浙大曹主", nil];
-    
-    [_keyTableView reloadData];
-    
-    
+    [self.navigationController setNavigationBarHidden:YES];
+    _navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, rectStatus.size.height, frame.size.width, navframe.size.height)];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
+    //创建一个导航栏集合
+    UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
+    [navigationItem setTitle:@"钥匙"];
+    [_navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+    //右边按钮
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
+    [rightButton setBackgroundImage: [UIImage imageNamed : @"user.png"] forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(GotoSettings) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    navigationItem.rightBarButtonItem = rightItem;
+    //把导航栏集合添加入导航栏中，设置动画关闭
+    [_navigationBar pushNavigationItem:navigationItem animated:NO];
+    [view addSubview:_navigationBar];
     self.view = view;
+
+    
+//
+//    _operateUIView = [[UIView alloc] initWithFrame:CGRectZero];
+//    _operateUIView.backgroundColor = [UIColor blueColor];
+//    [view addSubview:_operateUIView];
+//    
+//    _operateUIImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    _operateUIImageView.backgroundColor = [UIColor lightGrayColor];
+//    [_operateUIView addSubview:_operateUIImageView];
+//    
+//    _hintLabel = [[UILabel alloc]initWithFrame:CGRectZero];
+//    _hintLabel.backgroundColor = [UIColor yellowColor];
+//    _hintLabel.text = @"点击这里打开蓝牙";
+//    [_operateUIView addSubview:_hintLabel];
+//    
+//    _keyTableView = [[UITableView alloc] initWithFrame:CGRectZero];
+//    _keyTableView.backgroundColor = [UIColor whiteColor];
+//    [view addSubview:_keyTableView];
+//    
+//    //列表数据初始化
+//    _keyTableView.dataSource = self;
+//    _keyTableView.delegate = self;
+//    dataArray = [NSArray arrayWithObjects:@"翠苑四区",@"工商管理楼", @"土木科技楼", @"阿木的家", @"网易六楼", @"网易宿舍837", @"浙大玉泉", @"浙大紫金港", @"浙大西溪", @"浙大曹主", nil];
+//    [_keyTableView reloadData];
+//    
+//    
+//    self.view = view;
     
 }
 
 
 - (void)viewDidLoad
 {
+    //Called after the controller's view is loaded into memory.
     [super viewDidLoad];
 }
 
-//下拉刷新时要加载数据
-- (void)loadNewData{
-    
-}
-//上拉加载更多数据
-- (void)loadMoreData{
-}
-
 - (void)viewWillLayoutSubviews {
-//    
+    //Called to notify the view controller that its view is about to layout its subviews.
+    
 //    CGRect rect = self.view.bounds;
 //    
-//    CGRect r1 = _keyTableView.frame;
-//    r1.size.width = rect.size.width;
-//    r1.size.height = rect.size.height;
+//    CGRect r1 = _topNavigationBar.frame;
+//    r1.size.width = 320.0f;
+//    r1.size.height = 44.0f;
 //    r1.origin.x = 0.0f;
-//    r1.origin.y = [self.topLayoutGuide length] + 30.0f;
+//    r1.origin.y = 0.0f;
 //    _keyTableView.frame = r1;
+//
+//    CGRect r2 = _operateUIView.frame;
+//    r2.size.width = rect.size.width;
+//    r2.size.height = 300.0f;
+//    r2.origin.x = 0.0f;
+//    r2.origin.y = CGRectGetMaxY(_topNavigationBar.frame);
+//    _keyTableView.frame = r2;
+//    
+//    CGRect r3 = _operateUIImageView.frame;
+//    r3.size.width = 44.0f;
+//    r3.size.height = 44.0f;
+//    r3.origin.x = (rect.size.width-r3.size.width)/2;
+//    r3.origin.y = CGRectGetMaxY(_topNavigationBar.frame)+(300.0f-r3.size.height)/2;
+//    _keyTableView.frame = r3;
+//    
+//    CGRect r4 = _hintLabel.frame;
+//    r4.size.width = rect.size.width;
+//    r4.size.height = 44.0f;
+//    r4.origin.x = 0.0f;
+//    r4.origin.y =CGRectGetMaxY(_operateUIImageView.frame);
+//    _hintLabel.frame = r4;
 
 }
 
+//导航栏里右按钮
+- (void)GotoSettings
+{
+    BLUserViewController * blUserViewController = [[BLUserViewController alloc]init];
+    [self.navigationController pushViewController: blUserViewController animated:YES];
+}
 
-#pragma mark -------------------
-#pragma mark UITableViewDataSource
-//委托里 @required 的必须实现
+- (void) clickRightButton
+{
+    
+}
 
+
+//<UITableViewDataSource>里必须实现的
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    //Tells the data source to return the number of rows in a given section of a table view. (required)
     return [dataArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    //Asks the data source for a cell to insert in a particular location of the table view. (required)
     static NSString *CellIdentifier = @"UITableViewCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -98,17 +161,16 @@
 }
 
 
-#pragma mark -------------------
-#pragma mark UITableViewDelegate
+//<UITableViewDelegate>里实现的
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    //Asks the delegate for the height to use for a row in a specified location.
     return 80;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    //Tells the delegate that the specified row is now selected.
     NSLog(@"%@", [dataArray objectAtIndex:indexPath.row]);
 }
 
-- (void) openBLButtonAction : (id)sender
-{
-}
+
 @end

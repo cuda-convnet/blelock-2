@@ -56,6 +56,7 @@
     BLLoginViewController *loginVC = [[BLLoginViewController alloc] init];
     _rootNavigationController = [[UINavigationController alloc] initWithRootViewController:loginVC];
     
+    
     [self showNewWindowWithViewController:_rootNavigationController animated:YES];
     
 }

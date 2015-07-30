@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BLKeyViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
+@interface BLKeyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end

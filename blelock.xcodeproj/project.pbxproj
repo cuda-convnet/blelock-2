@@ -27,6 +27,8 @@
 		E963F3831B65FF2500EB9784 /* BLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */; };
 		E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */; };
 		E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */; };
+		E96614521B6A0341000BEDB7 /* BLUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E96614511B6A0341000BEDB7 /* BLUserViewController.m */; };
+		E96614531B6A0341000BEDB7 /* BLUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E96614511B6A0341000BEDB7 /* BLUserViewController.m */; };
 		E9DBC6931B6727D30063C92D /* BLKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6921B6727D30063C92D /* BLKeyViewController.m */; };
 		E9DBC6941B6727D30063C92D /* BLKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6921B6727D30063C92D /* BLKeyViewController.m */; };
 /* End PBXBuildFile section */
@@ -71,6 +73,8 @@
 		E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLRegisterViewController.m; path = login/BLRegisterViewController.m; sourceTree = "<group>"; };
 		E963F3841B66038800EB9784 /* BLLoginForFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLoginForFirstViewController.h; sourceTree = "<group>"; };
 		E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLLoginForFirstViewController.m; sourceTree = "<group>"; };
+		E96614501B6A0316000BEDB7 /* BLUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLUserViewController.h; sourceTree = "<group>"; };
+		E96614511B6A0341000BEDB7 /* BLUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLUserViewController.m; sourceTree = "<group>"; };
 		E9DBC6911B67278C0063C92D /* BLKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKeyViewController.h; sourceTree = "<group>"; };
 		E9DBC6921B6727D30063C92D /* BLKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLKeyViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -212,6 +216,7 @@
 		0FA940701B6506AA00A63DFA /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E966144F1B6A0282000BEDB7 /* user */,
 				E9DBC6901B6727490063C92D /* key */,
 				E963F37F1B65FE7C00EB9784 /* register */,
 				0FA940AE1B651A0800A63DFA /* login */,
@@ -256,6 +261,15 @@
 				E963F3811B65FF2500EB9784 /* BLRegisterViewController.m */,
 			);
 			name = register;
+			sourceTree = "<group>";
+		};
+		E966144F1B6A0282000BEDB7 /* user */ = {
+			isa = PBXGroup;
+			children = (
+				E96614501B6A0316000BEDB7 /* BLUserViewController.h */,
+				E96614511B6A0341000BEDB7 /* BLUserViewController.m */,
+			);
+			name = user;
 			sourceTree = "<group>";
 		};
 		E9DBC6901B6727490063C92D /* key */ = {
@@ -414,6 +428,7 @@
 				E9DBC6931B6727D30063C92D /* BLKeyViewController.m in Sources */,
 				0FA940481B65027200A63DFA /* main.m in Sources */,
 				E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
+				E96614521B6A0341000BEDB7 /* BLUserViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +439,7 @@
 				E9DBC6941B6727D30063C92D /* BLKeyViewController.m in Sources */,
 				E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */,
 				E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
+				E96614531B6A0341000BEDB7 /* BLUserViewController.m in Sources */,
 				E963F37D1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
 				0FA940621B65027200A63DFA /* blelockTests.m in Sources */,
 				E963F3831B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,
