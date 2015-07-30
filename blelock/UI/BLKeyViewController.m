@@ -16,6 +16,8 @@
 @property (nonatomic, strong) UILabel *hintLabel;
 @property (nonatomic, strong) UITableView *keyTableView;
 
+@property (nonatomic, strong) CBCentralManager *manager;
+
 
 @end
 
@@ -89,6 +91,10 @@
     
     self.view = view;
     
+    //蓝牙
+    _manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil]; //重点这里要建立委托
+    
+    
 }
 
 
@@ -144,7 +150,8 @@
 - (void)openBluetooth
 {
     NSLog(@"打开蓝牙");
-    
+    [self centralManagerDidUpdateState: _manager];
+    NSLog(@"ok");
 }
 
 - (void) clickRightButton
@@ -184,6 +191,23 @@
     //Tells the delegate that the specified row is now selected.
     NSLog(@"%@", [dataArray objectAtIndex:indexPath.row]);
 }
+
+//蓝牙
+-(void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    switch (central.state) {
+        case CBCentralManagerStatePoweredOn:
+            NSLog(@"蓝牙已打开,请扫描外设");
+            break;
+        case CBCentralManagerStatePoweredOff:
+            NSLog(@"蓝牙关闭...");
+            break;
+        default:
+            break;
+    }
+}
+
+
 
 
 @end

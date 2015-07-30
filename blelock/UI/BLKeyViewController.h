@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 
-@interface BLKeyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface BLKeyViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, CBCentralManagerDelegate>
 
 @end
