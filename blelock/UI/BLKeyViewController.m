@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) UINavigationBar *navigationBar;
 @property (nonatomic, strong) UIView *operateUIView;
-@property (nonatomic, strong) UIImageView *operateUIImageView;
+@property (nonatomic, strong) UIButton *operateUIButton;
 @property (nonatomic, strong) UILabel *hintLabel;
 @property (nonatomic, strong) UITableView *keyTableView;
 
@@ -32,7 +32,7 @@
     CGRect navframe = self.navigationController.navigationBar.frame;
     
     UIView *view = [[UIView alloc] initWithFrame:frame];
-    view.backgroundColor = [UIColor lightGrayColor];
+    view.backgroundColor = [UIColor whiteColor];
     
     //导航栏
     
@@ -47,41 +47,47 @@
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
     [rightButton setBackgroundImage: [UIImage imageNamed : @"user.png"] forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(GotoSettings) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton addTarget:self action:@selector(gotoBLUserView) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     navigationItem.rightBarButtonItem = rightItem;
     //把导航栏集合添加入导航栏中，设置动画关闭
     [_navigationBar pushNavigationItem:navigationItem animated:NO];
     [view addSubview:_navigationBar];
     self.view = view;
-
     
-//
-//    _operateUIView = [[UIView alloc] initWithFrame:CGRectZero];
-//    _operateUIView.backgroundColor = [UIColor blueColor];
-//    [view addSubview:_operateUIView];
-//    
-//    _operateUIImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-//    _operateUIImageView.backgroundColor = [UIColor lightGrayColor];
-//    [_operateUIView addSubview:_operateUIImageView];
-//    
-//    _hintLabel = [[UILabel alloc]initWithFrame:CGRectZero];
-//    _hintLabel.backgroundColor = [UIColor yellowColor];
-//    _hintLabel.text = @"点击这里打开蓝牙";
-//    [_operateUIView addSubview:_hintLabel];
-//    
-//    _keyTableView = [[UITableView alloc] initWithFrame:CGRectZero];
-//    _keyTableView.backgroundColor = [UIColor whiteColor];
-//    [view addSubview:_keyTableView];
-//    
-//    //列表数据初始化
-//    _keyTableView.dataSource = self;
-//    _keyTableView.delegate = self;
-//    dataArray = [NSArray arrayWithObjects:@"翠苑四区",@"工商管理楼", @"土木科技楼", @"阿木的家", @"网易六楼", @"网易宿舍837", @"浙大玉泉", @"浙大紫金港", @"浙大西溪", @"浙大曹主", nil];
-//    [_keyTableView reloadData];
-//    
-//    
-//    self.view = view;
+    //操作区背景
+    _operateUIView = [[UIView alloc] initWithFrame:CGRectMake(0, (rectStatus.size.height+navframe.size.height), frame.size.width, (frame.size.height-rectStatus.size.height-navframe.size.height)/2)];
+    _operateUIView.backgroundColor = [UIColor lightGrayColor];
+    [view addSubview:_operateUIView];
+    
+    //操作图标
+    _operateUIButton = [[UIButton alloc] initWithFrame:CGRectMake((frame.size.width-100)/2, (frame.size.height-_operateUIView.frame.size.height)/2-100, 100, 100)];
+    [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"bluetooth.png"] forState:UIControlStateNormal];
+    [_operateUIButton addTarget:self action:@selector(openBluetooth) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_operateUIView addSubview:_operateUIButton];
+   
+    //操作提示
+    _hintLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_operateUIButton.frame), frame.size.width, 44)];
+    _hintLabel.text = @"点击这里打开蓝牙";
+    _hintLabel.textColor = [UIColor whiteColor];
+    _hintLabel.textAlignment = NSTextAlignmentCenter;
+    _hintLabel.font = [UIFont systemFontOfSize:14.0f];
+    _hintLabel.backgroundColor = [UIColor clearColor];
+    [_operateUIView addSubview:_hintLabel];
+    
+    //钥匙列表
+    _keyTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_operateUIView.frame), frame.size.width, _operateUIView.frame.size.height)];
+    _keyTableView.backgroundColor = [UIColor whiteColor];
+    [view addSubview:_keyTableView];
+
+    //钥匙列表数据初始化
+    _keyTableView.dataSource = self;
+    _keyTableView.delegate = self;
+    dataArray = [NSArray arrayWithObjects:@"翠苑四区",@"工商管理楼", @"土木科技楼", @"阿木的家", @"网易六楼", @"网易宿舍837", @"浙大玉泉", @"浙大紫金港", @"浙大西溪", @"浙大曹主", nil];
+    [_keyTableView reloadData];
+    
+    self.view = view;
     
 }
 
@@ -128,10 +134,17 @@
 }
 
 //导航栏里右按钮
-- (void)GotoSettings
+- (void)gotoBLUserView
 {
     BLUserViewController * blUserViewController = [[BLUserViewController alloc]init];
     [self.navigationController pushViewController: blUserViewController animated:YES];
+}
+
+//操作图标:打开蓝牙
+- (void)openBluetooth
+{
+    NSLog(@"打开蓝牙");
+    
 }
 
 - (void) clickRightButton
@@ -164,7 +177,7 @@
 //<UITableViewDelegate>里实现的
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     //Asks the delegate for the height to use for a row in a specified location.
-    return 80;
+    return 50;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
