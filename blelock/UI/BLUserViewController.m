@@ -29,8 +29,8 @@
     UIView *view = [[UIView alloc] initWithFrame:frame];
     view.backgroundColor = [UIColor whiteColor];
     
-    //导航栏
     
+    //导航栏
     [self.navigationController setNavigationBarHidden:YES];
     _navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, rectStatus.size.height, frame.size.width, navframe.size.height)];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
@@ -38,7 +38,6 @@
     UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
     [navigationItem setTitle:@"账户及设置"];
     [_navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
-    
     //左边按钮：返回
     UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
@@ -50,14 +49,21 @@
     [_navigationBar pushNavigationItem:navigationItem animated:NO];
     [view addSubview:_navigationBar];
     
+    
+    
     //设置列表
     _setTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_navigationBar.frame), frame.size.width, frame.size.height-navframe.size.height) style:UITableViewStyleGrouped];
     [_setTableView setDelegate:self];
     [_setTableView setDataSource:self];
-    //[_setTableView.tableHeaderView setHidden:YES];
-    //[_setTableView.tableHeaderView removeFromSuperview];
-    //_setTableView.tableHeaderView = nil;
+//    UIView *userUIView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, 150)];
+//    
+//    UIButton *userUIButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, 150)];
+//    [userUIButton setBackgroundImage: [UIImage imageNamed : @"users.jpg"] forState:UIControlStateNormal];
+//    [userUIButton addTarget:self action:@selector(goToUserInformation) forControlEvents:UIControlEventTouchUpInside];
+//    [userUIView addSubview: userUIButton];
+//    _setTableView.tableHeaderView = userUIView;
     [view addSubview:_setTableView];
+    
     self.view = view;
 }
 
@@ -68,7 +74,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    if (indexPath.section == 0)
+    {
+        return 100;
+    }
     return 44;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -92,7 +101,8 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         switch (section) {
             case 0:
-                cell.textLabel.text =  @"用户名";
+                cell.textLabel.text = @"用户";
+                
                 break;
             case 1:
                 if(row == 0)
@@ -119,11 +129,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-
 {
-    if (section == 0) {
-        return nil;
-    }
     UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(130, 5, 150, 20)];
     
     headerLabel.backgroundColor = [UIColor clearColor];
@@ -131,24 +137,43 @@
     headerLabel.font = [UIFont boldSystemFontOfSize:15.0];
     
     headerLabel.textColor = [UIColor blueColor];
-    
-    headerLabel.text = @"Section";
-    
-    return headerLabel;
-    
+    switch (section) {
+        case 0:
+            return nil;
+            break;
+        case 1:
+            headerLabel.text = @"    设置";
+            return headerLabel;
+            break;
+        case 2:
+            headerLabel.text = @"    其他";
+            return headerLabel;
+            break;
+        default:
+            return nil;
+            break;
+    }
 }//自定义section的头部
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 
 {
-    if (section == 0) {
-        return 0;
-    }
-    return 100;
+    return 20;
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+
+{
+    return 0;
+}
+
 - (void)goBack
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+//用户信息按钮
+- (void)goToUserInformation
+{
+    NSLog(@"hi");
 }
 @end

@@ -35,6 +35,7 @@
     
     UIView *view = [[UIView alloc] initWithFrame:frame];
     view.backgroundColor = [UIColor whiteColor];
+    self.view = view;
     
     //导航栏
     
@@ -57,7 +58,6 @@
     //把导航栏集合添加入导航栏中，设置动画关闭
     [_navigationBar pushNavigationItem:navigationItem animated:NO];
     [view addSubview:_navigationBar];
-    self.view = view;
     
     //操作区背景
     _operateUIView = [[UIView alloc] initWithFrame:CGRectMake(0, (rectStatus.size.height+navframe.size.height), frame.size.width, (frame.size.height-rectStatus.size.height-navframe.size.height)/2)];
@@ -106,40 +106,8 @@
     [super viewDidLoad];
 }
 
-- (void)viewWillLayoutSubviews {
-    //Called to notify the view controller that its view is about to layout its subviews.
-    
-//    CGRect rect = self.view.bounds;
-//    
-//    CGRect r1 = _topNavigationBar.frame;
-//    r1.size.width = 320.0f;
-//    r1.size.height = 44.0f;
-//    r1.origin.x = 0.0f;
-//    r1.origin.y = 0.0f;
-//    _keyTableView.frame = r1;
-//
-//    CGRect r2 = _operateUIView.frame;
-//    r2.size.width = rect.size.width;
-//    r2.size.height = 300.0f;
-//    r2.origin.x = 0.0f;
-//    r2.origin.y = CGRectGetMaxY(_topNavigationBar.frame);
-//    _keyTableView.frame = r2;
-//    
-//    CGRect r3 = _operateUIImageView.frame;
-//    r3.size.width = 44.0f;
-//    r3.size.height = 44.0f;
-//    r3.origin.x = (rect.size.width-r3.size.width)/2;
-//    r3.origin.y = CGRectGetMaxY(_topNavigationBar.frame)+(300.0f-r3.size.height)/2;
-//    _keyTableView.frame = r3;
-//    
-//    CGRect r4 = _hintLabel.frame;
-//    r4.size.width = rect.size.width;
-//    r4.size.height = 44.0f;
-//    r4.origin.x = 0.0f;
-//    r4.origin.y =CGRectGetMaxY(_operateUIImageView.frame);
-//    _hintLabel.frame = r4;
 
-}
+
 
 //导航栏里右按钮
 - (void)gotoBLUserView
