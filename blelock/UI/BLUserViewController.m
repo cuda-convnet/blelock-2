@@ -50,19 +50,12 @@
     [view addSubview:_navigationBar];
     
     
-    
     //设置列表
     _setTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_navigationBar.frame), frame.size.width, frame.size.height-navframe.size.height) style:UITableViewStyleGrouped];
     [_setTableView setDelegate:self];
     [_setTableView setDataSource:self];
-//    UIView *userUIView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, 150)];
-//    
-//    UIButton *userUIButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, 150)];
-//    [userUIButton setBackgroundImage: [UIImage imageNamed : @"users.jpg"] forState:UIControlStateNormal];
-//    [userUIButton addTarget:self action:@selector(goToUserInformation) forControlEvents:UIControlEventTouchUpInside];
-//    [userUIView addSubview: userUIButton];
-//    _setTableView.tableHeaderView = userUIView;
     [view addSubview:_setTableView];
+    
     
     self.view = view;
 }
@@ -73,23 +66,9 @@
     [super viewDidLoad];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0)
-    {
-        return 100;
-    }
-    return 44;
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (section == 0||section == 2) {
-        return 1;
-    }
-    return 3;
-}
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
-}
+
+//列表需要的方法
+//列表内容
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSInteger section = indexPath.section;
     NSInteger row = indexPath.row;
@@ -101,9 +80,21 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         switch (section) {
             case 0:
+            {
                 cell.textLabel.text = @"用户";
+                UIImageView *usersImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+                [usersImageView setImage:[UIImage imageNamed:@"users.jpg"]];
+                UILabel *userNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 30, 200, 30)];
+                userNameLabel.text = @"毕里缘";
+                UILabel *userPhoneLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 60, 200, 30)];
+                userPhoneLabel.text = @"151****4690";
+                userPhoneLabel.textColor = [UIColor lightGrayColor];
+                [cell addSubview: userNameLabel];
+                [cell addSubview: userPhoneLabel];
+                [cell addSubview: usersImageView];
                 
                 break;
+            }
             case 1:
                 if(row == 0)
                 {
@@ -123,11 +114,12 @@
     }
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //Tells the delegate that the specified row is now selected.
     NSLog(@"hello");
 }
-
+//section头部
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(130, 5, 150, 20)];
@@ -153,8 +145,27 @@
             return nil;
             break;
     }
-}//自定义section的头部
+}
 
+//列表排版
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0)
+    {
+        return 100;
+    }
+    return 44;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0||section == 2) {
+        return 1;
+    }
+    return 3;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 3;
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 
@@ -167,10 +178,14 @@
     return 0;
 }
 
+
+//按钮跳转
+//返回按钮
 - (void)goBack
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 //用户信息按钮
 - (void)goToUserInformation
 {
