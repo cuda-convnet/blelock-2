@@ -8,5 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BLUserViewController : UIViewController 
+@interface BLUserViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+
 @end

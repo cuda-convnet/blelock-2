@@ -45,6 +45,7 @@
     UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
     [navigationItem setTitle:@"钥匙"];
     [_navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+    
     //右边按钮
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
@@ -52,6 +53,7 @@
     [rightButton addTarget:self action:@selector(gotoBLUserView) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     navigationItem.rightBarButtonItem = rightItem;
+    
     //把导航栏集合添加入导航栏中，设置动画关闭
     [_navigationBar pushNavigationItem:navigationItem animated:NO];
     [view addSubview:_navigationBar];
@@ -203,6 +205,7 @@
             NSLog(@"蓝牙关闭...");
             break;
         default:
+            NSLog(@"设备不支持BLE");
             break;
     }
 }
