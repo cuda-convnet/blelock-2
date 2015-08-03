@@ -17,6 +17,10 @@
 @property (nonatomic, strong) UITableView *keyTableView;
 
 @property (nonatomic, strong) CBCentralManager *manager;
+@property (nonatomic, strong) CBPeripheral *peripheral;
+@property (nonatomic, strong) CBService *service;
+@property (nonatomic, strong) CBService *interestingService;
+@property (nonatomic, strong) CBCharacteristic *interestingCharacteristic;
 
 
 @end
@@ -94,7 +98,7 @@
     self.view = view;
     
     //蓝牙
-    _manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil]; //重点这里要建立委托
+    
     
     
 }
@@ -120,7 +124,7 @@
 - (void)openBluetooth
 {
     NSLog(@"打开蓝牙");
-    [self centralManagerDidUpdateState: _manager];
+    _manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil]; //重点这里要建立委托
     NSLog(@"ok");
 }
 
@@ -163,12 +167,34 @@
 }
 
 //蓝牙
+//打开蓝牙，并扫描周边
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
     switch (central.state) {
         case CBCentralManagerStatePoweredOn:
+        {
             NSLog(@"蓝牙已打开,请扫描外设");
+            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"touch.png"] forState:UIControlStateNormal];
+            _hintLabel.text = @"请触摸门锁上的灯";
+            //扫描周边，要把第一个nil改掉
+            [_manager scanForPeripheralsWithServices:nil options:nil];
+            //找到门锁，关闭扫描以节约电源
+            [_manager stopScan];
+            NSLog(@"Scanning stopped");
+            //链接门锁周边
+            [_manager connectPeripheral:_peripheral options:nil];
+            //确保周边的代理
+            _peripheral.delegate = self;
+            //发现周边的服务,要把nil改掉,UUID
+            [_peripheral discoverServices:nil];
+            //发现服务的特征,nil返回所有特征，可改成自己感兴趣的特征
+            NSLog(@"Discovering characteristics for service %@", _interestingService);
+            [_peripheral discoverCharacteristics: nil forService: _interestingService];
+            //读取特征值
+            NSLog(@"Reading value for characteristic %@", _interestingCharacteristic);
+            [_peripheral readValueForCharacteristic: _interestingCharacteristic];
             break;
+        }
         case CBCentralManagerStatePoweredOff:
             NSLog(@"蓝牙关闭...");
             break;
@@ -177,6 +203,55 @@
             break;
     }
 }
+
+//发现周边
+- (void) centralManager : (CBCentralManager *) central
+  didDiscoverPeripheral : (CBPeripheral *) peripheral
+      advertisementData : (NSDictionary *) advertisementData
+                   RSSI : (NSNumber *)RSSI
+{
+    NSLog(@"Discover %@", peripheral.name);
+    //有问题需修改
+    _peripheral = peripheral;
+}
+
+//（自动调取）蓝牙连接建立
+- (void) centralManager : (CBCentralManager *) central
+   didConnectPeripheral : (CBPeripheral *) peripheral
+{
+    NSLog(@"Peripheral connected");
+}
+
+//（自动调取）发现蓝牙服务
+- (void) peripheral : (CBPeripheral *) peripheral
+didDiscoverServices : (NSError *)error
+{
+    NSLog(@"Discovered service %@", _service);
+    
+}
+
+//（自动调取）发现周边特征
+- (void) peripheral : (CBPeripheral *) peripheral
+didDiscoverCharacteristicsForService:(CBService *)service
+                               error:(NSError *)error
+{
+    for (CBCharacteristic *characteristic in service.characteristics)
+    {
+        NSLog(@"Discovered characteristic %@", characteristic);
+    }
+}
+
+//（自动调取）读取周边特征
+- (void) peripheral : (CBPeripheral *) peripheral
+didUpdateValueForCharacteristic : (CBCharacteristic *)
+           characteristic error : (NSError *)error
+{
+    NSData *data = characteristic.value;
+    //parse the data as needed
+}
+
+
+
 
 
 

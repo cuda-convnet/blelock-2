@@ -8,7 +8,7 @@
 
 #import "BLUserViewController.h"
 #import "BLKeyViewController.h"
-
+#import<Foundation/Foundation.h>
 @interface BLUserViewController ()
 
 @property (nonatomic, strong) UINavigationBar *navigationBar;
@@ -83,6 +83,8 @@
             {
                 cell.textLabel.text = @"用户";
                 UIImageView *usersImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+                usersImageView.layer.cornerRadius = 50;
+                usersImageView.layer.masksToBounds = YES;
                 [usersImageView setImage:[UIImage imageNamed:@"users.jpg"]];
                 UILabel *userNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 30, 200, 30)];
                 userNameLabel.text = @"毕里缘";
@@ -123,8 +125,6 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(130, 5, 150, 20)];
-    
-    headerLabel.backgroundColor = [UIColor clearColor];
     
     headerLabel.font = [UIFont boldSystemFontOfSize:15.0];
     
@@ -170,6 +170,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 
 {
+    if (section == 0) {
+        return 0;
+    }
     return 20;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
