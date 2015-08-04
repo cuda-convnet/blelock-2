@@ -34,6 +34,8 @@
 		E99C349B1B6A3C8300C9262A /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E99C349A1B6A3C8300C9262A /* CoreBluetooth.framework */; };
 		E9DBC6931B6727D30063C92D /* BLKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6921B6727D30063C92D /* BLKeyViewController.m */; };
 		E9DBC6941B6727D30063C92D /* BLKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6921B6727D30063C92D /* BLKeyViewController.m */; };
+		E9F048701B6F99DF0082D30B /* BLKeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F0486F1B6F99DF0082D30B /* BLKeyView.m */; };
+		E9F048711B6F99DF0082D30B /* BLKeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F0486F1B6F99DF0082D30B /* BLKeyView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,8 @@
 		E99C349A1B6A3C8300C9262A /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E9DBC6911B67278C0063C92D /* BLKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKeyViewController.h; sourceTree = "<group>"; };
 		E9DBC6921B6727D30063C92D /* BLKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLKeyViewController.m; sourceTree = "<group>"; };
+		E9F0486E1B6F99DF0082D30B /* BLKeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKeyView.h; sourceTree = "<group>"; };
+		E9F0486F1B6F99DF0082D30B /* BLKeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLKeyView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,6 +291,8 @@
 			children = (
 				E9DBC6911B67278C0063C92D /* BLKeyViewController.h */,
 				E9DBC6921B6727D30063C92D /* BLKeyViewController.m */,
+				E9F0486E1B6F99DF0082D30B /* BLKeyView.h */,
+				E9F0486F1B6F99DF0082D30B /* BLKeyView.m */,
 			);
 			name = key;
 			sourceTree = "<group>";
@@ -437,6 +443,7 @@
 				0FA9404B1B65027200A63DFA /* AppDelegate.m in Sources */,
 				0FA940B11B651A2B00A63DFA /* BLLoginViewController.m in Sources */,
 				E9DBC6931B6727D30063C92D /* BLKeyViewController.m in Sources */,
+				E9F048701B6F99DF0082D30B /* BLKeyView.m in Sources */,
 				0FA940481B65027200A63DFA /* main.m in Sources */,
 				E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 				E96614521B6A0341000BEDB7 /* BLUserViewController.m in Sources */,
@@ -449,6 +456,7 @@
 			files = (
 				E9DBC6941B6727D30063C92D /* BLKeyViewController.m in Sources */,
 				E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */,
+				E9F048711B6F99DF0082D30B /* BLKeyView.m in Sources */,
 				E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 				E96614531B6A0341000BEDB7 /* BLUserViewController.m in Sources */,
 				E963F37D1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
