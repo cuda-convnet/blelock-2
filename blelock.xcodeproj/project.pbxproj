@@ -29,8 +29,6 @@
 		E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */; };
 		E96614521B6A0341000BEDB7 /* BLUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E96614511B6A0341000BEDB7 /* BLUserViewController.m */; };
 		E96614531B6A0341000BEDB7 /* BLUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E96614511B6A0341000BEDB7 /* BLUserViewController.m */; };
-		E96ECE111B6EFBC300EE27B4 /* BLBluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E96ECE101B6EFBC300EE27B4 /* BLBluetoothManager.m */; };
-		E96ECE121B6EFBC300EE27B4 /* BLBluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E96ECE101B6EFBC300EE27B4 /* BLBluetoothManager.m */; };
 		E99C349B1B6A3C8300C9262A /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E99C349A1B6A3C8300C9262A /* CoreBluetooth.framework */; };
 		E9DBC6931B6727D30063C92D /* BLKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6921B6727D30063C92D /* BLKeyViewController.m */; };
 		E9DBC6941B6727D30063C92D /* BLKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9DBC6921B6727D30063C92D /* BLKeyViewController.m */; };
@@ -80,8 +78,6 @@
 		E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLLoginForFirstViewController.m; sourceTree = "<group>"; };
 		E96614501B6A0316000BEDB7 /* BLUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLUserViewController.h; sourceTree = "<group>"; };
 		E96614511B6A0341000BEDB7 /* BLUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLUserViewController.m; sourceTree = "<group>"; };
-		E96ECE101B6EFBC300EE27B4 /* BLBluetoothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLBluetoothManager.m; sourceTree = "<group>"; };
-		E96ECE141B6EFC2F00EE27B4 /* BLBluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLBluetoothManager.h; sourceTree = "<group>"; };
 		E99C349A1B6A3C8300C9262A /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		E9DBC6911B67278C0063C92D /* BLKeyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKeyViewController.h; sourceTree = "<group>"; };
 		E9DBC6921B6727D30063C92D /* BLKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLKeyViewController.m; sourceTree = "<group>"; };
@@ -198,8 +194,6 @@
 				0FA940A91B650FFB00A63DFA /* BLInitManager.m */,
 				0FA940AB1B65101200A63DFA /* BlLoginManager.h */,
 				0FA940AC1B65101200A63DFA /* BlLoginManager.m */,
-				E96ECE101B6EFBC300EE27B4 /* BLBluetoothManager.m */,
-				E96ECE141B6EFC2F00EE27B4 /* BLBluetoothManager.h */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -438,7 +432,6 @@
 				0FA940AD1B65101200A63DFA /* BlLoginManager.m in Sources */,
 				0FA940AA1B650FFB00A63DFA /* BLInitManager.m in Sources */,
 				E963F37C1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
-				E96ECE111B6EFBC300EE27B4 /* BLBluetoothManager.m in Sources */,
 				E963F3821B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,
 				0FA9404B1B65027200A63DFA /* AppDelegate.m in Sources */,
 				0FA940B11B651A2B00A63DFA /* BLLoginViewController.m in Sources */,
@@ -461,7 +454,6 @@
 				E96614531B6A0341000BEDB7 /* BLUserViewController.m in Sources */,
 				E963F37D1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
 				0FA940621B65027200A63DFA /* blelockTests.m in Sources */,
-				E96ECE121B6EFBC300EE27B4 /* BLBluetoothManager.m in Sources */,
 				E963F3831B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

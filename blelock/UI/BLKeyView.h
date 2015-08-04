@@ -8,20 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol BLKeyViewDelegate
-
-@optional
-- (void) touchButtonAction;
+@protocol BLKeyViewDelegate <NSObject>
 @required
 - (void) gotoBLUserView;
+- (void) openBluetoothView;
 
 @end
 
-@interface BLKeyView : UIView 
+@interface BLKeyView : UIView
+@property int state;
 
 -(id)initWithCaller:(id<BLKeyViewDelegate>)_caller data:(NSArray*)_data;
--(void)prepare;
-
+- (void) changeForBLState;
 
 @end
 

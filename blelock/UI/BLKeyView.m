@@ -29,7 +29,7 @@
 
 @implementation BLKeyView
 
-@synthesize caller, data;
+@synthesize caller, data, state;
 
 -(id)initWithCaller:(id<BLKeyViewDelegate>)_caller data:(NSArray *)_data
 {
@@ -41,8 +41,6 @@
     }
     return self;
 }
-
-
 
 -(void)prepare
 {
@@ -67,7 +65,7 @@
     rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
     [rightButton setBackgroundImage: [UIImage imageNamed : @"user.png"] forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(gotoBLUserView) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton addTarget:self action:@selector(gotoBLUser) forControlEvents:UIControlEventTouchUpInside];
     rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     navigationItem.rightBarButtonItem = rightItem;
     
@@ -107,6 +105,7 @@
     [keyTableView reloadData];
     
     [self addSubview: view];
+    
 }
 
 
@@ -146,15 +145,47 @@
 
 - (void) gotoBLUser
 {
-//    if ([self.delegate respondsToSelector:@selector(gotoBLUserView)])
-//    {
-//        [self.delegate touchButtonAction];
-//    }
+    if ([caller respondsToSelector:@selector(gotoBLUserView)])
+    {
+        [caller gotoBLUserView];
+    }
 }
 
 - (void) openBluetooth
 {
-    NSLog(@"打开蓝牙");
+    if ([caller respondsToSelector:@selector(openBluetoothView)])
+    {
+        [caller openBluetoothView];
+    }
+}
+
+
+- (void) changeForBLState
+{
+        switch (state) {
+        case 1:
+        {
+            [operateUIButton setBackgroundImage: [UIImage imageNamed : @"touch.png"] forState:UIControlStateNormal];
+            operateUIView.backgroundColor = [UIColor blueColor];
+            hintLabel.text = @"请触摸门锁上的灯";
+            
+            break;
+        }
+        case 0:
+        {
+            break;
+        }
+        case -1:
+        {
+            [operateUIButton setBackgroundImage: [UIImage imageNamed : @"touch.png"] forState:UIControlStateNormal];
+            hintLabel.text = @"请触摸门锁上的灯";
+            break;
+        }
+        default:
+            break;
+    }
+
+    
 }
 
 @end
