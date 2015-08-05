@@ -10,6 +10,4 @@
 
 @interface BLUserViewController : UIViewController
 
-
-
 @end

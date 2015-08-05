@@ -21,7 +21,7 @@
 @property int state;
 @property int keyState;
 
--(id)initWithCaller:(id<BLKeyViewDelegate>)_caller data:(NSArray*)_data;
+-(id)initWithCaller:(id<BLKeyViewDelegate>)keyCaller data:(NSArray*)keyData;
 - (void) changeForBLState;
 - (void) changeForKeyState;
 

@@ -32,6 +32,11 @@
 @implementation BLKeyView
 
 @synthesize caller, data, state, keyState;
+//////////为什么?
+//@synthesize caller = caller_;
+//@synthesize data = data_;
+//@synthesize state = state_;
+//@synthesize keyState = keyState_;
 
 -(id)initWithCaller:(id<BLKeyViewDelegate>)_caller data:(NSArray *)_data
 {
@@ -166,7 +171,7 @@
     //1——蓝牙打开了
     //0——蓝牙关闭着
     //-1——设备不支持BLE
-    switch (state) {
+    switch (self.state) {
         case 1:
         {
             [operateUIButton setBackgroundImage: [UIImage imageNamed : @"touch.png"] forState:UIControlStateNormal];
@@ -199,7 +204,7 @@
     //0——附近没有锁
     //2——锁被打开
     //-1——锁打开失败
-    switch (keyState) {
+    switch (self.keyState) {
         case 2:
         {
             [operateUIButton setBackgroundImage: [UIImage imageNamed : @"openLock.png"] forState:UIControlStateNormal];
