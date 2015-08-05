@@ -20,6 +20,8 @@
 		0FA940AD1B65101200A63DFA /* BlLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA940AC1B65101200A63DFA /* BlLoginManager.m */; };
 		0FA940B11B651A2B00A63DFA /* BLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA940B01B651A2B00A63DFA /* BLLoginViewController.m */; };
 		2139BF824AE28A8302EC2974 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 549C800D4F5D010B60DBB48F /* libPods.a */; };
+		E960E4811B719DC500112249 /* BLUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = E960E4801B719DC500112249 /* BLUserView.m */; };
+		E960E4821B719DC500112249 /* BLUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = E960E4801B719DC500112249 /* BLUserView.m */; };
 		E963F37C1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F37B1B65F81A00EB9784 /* SFHFKeychainUtils.m */; };
 		E963F37D1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F37B1B65F81A00EB9784 /* SFHFKeychainUtils.m */; };
 		E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA940B01B651A2B00A63DFA /* BLLoginViewController.m */; };
@@ -70,6 +72,8 @@
 		549C800D4F5D010B60DBB48F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A13308F315CBB48CF8D828E0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C8C676149AEEB4E2C23DC5A7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E960E47F1B719DC500112249 /* BLUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLUserView.h; sourceTree = "<group>"; };
+		E960E4801B719DC500112249 /* BLUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLUserView.m; sourceTree = "<group>"; };
 		E963F37A1B65F81A00EB9784 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		E963F37B1B65F81A00EB9784 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		E963F3801B65FEF500EB9784 /* BLRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLRegisterViewController.h; sourceTree = "<group>"; };
@@ -276,6 +280,8 @@
 			children = (
 				E96614501B6A0316000BEDB7 /* BLUserViewController.h */,
 				E96614511B6A0341000BEDB7 /* BLUserViewController.m */,
+				E960E47F1B719DC500112249 /* BLUserView.h */,
+				E960E4801B719DC500112249 /* BLUserView.m */,
 			);
 			name = user;
 			sourceTree = "<group>";
@@ -440,6 +446,7 @@
 				0FA940481B65027200A63DFA /* main.m in Sources */,
 				E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 				E96614521B6A0341000BEDB7 /* BLUserViewController.m in Sources */,
+				E960E4811B719DC500112249 /* BLUserView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +459,7 @@
 				E9F048711B6F99DF0082D30B /* BLKeyView.m in Sources */,
 				E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 				E96614531B6A0341000BEDB7 /* BLUserViewController.m in Sources */,
+				E960E4821B719DC500112249 /* BLUserView.m in Sources */,
 				E963F37D1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
 				0FA940621B65027200A63DFA /* blelockTests.m in Sources */,
 				E963F3831B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,

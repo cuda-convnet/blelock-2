@@ -64,6 +64,7 @@ int bluetoothState;
 {
     [_blKeyView setState:100];
     _manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil]; //重点这里要建立委托
+    NSLog(@"后面");
 }
 
 
@@ -80,6 +81,7 @@ int bluetoothState;
 //蓝牙自动调用
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
+    NSLog(@"前面");
     switch (central.state) {
         case CBCentralManagerStatePoweredOn:
         {
