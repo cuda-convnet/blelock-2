@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+//测试更换的环境，是否有效
 
 @interface BLInitManager : NSObject
 
