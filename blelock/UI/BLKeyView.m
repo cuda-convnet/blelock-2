@@ -9,6 +9,7 @@
 #import "BLKeyView.h"
 @interface BLKeyView() <UITableViewDelegate, UITableViewDataSource>
 {
+    UIView *view;
     UINavigationBar *navigationBar;
     UINavigationItem *navigationItem;
     UIButton *rightButton;
@@ -25,11 +26,12 @@
 @property(nonatomic, retain) id<BLKeyViewDelegate> caller;
 @property(nonatomic, retain) NSArray *data;
 
+
 @end
 
 @implementation BLKeyView
 
-@synthesize caller, data, state;
+@synthesize caller, data, state, keyState;
 
 -(id)initWithCaller:(id<BLKeyViewDelegate>)_caller data:(NSArray *)_data
 {
@@ -49,7 +51,7 @@
     CGRect rectStatus = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navframe = CGRectMake(0, 0, frame.size.width, 44);
     
-    UIView *view = [[UIView alloc] initWithFrame:frame];
+    view = [[UIView alloc] initWithFrame:frame];
     view.backgroundColor = [UIColor whiteColor];
     
     //导航栏
@@ -150,7 +152,7 @@
         [caller gotoBLUserView];
     }
 }
-
+//蓝牙相关操作
 - (void) openBluetooth
 {
     if ([caller respondsToSelector:@selector(openBluetoothView)])
@@ -159,14 +161,16 @@
     }
 }
 
-
 - (void) changeForBLState
 {
-        switch (state) {
+    //1——蓝牙打开了
+    //0——蓝牙关闭着
+    //-1——设备不支持BLE
+    switch (state) {
         case 1:
         {
             [operateUIButton setBackgroundImage: [UIImage imageNamed : @"touch.png"] forState:UIControlStateNormal];
-            operateUIView.backgroundColor = [UIColor blueColor];
+            [operateUIView setBackgroundColor: [UIColor blueColor]];
             hintLabel.text = @"请触摸门锁上的灯";
             
             break;
@@ -177,15 +181,53 @@
         }
         case -1:
         {
+            ///////////////用于测试
             [operateUIButton setBackgroundImage: [UIImage imageNamed : @"touch.png"] forState:UIControlStateNormal];
+            [operateUIView setBackgroundColor: [UIColor blueColor]];
             hintLabel.text = @"请触摸门锁上的灯";
             break;
         }
         default:
             break;
     }
-
     
+}
+
+-(void)changeForKeyState
+{
+    //1——搜索到锁周边
+    //0——附近没有锁
+    //2——锁被打开
+    //-1——锁打开失败
+    switch (keyState) {
+        case 2:
+        {
+            [operateUIButton setBackgroundImage: [UIImage imageNamed : @"openLock.png"] forState:UIControlStateNormal];
+            [operateUIView setBackgroundColor:[UIColor greenColor]];
+            hintLabel.text = @"门锁已打开，请转动把手进门";
+            //[operateUIButton setBackgroundImage: [UIImage imageNamed : @"home.png"] forState:UIControlStateNormal];
+            //hintLabel.text = @"欢迎您！";
+            break;
+
+        }
+        case 1:
+        {
+            [operateUIButton setBackgroundImage: [UIImage imageNamed : @"connect.png"] forState:UIControlStateNormal];
+            hintLabel.text = @"连接中，请耐心等待";
+            break;
+        }
+        case 0:
+        {
+            break;
+        }
+        case -1:
+        {
+            break;
+        }
+        default:
+            break;
+    }
+
 }
 
 @end

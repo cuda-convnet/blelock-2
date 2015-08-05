@@ -38,6 +38,7 @@ int bluetoothState;
     tableArray = [NSArray arrayWithObjects:@"翠苑四区",@"工商管理楼", @"土木科技楼", @"阿木的家", @"网易六楼", @"网易宿舍837", @"浙大玉泉", @"浙大紫金港", @"浙大西溪", @"浙大曹主", nil];
     _blKeyView = [[BLKeyView alloc] initWithCaller:self data:tableArray];
     [_blKeyView addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
+    [_blKeyView addObserver:self forKeyPath:@"keyState" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
     [self.navigationController setNavigationBarHidden:YES];
     self.view = _blKeyView;
 
@@ -69,14 +70,19 @@ int bluetoothState;
 
 
 //////////////////////////////////////////////////////////////////////////////////////
-
+//监听状态值的变化，执行一定的动作
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if([keyPath isEqualToString:@"state"])
     {
         [_blKeyView changeForBLState];
+    }else if([keyPath isEqualToString:@"keyState"])
+    {
+        [_blKeyView changeForKeyState];
     }
 }
+
+
 
 //蓝牙自动调用
 -(void)centralManagerDidUpdateState:(CBCentralManager *)central
@@ -101,6 +107,8 @@ int bluetoothState;
         {
             NSLog(@"设备不支持BLE");
             [_blKeyView setState:-1 ];
+            ///////////为了测试
+            [self bluetoothISOpen];
             break;
         }
     }
@@ -109,7 +117,8 @@ int bluetoothState;
 //蓝牙相关操作
 - (void) bluetoothISOpen
 {
-//    //首先并不是扫描，而是试图连接已经知道的周边，找不到再试图扫描，流程图如pdf48页。
+    [_blKeyView setKeyState:100];
+//    //高级功能：首先并不是扫描，而是试图连接已经知道的周边，找不到再试图扫描，流程图如pdf48页。
 //    //knownPeripherals = [_manager retrievePeripheralsWithIdentifiers:savedIdentifiers];
 //    //[_manager connectPeripheral:_peripheral options:nil];
 //    //链接建立后，自动调用didConnectPeripheral
@@ -118,10 +127,12 @@ int bluetoothState;
 //    //找到门锁，关闭扫描以节约电源
 //    [_manager stopScan];
 //    NSLog(@"Scanning stopped");
-//    //链接门锁周边
+      [_blKeyView setKeyState:1];
+//    //连接门锁周边
 //    [_manager connectPeripheral:_peripheral options:nil];
 //    //确保周边的代理
-//    //_peripheral.delegate = self;
+//    //问题/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//    _peripheral.delegate = self;
 //    //发现周边的服务,要把nil改掉,UUID
 //    //太费电了,用这个代替
 //    //[_peripheral discoverServices : @[firstServiceUUID, secondServiceUUID]];
@@ -138,6 +149,7 @@ int bluetoothState;
 //    NSLog(@"Writing value for characteristic %@", _interestingCharacteristic);
 //    //[_peripheral writeValue : _dataToWrite forCharacteristic : _interestingCharacteristic
 //    //                   type : CBCharacteristicWriteWithResponse];
+    [_blKeyView setKeyState:2];
 //    //开锁成功后，断开连接
 //    [_manager cancelPeripheralConnection : _peripheral];
     

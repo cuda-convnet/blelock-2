@@ -9,7 +9,11 @@
 #import "BLUserView.h"
 @interface BLUserView() <UITableViewDelegate, UITableViewDataSource>
 {
+    UIView *view;
     UINavigationBar *navigationBar;
+    UINavigationItem *navigationItem;
+    UIButton *backButton;
+    UIBarButtonItem *leftItem;
     UITableView *setTableView;
 }
 
@@ -41,22 +45,22 @@
     CGRect rectStatus = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navframe = CGRectMake(0, 0, frame.size.width, 44);
     
-    UIView *view = [[UIView alloc] initWithFrame:frame];
+    view = [[UIView alloc] initWithFrame:frame];
     view.backgroundColor = [UIColor whiteColor];
     
     //导航栏
     navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, rectStatus.size.height, frame.size.width, navframe.size.height)];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
     //创建一个导航栏集合
-    UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
+    navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
     [navigationItem setTitle:@"账户及设置"];
     [navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
     //左边按钮：返回
-    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton = [UIButton buttonWithType:UIButtonTypeCustom];
     backButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
     [backButton setBackgroundImage: [UIImage imageNamed : @"back.jpg"] forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    leftItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
     navigationItem.leftBarButtonItem = leftItem;
     //把导航栏集合添加入导航栏中，设置动画关闭
     [navigationBar pushNavigationItem:navigationItem animated:NO];
