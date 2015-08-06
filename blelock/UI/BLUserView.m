@@ -8,73 +8,92 @@
 
 #import "BLUserView.h"
 @interface BLUserView() <UITableViewDelegate, UITableViewDataSource>
-{
-    UIView *view;
-    UINavigationBar *navigationBar;
-    UINavigationItem *navigationItem;
-    UIButton *backButton;
-    UIBarButtonItem *leftItem;
-    UITableView *setTableView;
-}
+
+@property UIView *view;
+@property UINavigationBar *navigationBar;
+@property UINavigationItem *navigationItem;
+@property UIButton *backButton;
+@property UIBarButtonItem *leftItem;
+@property UITableView *setTableView;
 
 @property (nonatomic, retain) id<BLUserViewDelegate> caller;
-@property (nonatomic, retain) UIImage *img;
-@property (nonatomic, retain) NSArray *info;
 
 @end
 
 @implementation BLUserView
-@synthesize caller, img, info;
 
--(id)initWithCaller:(id<BLUserViewDelegate>)_caller userImage:(UIImage *)_image userInformation:(NSArray *)_information
+@synthesize view = _view;
+@synthesize navigationBar = _navigationBar;
+@synthesize navigationItem = _navigationItem;
+@synthesize backButton = _backButton;
+@synthesize leftItem = _leftItem;
+@synthesize setTableView = _setTableView;
+@synthesize caller = _caller;
+@synthesize img = _img;
+@synthesize info = _info;
+
+- (id) init
 {
-    if (self = [super initWithFrame:CGRectZero])
+    self = [super init];
+    if (self)
     {
-        self.caller = _caller;
-        self.img = _image;
-        self.info = _information;
         [self prepare];
+    }
+    return self;
+}
+
+-(id)initWithCaller:(id<BLUserViewDelegate>)userCaller
+{
+    self = [self init];
+    if (self) {
+        self.caller = userCaller;
     }
     return self;
 }
 
 -(void)prepare
 {
+    //初始化默认数据
+    if (self.img == nil) {
+        self.img = [UIImage imageNamed:@"users.jpg"];
+    }
+    if (self.info == nil) {
+        self.info = [NSArray arrayWithObjects:@"用户",@"手机号码", nil];
+    }
     //Creates the view that the controller manages.
     CGRect frame = [UIScreen mainScreen].bounds;
     CGRect rectStatus = [[UIApplication sharedApplication] statusBarFrame];
     CGRect navframe = CGRectMake(0, 0, frame.size.width, 44);
     
-    view = [[UIView alloc] initWithFrame:frame];
-    view.backgroundColor = [UIColor whiteColor];
+    self.view = [[UIView alloc] initWithFrame:frame];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     //导航栏
-    navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, rectStatus.size.height, frame.size.width, navframe.size.height)];
+    self.navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, rectStatus.size.height, frame.size.width, navframe.size.height)];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
     //创建一个导航栏集合
-    navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
-    [navigationItem setTitle:@"账户及设置"];
-    [navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+    self.navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
+    [self.navigationItem setTitle:@"账户及设置"];
+    [self.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
     //左边按钮：返回
-    backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    backButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
-    [backButton setBackgroundImage: [UIImage imageNamed : @"back.jpg"] forState:UIControlStateNormal];
-    [backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
-    leftItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
-    navigationItem.leftBarButtonItem = leftItem;
+    self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.backButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
+    [self.backButton setBackgroundImage: [UIImage imageNamed : @"back.jpg"] forState:UIControlStateNormal];
+    [self.backButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    self.leftItem = [[UIBarButtonItem alloc] initWithCustomView:self.backButton];
+    self.navigationItem.leftBarButtonItem = self.leftItem;
     //把导航栏集合添加入导航栏中，设置动画关闭
-    [navigationBar pushNavigationItem:navigationItem animated:NO];
-    [view addSubview:navigationBar];
+    [self.navigationBar pushNavigationItem:self.navigationItem animated:NO];
+    [self.view addSubview:self.navigationBar];
     
     
     //设置列表
-    setTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(navigationBar.frame), frame.size.width, frame.size.height-navframe.size.height) style:UITableViewStyleGrouped];
-    [setTableView setDelegate:self];
-    [setTableView setDataSource:self];
-    [view addSubview:setTableView];
-
+    self.setTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.navigationBar.frame), frame.size.width, frame.size.height-navframe.size.height) style:UITableViewStyleGrouped];
+    [self.setTableView setDelegate:self];
+    [self.setTableView setDataSource:self];
+    [self.view addSubview:self.setTableView];
+    [self addSubview: self.view];
     
-    [self addSubview: view];
     
 }
 
@@ -95,14 +114,14 @@
             {
                 cell.textLabel.text = @"用户";
                 UIImageView *usersImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-                [usersImageView setImage:img];
+                [usersImageView setImage:self.img];
                 usersImageView.layer.cornerRadius = 50;
                 usersImageView.layer.masksToBounds = YES;
                 
                 UILabel *userNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 30, 200, 30)];
-                userNameLabel.text = info[0];
+                userNameLabel.text = self.info[0];
                 UILabel *userPhoneLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 60, 200, 30)];
-                userPhoneLabel.text = info[1];
+                userPhoneLabel.text = self.info[1];
                 userPhoneLabel.textColor = [UIColor lightGrayColor];
                 [cell addSubview: userNameLabel];
                 [cell addSubview: userPhoneLabel];
@@ -199,9 +218,9 @@
 //返回按钮
 - (void)goBack
 {
-    if ([caller respondsToSelector:@selector(goBackView)])
+    if ([self.caller respondsToSelector:@selector(goBackView)])
     {
-        [caller goBackView];
+        [self.caller goBackView];
     }
 
     
@@ -210,9 +229,9 @@
 //用户信息按钮
 - (void)goToUserInformation
 {
-    if ([caller respondsToSelector:@selector(goToUserInformationView)])
+    if ([self.caller respondsToSelector:@selector(goToUserInformationView)])
     {
-        [caller goToUserInformationView];
+        [self.caller goToUserInformationView];
     }
 
 }

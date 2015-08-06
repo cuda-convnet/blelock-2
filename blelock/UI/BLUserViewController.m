@@ -28,11 +28,13 @@
 
 - (void) loadView
 {
-    userImage = [UIImage imageNamed:@"users.jpg"];
-    userInformation = [NSArray arrayWithObjects:@"人间四月天",@"151****4690", nil];
-    _blUserView = [[BLUserView alloc] initWithCaller:self userImage:userImage userInformation:userInformation];
+    self.blUserView = [[BLUserView alloc] initWithCaller:self];
+    //userImage = [UIImage imageNamed:@"users.jpg"];
+    //userInformation = [NSArray arrayWithObjects:@"人间四月天",@"151****4690", nil];
+    //self.blUserView.img = userImage;
+    //self.blUserView.info = userInformation;
     [self.navigationController setNavigationBarHidden:YES];
-    self.view = _blUserView;
+    self.view = self.blUserView;
     
 }
 

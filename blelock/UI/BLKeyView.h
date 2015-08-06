@@ -18,10 +18,12 @@
 @interface BLKeyView : UIView
 
 //公开的属性state：蓝牙的状态，用于改变操作区状态
-@property int state;
+@property int blState;
 @property int keyState;
 
--(id)initWithCaller:(id<BLKeyViewDelegate>)keyCaller data:(NSArray*)keyData;
+@property (nonatomic, retain) NSArray *data;
+
+-(id)initWithCaller:(id<BLKeyViewDelegate>)keyCaller;
 - (void) changeForBLState;
 - (void) changeForKeyState;
 

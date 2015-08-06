@@ -15,9 +15,11 @@
 @end
 
 @interface BLUserView : UIView
-//@property int state;
 
--(id)initWithCaller:(id<BLUserViewDelegate>)_caller userImage:(UIImage *)_image userInformation:(NSArray *)_information;
+@property (nonatomic, retain) UIImage *img;
+@property (nonatomic, retain) NSArray *info;
+
+-(id)initWithCaller:(id<BLUserViewDelegate>)userCaller;
 //- (void) changeForBLState;
 
 @end
