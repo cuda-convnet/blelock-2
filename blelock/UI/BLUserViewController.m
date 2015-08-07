@@ -14,25 +14,21 @@
 @interface BLUserViewController () <BLUserViewDelegate>
 
 @property (nonatomic, strong) BLUserView *blUserView;
+@property (nonatomic, strong) UIImage *userImage;
+@property (nonatomic, strong) NSArray *userInformation;
+
 
 @end
 
 @implementation BLUserViewController
-{
-    UIImage *userImage;
-    NSArray *userInformation;
-}
-@synthesize blUserView = _blUserView;
-
-
 
 - (void) loadView
 {
     self.blUserView = [[BLUserView alloc] initWithCaller:self];
-    //userImage = [UIImage imageNamed:@"users.jpg"];
-    //userInformation = [NSArray arrayWithObjects:@"人间四月天",@"151****4690", nil];
-    //self.blUserView.img = userImage;
-    //self.blUserView.info = userInformation;
+    self.userImage = [UIImage imageNamed:@"users.jpg"];
+    self.userInformation = [NSArray arrayWithObjects:@"人间四月天",@"151****4690", nil];
+    self.blUserView.img = self.userImage;
+    self.blUserView.info = self.userInformation;
     [self.navigationController setNavigationBarHidden:YES];
     self.view = self.blUserView;
     

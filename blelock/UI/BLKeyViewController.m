@@ -9,20 +9,11 @@
 
 #import "BLKeyViewController.h"
 #import "BLUserViewController.h"
+#import "BLHouseViewController.h"
 #import "BLKeyView.h"
 #import <CoreBluetooth/CoreBluetooth.h>
 
 @interface BLKeyViewController () <BLKeyViewDelegate, CBCentralManagerDelegate>
-{
-    CBCentralManager *_manager;
-    CBPeripheral *_peripheral;
-    CBService *_service;
-    CBService *_interestingService;
-    CBCharacteristic *_interestingCharacteristic;
-    
-    NSArray *_tableArray;
-    
-}
 
 @property (nonatomic, strong) BLKeyView *blKeyView;
 @property (nonatomic, strong) NSArray *tableArray;
@@ -77,6 +68,9 @@
 
 - (void) goToBLHouseView: (NSInteger) rowNumber
 {
+    BLHouseViewController * blHouseViewController = [[BLHouseViewController alloc]init];
+    //要不要拿到外面去作为属性呢？？？？？？？外面又不要用，不用拿出去
+    [self.navigationController pushViewController: blHouseViewController animated:YES];
     NSLog(@"%@", [self.tableArray objectAtIndex:rowNumber]);
     
 }

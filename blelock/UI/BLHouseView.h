@@ -11,7 +11,8 @@
 @protocol BLHouseViewDelegate <NSObject>
 
 @required
-//- (void) gotoBLUserView;
+- (void) goBackView;
+//- (void) goToChangeView;
 //- (void) openBluetoothView;
 @end
 
