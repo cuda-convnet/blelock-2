@@ -20,6 +20,14 @@
 		0FA940AD1B65101200A63DFA /* BlLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA940AC1B65101200A63DFA /* BlLoginManager.m */; };
 		0FA940B11B651A2B00A63DFA /* BLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA940B01B651A2B00A63DFA /* BLLoginViewController.m */; };
 		2139BF824AE28A8302EC2974 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 549C800D4F5D010B60DBB48F /* libPods.a */; };
+		E66287701B7448200059210F /* BLKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E662876F1B7448200059210F /* BLKey.m */; };
+		E66287711B7448200059210F /* BLKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E662876F1B7448200059210F /* BLKey.m */; };
+		E66287741B7451400059210F /* BLVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = E66287731B7451400059210F /* BLVersion.m */; };
+		E66287751B7451400059210F /* BLVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = E66287731B7451400059210F /* BLVersion.m */; };
+		E66287781B74531F0059210F /* BLLockType.m in Sources */ = {isa = PBXBuildFile; fileRef = E66287771B74531F0059210F /* BLLockType.m */; };
+		E66287791B74531F0059210F /* BLLockType.m in Sources */ = {isa = PBXBuildFile; fileRef = E66287771B74531F0059210F /* BLLockType.m */; };
+		E6AFCA991B73731C0042DCB6 /* BLHouseView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AFCA981B73731C0042DCB6 /* BLHouseView.m */; };
+		E6AFCA9A1B73731C0042DCB6 /* BLHouseView.m in Sources */ = {isa = PBXBuildFile; fileRef = E6AFCA981B73731C0042DCB6 /* BLHouseView.m */; };
 		E960E4811B719DC500112249 /* BLUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = E960E4801B719DC500112249 /* BLUserView.m */; };
 		E960E4821B719DC500112249 /* BLUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = E960E4801B719DC500112249 /* BLUserView.m */; };
 		E963F37C1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F37B1B65F81A00EB9784 /* SFHFKeychainUtils.m */; };
@@ -72,6 +80,14 @@
 		549C800D4F5D010B60DBB48F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		A13308F315CBB48CF8D828E0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C8C676149AEEB4E2C23DC5A7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E662876E1B7448200059210F /* BLKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLKey.h; path = blelock/UI/BLKey.h; sourceTree = SOURCE_ROOT; };
+		E662876F1B7448200059210F /* BLKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLKey.m; path = blelock/UI/BLKey.m; sourceTree = SOURCE_ROOT; };
+		E66287721B7451400059210F /* BLVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLVersion.h; path = blelock/UI/BLVersion.h; sourceTree = SOURCE_ROOT; };
+		E66287731B7451400059210F /* BLVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLVersion.m; path = blelock/UI/BLVersion.m; sourceTree = SOURCE_ROOT; };
+		E66287761B74531F0059210F /* BLLockType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLLockType.h; path = blelock/UI/BLLockType.h; sourceTree = SOURCE_ROOT; };
+		E66287771B74531F0059210F /* BLLockType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLLockType.m; path = blelock/UI/BLLockType.m; sourceTree = SOURCE_ROOT; };
+		E6AFCA971B73731C0042DCB6 /* BLHouseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLHouseView.h; sourceTree = "<group>"; };
+		E6AFCA981B73731C0042DCB6 /* BLHouseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLHouseView.m; sourceTree = "<group>"; };
 		E960E47F1B719DC500112249 /* BLUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLUserView.h; sourceTree = "<group>"; };
 		E960E4801B719DC500112249 /* BLUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLUserView.m; sourceTree = "<group>"; };
 		E963F37A1B65F81A00EB9784 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
@@ -205,6 +221,12 @@
 		0FA9406D1B6506AA00A63DFA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E662876E1B7448200059210F /* BLKey.h */,
+				E662876F1B7448200059210F /* BLKey.m */,
+				E66287761B74531F0059210F /* BLLockType.h */,
+				E66287771B74531F0059210F /* BLLockType.m */,
+				E66287721B7451400059210F /* BLVersion.h */,
+				E66287731B7451400059210F /* BLVersion.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -227,6 +249,7 @@
 		0FA940701B6506AA00A63DFA /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E6AFCA961B7372E80042DCB6 /* house */,
 				E966144F1B6A0282000BEDB7 /* user */,
 				E9DBC6901B6727490063C92D /* key */,
 				E963F37F1B65FE7C00EB9784 /* register */,
@@ -264,6 +287,15 @@
 				C8C676149AEEB4E2C23DC5A7 /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		E6AFCA961B7372E80042DCB6 /* house */ = {
+			isa = PBXGroup;
+			children = (
+				E6AFCA971B73731C0042DCB6 /* BLHouseView.h */,
+				E6AFCA981B73731C0042DCB6 /* BLHouseView.m */,
+			);
+			name = house;
 			sourceTree = "<group>";
 		};
 		E963F37F1B65FE7C00EB9784 /* register */ = {
@@ -435,17 +467,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E66287781B74531F0059210F /* BLLockType.m in Sources */,
 				0FA940AD1B65101200A63DFA /* BlLoginManager.m in Sources */,
 				0FA940AA1B650FFB00A63DFA /* BLInitManager.m in Sources */,
 				E963F37C1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
 				E963F3821B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,
 				0FA9404B1B65027200A63DFA /* AppDelegate.m in Sources */,
+				E66287701B7448200059210F /* BLKey.m in Sources */,
 				0FA940B11B651A2B00A63DFA /* BLLoginViewController.m in Sources */,
 				E9DBC6931B6727D30063C92D /* BLKeyViewController.m in Sources */,
 				E9F048701B6F99DF0082D30B /* BLKeyView.m in Sources */,
 				0FA940481B65027200A63DFA /* main.m in Sources */,
 				E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 				E96614521B6A0341000BEDB7 /* BLUserViewController.m in Sources */,
+				E66287741B7451400059210F /* BLVersion.m in Sources */,
+				E6AFCA991B73731C0042DCB6 /* BLHouseView.m in Sources */,
 				E960E4811B719DC500112249 /* BLUserView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,10 +493,14 @@
 				E9DBC6941B6727D30063C92D /* BLKeyViewController.m in Sources */,
 				E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */,
 				E9F048711B6F99DF0082D30B /* BLKeyView.m in Sources */,
+				E66287711B7448200059210F /* BLKey.m in Sources */,
+				E66287791B74531F0059210F /* BLLockType.m in Sources */,
 				E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 				E96614531B6A0341000BEDB7 /* BLUserViewController.m in Sources */,
+				E66287751B7451400059210F /* BLVersion.m in Sources */,
 				E960E4821B719DC500112249 /* BLUserView.m in Sources */,
 				E963F37D1B65F81A00EB9784 /* SFHFKeychainUtils.m in Sources */,
+				E6AFCA9A1B73731C0042DCB6 /* BLHouseView.m in Sources */,
 				0FA940621B65027200A63DFA /* blelockTests.m in Sources */,
 				E963F3831B65FF2500EB9784 /* BLRegisterViewController.m in Sources */,
 			);

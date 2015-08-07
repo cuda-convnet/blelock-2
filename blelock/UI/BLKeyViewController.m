@@ -25,30 +25,22 @@
 }
 
 @property (nonatomic, strong) BLKeyView *blKeyView;
-
-//蓝牙操作：延迟实例化
+@property (nonatomic, strong) NSArray *tableArray;
 @property (nonatomic, strong) CBCentralManager *manager;
 @property (nonatomic, strong) CBPeripheral *peripheral;
 @property (nonatomic, strong) CBService *service;
 @property (nonatomic, strong) CBService *interestingService;
 @property (nonatomic, strong) CBCharacteristic *interestingCharacteristic;
 
-//加载数据：延迟实例化
-@property (nonatomic, strong) NSArray *tableArray;
-
 @end
 
 @implementation BLKeyViewController
 
-@synthesize blKeyView = _blKeyView;
-@dynamic manager, peripheral, service,interestingService, interestingCharacteristic, tableArray;
-
-
 - (void) loadView {
     
     self.blKeyView = [[BLKeyView alloc] initWithCaller:self];
-    //self.tableArray = [NSArray arrayWithObjects:@"翠苑四区",@"工商管理楼", @"土木科技楼", @"阿木的家", @"网易六楼", @"网易宿舍837", @"浙大玉泉", @"浙大紫金港", @"浙大西溪", @"浙大曹主", nil];
-    //self.blKeyView.data = self.tableArray;
+    self.tableArray = [NSArray arrayWithObjects:@"翠苑四区",@"工商管理楼", @"土木科技楼", @"阿木的家", @"网易六楼", @"网易宿舍837", @"浙大玉泉", @"浙大紫金港", @"浙大西溪", @"浙大曹主", nil];
+    self.blKeyView.data = self.tableArray;
     
     [self.blKeyView addObserver:self forKeyPath:@"blState" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
     [self.blKeyView addObserver:self forKeyPath:@"keyState" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
@@ -70,7 +62,7 @@
 - (void) gotoBLUserView
 {
     BLUserViewController * blUserViewController = [[BLUserViewController alloc]init];
-    //要不要拿到外面去作为属性呢？？？？？？？
+    //要不要拿到外面去作为属性呢？？？？？？？外面又不要用，不用拿出去
     [self.navigationController pushViewController: blUserViewController animated:YES];
 }
 
@@ -79,23 +71,32 @@
 {
     self.blKeyView.blState = 100;
     self.manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil]; //重点这里要建立委托
-    NSLog(@"后面");
 }
 
+//选择table
+
+- (void) goToBLHouseView: (NSInteger) rowNumber
+{
+    NSLog(@"%@", [self.tableArray objectAtIndex:rowNumber]);
+    
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 //监听状态值的变化，执行一定的动作
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath isEqualToString:@"blState"])
-    {
-        [self.blKeyView changeForBLState];
-    }else if([keyPath isEqualToString:@"keyState"])
-    {
-        [self.blKeyView changeForKeyState];
+    NSArray *caseName = [NSArray arrayWithObjects: @"blState", @"keyState", nil];
+    NSUInteger index = [caseName indexOfObject:keyPath];
+    switch (index) {
+        case 0:
+            [self.blKeyView changeForBLState];
+            break;
+        case 1:
+            [self.blKeyView changeForKeyState];
+        default:
+            break;
     }
 }
-
 
 
 //蓝牙自动调用
@@ -121,6 +122,7 @@
         {
             NSLog(@"设备不支持BLE");
             self.blKeyView.blState = -1;
+            
             ///////////为了测试
             [self bluetoothISOpen];
             break;
@@ -141,15 +143,15 @@
 //    //找到门锁，关闭扫描以节约电源
 //    [_manager stopScan];
 //    NSLog(@"Scanning stopped");
-    int a=0;
-    for(int i=0;i<100000;i++)
-    {
-        for (int b=0; b<10000; b++) {
-            a=a+i-b;
-        }
-    }
-
-      self.blKeyView.keyState = 1;
+//    int a=0;
+//    for(int i=0;i<100000;i++)
+//    {
+//        for (int b=0; b<10000; b++) {
+//            a=a+i-b;
+//        }
+//    }
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(hello1) userInfo:nil repeats:NO];
+     // self.blKeyView.keyState = 1;
 //    //连接门锁周边
 //    [_manager connectPeripheral:_peripheral options:nil];
 //    //确保周边的代理
@@ -171,97 +173,31 @@
 //    NSLog(@"Writing value for characteristic %@", _interestingCharacteristic);
 //    //[_peripheral writeValue : _dataToWrite forCharacteristic : _interestingCharacteristic
 //    //                   type : CBCharacteristicWriteWithResponse];
-    int c=0;
-    for(int i=0;i<100000;i++)
-    {
-        for (int b=0; b<10000; b++) {
-            c=c+i-b;
-        }
-    }
+   
 
-    self.blKeyView.keyState = 2;
+    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(hello2) userInfo:nil repeats:NO];
+    //self.blKeyView.keyState = 2;
 //    //开锁成功后，断开连接
+    
 //    [_manager cancelPeripheralConnection : _peripheral];
     
 }
-
-////////////////////////////////////////////////////////////////
-//延迟实例化的对象实现set&get
-- (CBCentralManager *) manager
+///用于测试
+-(void) hello1
 {
-    if (_manager == nil) _manager = [[CBCentralManager alloc]init];
-    return _manager;
+    NSLog(@"bly");
+    self.blKeyView.keyState = 1;
 }
-
-- (void) setManager:(CBCentralManager *)manager
+-(void) hello2
 {
-    _manager = manager;
+    NSLog(@"bly");
+    self.blKeyView.keyState = 2;
 }
-
-- (CBPeripheral *) peripheral
+- (void) dealloc
 {
-    if (_peripheral == nil) _peripheral = [[CBPeripheral alloc]init];
-    return _peripheral;
+    //KVO释放
+    [self removeObserver:self forKeyPath:@"blState"];
+    [self removeObserver:self forKeyPath:@"keyState"];
+    
 }
-
-- (void) setPeripheral:(CBPeripheral *)peripheral
-{
-    _peripheral = peripheral;
-}
-
-- (CBService *) service
-{
-    if (_service == nil) _service = [[CBService alloc]init];
-    return _service;
-}
-
-- (void) setService:(CBService *)service
-{
-    _service = service;
-}
-
-- (CBService *) interestingService
-{
-    if (_interestingService == nil) _interestingService = [[CBService alloc] init];
-    return _interestingService;
-}
-
-- (void) setInterestingService:(CBService *)interestingService
-{
-    _interestingService = interestingService;
-}
-
-- (CBCharacteristic *) interestingCharacteristic
-{
-    if (_interestingCharacteristic == nil) _interestingCharacteristic = [[CBCharacteristic alloc]init];
-    return _interestingCharacteristic;
-}
-
-- (void) setInterestingCharacteristic:(CBCharacteristic *)interestingCharacteristic
-{
-    _interestingCharacteristic = interestingCharacteristic;
-}
-
-- (NSArray *) tableArray
-{
-    if (_tableArray == nil) _tableArray = [[NSArray alloc]init];
-    return _tableArray;
-}
-
-- (void) setTableArray:(NSArray *)tableArray
-{
-    _tableArray = tableArray;
-}
-
-
-
-
-
-
-
-
-
-
-
-
 @end

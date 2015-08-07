@@ -13,14 +13,13 @@
 @required
 - (void) gotoBLUserView;
 - (void) openBluetoothView;
+- (void) goToBLHouseView: (NSInteger) rowNumber;
 @end
 
 @interface BLKeyView : UIView
-
-//公开的属性state：蓝牙的状态，用于改变操作区状态
+//public属性
 @property int blState;
 @property int keyState;
-
 @property (nonatomic, retain) NSArray *data;
 
 -(id)initWithCaller:(id<BLKeyViewDelegate>)keyCaller;

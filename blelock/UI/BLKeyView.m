@@ -20,27 +20,14 @@
 @property (nonatomic, strong) UILabel *hintLabel;
 @property (nonatomic, strong) UITableView *keyTableView;
 
-@property (nonatomic, retain) id<BLKeyViewDelegate> caller;
+
+
+@property (nonatomic, assign) id<BLKeyViewDelegate> caller;
 
 
 @end
 
 @implementation BLKeyView
-
-@synthesize view = _view;
-@synthesize navigationBar = _navigationBar;
-@synthesize navigationItem = _navigationItem;
-@synthesize rightButton = _rightButton;
-@synthesize rightItem = _rightItem;
-@synthesize operateUIView = _operateUIView;
-@synthesize operateUIButton = _operateUIButton;
-@synthesize hintLabel = _hintLabel;
-@synthesize keyTableView = _keyTableView;
-@synthesize caller = _caller;
-@synthesize data = _data;
-@synthesize blState = _blState;
-@synthesize keyState = _keyState;
-
 
 - (id) init
 {
@@ -114,7 +101,7 @@
     self.hintLabel.text = @"点击这里打开蓝牙";
     self.hintLabel.textColor = [UIColor whiteColor];
     self.hintLabel.textAlignment = NSTextAlignmentCenter;
-    self.hintLabel.font = [UIFont systemFontOfSize:14.0f];
+    self.hintLabel.font = [UIFont systemFontOfSize:16.0f];
     self.hintLabel.backgroundColor = [UIColor clearColor];
     [self.operateUIView addSubview:self.hintLabel];
     
@@ -163,13 +150,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //Tells the delegate that the specified row is now selected.
-    NSLog(@"%@", [self.data objectAtIndex:indexPath.row]);
+    [self goToBLHouse:indexPath.row];
+    //NSLog(@"%@", [self.data objectAtIndex:indexPath.row]);
 }
 
+- (void)goToBLHouse:(NSInteger) row
+{
+    if ([self.caller respondsToSelector:@selector(goToBLHouseView:)])
+    {
+        [self.caller goToBLHouseView:row];
+    }
+}
 
 - (void) gotoBLUser
 {
-    NSLog(@"尿素加分了丢uo");
     if ([self.caller respondsToSelector:@selector(gotoBLUserView)])
     {
         [self.caller gotoBLUserView];
@@ -226,10 +220,10 @@
         case 2:
         {
             [self.operateUIButton setBackgroundImage: [UIImage imageNamed : @"openLock.png"] forState:UIControlStateNormal];
-            [self.operateUIView setBackgroundColor:[UIColor greenColor]];
+            [self.operateUIView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:139/255.0 blue:69/255.0 alpha:1]];
             self.hintLabel.text = @"门锁已打开，请转动把手进门";
-            [self.operateUIButton setBackgroundImage: [UIImage imageNamed : @"home.png"] forState:UIControlStateNormal];
-            self.hintLabel.text = @"欢迎您！";
+            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(waitForSeconds) userInfo:nil repeats:NO];
+            
             break;
 
         }
@@ -253,6 +247,11 @@
             break;
     }
 
+}
+- (void) waitForSeconds
+{
+    [self.operateUIButton setBackgroundImage: [UIImage imageNamed : @"house.png"] forState:UIControlStateNormal];
+    self.hintLabel.text = @"欢迎您！";
 }
 
 @end
