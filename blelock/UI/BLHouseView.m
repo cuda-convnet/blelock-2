@@ -20,7 +20,7 @@
 @property UITableView *houseTableView;
 @property UIButton *deleteButton;
 //视觉图出来后，需修改
-@property UIImage *img;
+@property NSString *houseName;
 
 @property (nonatomic, retain) id<BLHouseViewDelegate> caller;
 
@@ -50,9 +50,7 @@
 -(void)prepare
 {
     //初始化默认数据
-    if (self.img == nil) {
-        self.img = [UIImage imageNamed:@"lin.png"];
-    }
+    self.houseName = @"翠苑四区";
     //Creates the view that the controller manages.
     CGRect frame = [UIScreen mainScreen].bounds;
     CGRect rectStatus = [[UIApplication sharedApplication] statusBarFrame];
@@ -66,7 +64,7 @@
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
     //创建一个导航栏集合
     self.navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
-    [self.navigationItem setTitle:@"翠苑四区"];
+    [self.navigationItem setTitle:self.houseName];
     [self.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
     //左边按钮：返回
     self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -231,6 +229,26 @@
     return 44;
 }
 
+//alter需要的方法
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if ([alertView.title isEqualToString: @"编辑钥匙名字"] && buttonIndex == 1)
+    {
+        //得到输入框
+        UITextField *tf=[alertView textFieldAtIndex:0];
+        self.houseName = tf.text;
+        [self.navigationItem setTitle:self.houseName];
+        NSLog(@"%@", self.houseName);
+    }else if ([alertView.title isEqualToString: @"确认删除"] && buttonIndex == 1)
+    {
+        NSLog(@"进行删除操作");
+    }
+}
+
+
+
+
+
 //按钮跳转
 //返回按钮
 - (void)goBack
@@ -252,7 +270,8 @@
 //删除按钮
 - (void)goToDeleteTheKey
 {
-    NSLog(@"HI");
+    UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"确认删除" message:@"您确定要删除这把钥匙：翠苑四区" delegate:self  cancelButtonTitle:@"取消" otherButtonTitles:@"确定",nil];
+    [alter show];
 }
 
 

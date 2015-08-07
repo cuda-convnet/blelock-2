@@ -37,6 +37,7 @@
     //self.blUserView.img = userImage;
     //self.blUserView.info = userInformation;
     [self.navigationController setNavigationBarHidden:YES];
+    [self.blHouseView addObserver:self forKeyPath:@"houseName" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
     self.view = self.blHouseView;
     
 }
@@ -56,4 +57,19 @@
 //{
 //    NSLog(@"hi");
 //}
+//////////////////////////////////////////////////////////////////////////////////////
+//监听状态值的变化，执行一定的动作
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"houseName"]) {
+        //修改钥匙对象中的房屋名
+        NSLog(@"修改钥匙对象中的房屋名");
+    }
+}
+
+- (void) dealloc
+{
+    //KVO释放
+    [self removeObserver:self forKeyPath:@"houseName"];
+}
 @end
