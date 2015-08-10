@@ -53,6 +53,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+
+- (void) deleteAndGobackView: (NSString *)keyID;
+{
+    NSLog(@"删掉：%@",keyID);
+}
 //- (void) goToChangeView
 //{
 //    NSLog(@"hi");

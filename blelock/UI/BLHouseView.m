@@ -7,6 +7,7 @@
 
 
 #import "BLHouseView.h"
+#import "BLKey.h"
 
 @interface BLHouseView() <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
@@ -21,6 +22,7 @@
 @property UIButton *deleteButton;
 //视觉图出来后，需修改
 @property NSString *houseName;
+@property BLKey *blKey;
 
 @property (nonatomic, retain) id<BLHouseViewDelegate> caller;
 
@@ -241,11 +243,20 @@
         NSLog(@"%@", self.houseName);
     }else if ([alertView.title isEqualToString: @"确认删除"] && buttonIndex == 1)
     {
+        self.keyIDForDelete = self.houseName;
         NSLog(@"进行删除操作");
     }
 }
 
-
+//代理让control实现
+- (void) deleteAndGoback:(NSString *) keyID
+{
+    if ([self.caller respondsToSelector:@selector(deleteAndGobackView)])
+    {
+        [self.caller deleteAndGobackView:keyID];
+    }
+    
+}
 
 
 

@@ -12,13 +12,14 @@
 
 @required
 - (void) goBackView;
+- (void) deleteAndGobackView: (NSString *)keyID;
 //- (void) goToChangeView;
 //- (void) openBluetoothView;
 @end
 
 @interface BLHouseView : UIView
 //public属性
-//@property int blState;
+@property NSString *keyIDForDelete;
 //@property int keyState;
 //@property (nonatomic, retain) NSArray *data;
 
