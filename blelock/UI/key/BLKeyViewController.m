@@ -11,6 +11,8 @@
 #import "BLUserViewController.h"
 #import "BLHouseViewController.h"
 #import "BLKeyView.h"
+#import "BLKey.h"
+
 #import <CoreBluetooth/CoreBluetooth.h>
 
 @interface BLKeyViewController () <BLKeyViewDelegate, CBCentralManagerDelegate>
@@ -23,18 +25,88 @@
 @property (nonatomic, strong) CBService *interestingService;
 @property (nonatomic, strong) CBCharacteristic *interestingCharacteristic;
 
+@property (nonatomic, strong) BLKey *blKey;
+
 @end
 
 @implementation BLKeyViewController
 
 - (void) loadView {
-    
     self.blKeyView = [[BLKeyView alloc] initWithCaller:self];
-    self.tableArray = [NSArray arrayWithObjects:@"翠苑四区",@"工商管理楼", @"土木科技楼", @"阿木的家", @"网易六楼", @"网易宿舍837", @"浙大玉泉", @"浙大紫金港", @"浙大西溪", @"浙大曹主", nil];
+    
+    BLKey * key1 = [[BLKey alloc]init];
+    BLKey * key2 = [[BLKey alloc]init];
+    BLKey * key3 = [[BLKey alloc]init];
+    BLKey * key4 = [[BLKey alloc]init];
+    BLKey * key5 = [[BLKey alloc]init];
+    BLKey * key6 = [[BLKey alloc]init];
+    BLKey * key7 = [[BLKey alloc]init];
+    BLKey * key8 = [[BLKey alloc]init];
+    
+    key1.alias = @"翠苑四区";
+    key2.alias = @"工商管理楼";
+    key3.alias = @"土木科技楼";
+    key4.alias = @"阿木的家";
+    key5.alias = @"曹光彪主楼";
+    key6.alias = @"网易六楼";
+    key7.alias = @"网易宿舍837";
+    key8.alias = @"浙大玉泉";
+    
+    
+    //时间处理
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    //钥匙掌管者
+    BLUser *user = [[BLUser alloc]init];
+    user.Id = 1999;
+    user.name = @"林小志";
+    user.gender = @"男";
+    user.headerImageId = @"lin.png";
+    BLShareTo *shareTo = [[BLShareTo alloc]init];
+    shareTo.Id = 103;
+    shareTo.maxTimes = 10;
+    shareTo.expiredDate = [dateFormatter dateFromString:@"2015-08-10 14:09:01"];
+    shareTo.owner = [[BLUser alloc]init];
+    shareTo.owner.Id = 1994;
+    shareTo.owner.name = @"郭石头";
+    shareTo.owner.mobile = @"135*****7774";
+    shareTo.owner.headerImageId = @"guo.png";
+    //钥匙
+    BLVersion *version = [[BLVersion alloc]init];
+    version.Id = 1;
+    version.major = 1;
+    version.minor = 1;
+    BLLockType *type = [[BLLockType alloc]init];
+    type.Id = 1;
+    type.version = version;
+    BLLock *lock = [[BLLock alloc]init];
+    lock.Id = 45;
+    lock.gapAddress = @"DB:2C:AA:DD:27:2A";
+    lock.type = type;
+    //房屋
+    BLHouse *house = [[BLHouse alloc]init];
+    
+    key1.Id = 102;
+    key1.maxTimes = 10;
+    key1.usedTimes = 2;
+    key1.expiredDate = [dateFormatter dateFromString:@"2015-09-30 23:59:59"];
+    key1.sharedFrom = user;
+    key1.shareTo = [NSArray arrayWithObjects:shareTo, nil];
+    key1.lock = lock;
+    key1.lock.constantKeyWord = @"1aa1rfagqtsagjytemm";
+    key1.lock.constantKeyWordExpiredDate = [dateFormatter dateFromString:@"2015-04-03 16:00:00"];
+    key1.lock.house = house;
+    key1.lock.house.Id = 1223;
+    key1.lock.house.inaccurateAddress = @"杭州市西湖区求是村";
+    
+    self.tableArray = [NSArray arrayWithObjects:key1, key2, key3, key4, key5, key6, key7, key8, nil];
     self.blKeyView.data = self.tableArray;
     
     [self.blKeyView addObserver:self forKeyPath:@"blState" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
     [self.blKeyView addObserver:self forKeyPath:@"keyState" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
+//////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////
+    /////////////////////就是这里有问题
     [self.navigationController setNavigationBarHidden:YES];
     self.view = self.blKeyView;
 

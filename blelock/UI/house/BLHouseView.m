@@ -251,7 +251,7 @@
 //代理让control实现
 - (void) deleteAndGoback:(NSString *) keyID
 {
-    if ([self.caller respondsToSelector:@selector(deleteAndGobackView)])
+    if ([self.caller respondsToSelector:@selector(deleteAndGobackView:)])
     {
         [self.caller deleteAndGobackView:keyID];
     }

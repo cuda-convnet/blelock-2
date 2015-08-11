@@ -7,6 +7,7 @@
 //
 
 #import "BLKeyView.h"
+#import "BLKey.h"
 
 @interface BLKeyView() <UITableViewDelegate, UITableViewDataSource>
 
@@ -135,7 +136,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     //config the cell
-    cell.textLabel.text = [self.data objectAtIndex:indexPath.row];
+    BLKey *key = [self.data objectAtIndex:indexPath.row];
+    cell.textLabel.text = key.alias;
     cell.imageView.image = [UIImage imageNamed : @"key.png"];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;

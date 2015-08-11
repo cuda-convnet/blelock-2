@@ -20,7 +20,7 @@
 //public属性
 @property int blState;
 @property int keyState;
-@property (nonatomic, retain) NSArray *data;
+@property (nonatomic, strong) NSArray *data;
 
 -(id)initWithCaller:(id<BLKeyViewDelegate>)keyCaller;
 - (void) changeForBLState;

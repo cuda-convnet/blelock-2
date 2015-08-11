@@ -58,10 +58,6 @@
 {
     NSLog(@"删掉：%@",keyID);
 }
-//- (void) goToChangeView
-//{
-//    NSLog(@"hi");
-//}
 //////////////////////////////////////////////////////////////////////////////////////
 //监听状态值的变化，执行一定的动作
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
