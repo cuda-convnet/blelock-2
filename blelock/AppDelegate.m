@@ -15,15 +15,19 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //Tells the delegate that the launch process is almost done and the app is almost ready to run.
-    
-    [[BLInitManager sharedInstance] launch];
-   
-    
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     return YES;
 }
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //Tells the delegate that the launch process is almost done and the app is almost ready to run.
+    //状态栏字体白色
+    [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[BLInitManager sharedInstance] launch];
+    //欢迎界面停留2秒
+    [NSThread sleepForTimeInterval:2.0];
+    return YES;
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Tells the delegate that the app is about to become inactive.

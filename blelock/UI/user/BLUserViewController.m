@@ -17,39 +17,31 @@
 @property (nonatomic, strong) UIImage *userImage;
 @property (nonatomic, strong) NSArray *userInformation;
 
-
 @end
 
 @implementation BLUserViewController
 
-- (void) loadView
-{
+- (void)loadView {
     self.blUserView = [[BLUserView alloc] initWithCaller:self];
     self.userImage = [UIImage imageNamed:@"users.jpg"];
     self.userInformation = [NSArray arrayWithObjects:@"人间四月天",@"151****4690", nil];
     self.blUserView.img = self.userImage;
     self.blUserView.info = self.userInformation;
-    [self.navigationController setNavigationBarHidden:YES];
+///////////////////////////////////////////////////////////////////////////////////////////
+    //导航栏
+    self.navigationItem.title = @"账户及设置";
+    [self.navigationItem setHidesBackButton:NO];
     self.view = self.blUserView;
-    
 }
-
-- (void) viewDidLoad
-{
+- (void)viewDidLoad {
     //Called after the controller's view is loaded into memory.
     [super viewDidLoad];
 }
-
-- (void) goBackView
-{
+- (void)goBackView {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-- (void) goToUserInformationView
-{
+- (void)goToUserInformationView {
     NSLog(@"hi");
 }
-
-
 
 @end

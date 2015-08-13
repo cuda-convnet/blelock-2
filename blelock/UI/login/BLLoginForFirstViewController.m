@@ -8,6 +8,7 @@
 
 #import "BLLoginForFirstViewController.h"
 #import "SFHFKeychainUtils.h"
+#import "BLUserViewController.h"
 
 @interface BLLoginForFirstViewController () 
 
@@ -140,9 +141,10 @@
         }
     }
 }
-- (void)registerButtonAction:(id)sender
-{
-    
+- (void)registerButtonAction:(id)sender {
+    BLUserViewController * blUserViewController = [[BLUserViewController alloc]init];
+    //    //要不要拿到外面去作为属性呢？？？？？？？外面又不要用，不用拿出去
+    //    [self.navigationController pushViewController: blUserViewController animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

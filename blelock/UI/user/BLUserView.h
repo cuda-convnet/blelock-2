@@ -9,17 +9,19 @@
 #import <UIKit/UIKit.h>
 
 @protocol BLUserViewDelegate <NSObject>
+
 @required
 - (void) goBackView;
 - (void) goToUserInformationView;
+
 @end
 
 @interface BLUserView : UIView
 
-@property (nonatomic, retain) UIImage *img;
-@property (nonatomic, retain) NSArray *info;
+@property (nonatomic, strong) UIImage *img;
+@property (nonatomic, strong) NSArray *info;
 
--(id)initWithCaller:(id<BLUserViewDelegate>)userCaller;
+- (id)initWithCaller:(id<BLUserViewDelegate>)userCaller;
 //- (void) changeForBLState;
 
 @end

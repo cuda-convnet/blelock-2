@@ -41,7 +41,7 @@
 //    }
 //    else
 //        [self showLoginViewController];
-    [self showKeyViewController];
+    [self showLoginViewController];
 }
 
 - (NSString *)loginUserID {

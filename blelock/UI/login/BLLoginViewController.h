@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BLLoginViewController : UIViewController  < UITextFieldDelegate >
-- (void) loginButtonAction:(id) sender;
+@interface BLLoginViewController:UIViewController<UITextFieldDelegate>
+
+- (void)loginButtonAction:(id)sender;
 
 @end

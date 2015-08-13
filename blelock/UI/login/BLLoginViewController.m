@@ -7,6 +7,7 @@
 //
 
 #import "BLLoginViewController.h"
+#import "BLRegisterViewController.h"
 #import "SFHFKeychainUtils.h"
 
 @interface BLLoginViewController ()
@@ -19,9 +20,24 @@
 @end
 
 @implementation BLLoginViewController
-//@synthesize avatarImageView,mobilephoneLabel,passwordTextField,loginButton;
 
 - (void)loadView {
+    CGRect navframe = self.navigationController.navigationBar.frame;
+    self.navigationItem.title = @"钥匙";
+    //导航栏统一初始化操作，以后放到第一个页面
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+    self.navigationController.navigationBar.translucent = NO;//导航栏不透明
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(NSIntegerMin, NSIntegerMin) forBarMetrics:UIBarMetricsDefault];
+    
+    //右边按钮
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
+    [rightButton setTitle:@"注册" forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(goToRegister) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+
     
     UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
     view.backgroundColor = [UIColor lightGrayColor];
@@ -57,7 +73,6 @@
     [view addSubview:_loginButton];
     
     self.view = view;
-
 }
 
 - (void)viewDidLoad {
@@ -77,10 +92,11 @@
     _avatarImageView.frame = r1;
     
     CGRect r2 = _mobilephoneLabel.frame;
-    r2.size.width = rect.size.width;
-    r2.size.height = 44.0f;
-    r2.origin.x = 0.0f;
+    r2.origin.x = 20.0f;
     r2.origin.y = CGRectGetMaxY(_avatarImageView.frame) + 20.0f;
+    r2.size.width = rect.size.width - r2.origin.x * 2;
+    r2.size.height = 44.0f;
+    
     _mobilephoneLabel.frame = r2;
     
     CGRect r3 = _passwordTextField.frame;
@@ -129,6 +145,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)goToRegister {
+    BLRegisterViewController *blRegisterViewController = [[BLRegisterViewController alloc]init];
+    [self.navigationController pushViewController: blRegisterViewController animated:YES];
+
+}
 /*
 #pragma mark - Navigation
 

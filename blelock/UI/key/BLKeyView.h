@@ -11,18 +11,18 @@
 @protocol BLKeyViewDelegate <NSObject>
 
 @required
-- (void) gotoBLUserView;
-- (void) openBluetoothView;
-- (void) goToBLHouseView: (NSInteger) rowNumber;
+- (void)openBluetoothView;
+- (void)goToBLHouseView: (NSInteger) rowNumber;
+
 @end
 
 @interface BLKeyView : UIView
-//public属性
-@property int blState;
-@property int keyState;
+
+@property (nonatomic, assign) int blState;
+@property (nonatomic, assign) int keyState;
 @property (nonatomic, strong) NSArray *data;
 
--(id)initWithCaller:(id<BLKeyViewDelegate>)keyCaller;
+- (id)initWithCaller:(id<BLKeyViewDelegate>)keyCaller;
 - (void) changeForBLState;
 - (void) changeForKeyState;
 

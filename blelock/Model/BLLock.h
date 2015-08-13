@@ -7,16 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BLLockType.h"
-#import "BLHouse.h"
 
 @interface BLLock : NSObject
 
-@property (nonatomic) NSInteger Id;
-@property (nonatomic, strong) NSString *gapAddress;
-@property (nonatomic, strong) BLLockType *type;
+@property (nonatomic, assign) NSInteger Id;
+@property (nonatomic, assign) NSInteger type;
+@property (nonatomic, assign) NSInteger version;
+@property (nonatomic, assign) NSInteger major;
+@property (nonatomic, assign) NSInteger minjor;
 @property (nonatomic, strong) NSString *constantKeyWord;
 @property (nonatomic, strong) NSDate *constantKeyWordExpiredDate;
-@property (nonatomic, strong) BLHouse *house;
 
 @end

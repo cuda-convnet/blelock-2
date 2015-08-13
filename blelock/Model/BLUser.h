@@ -10,10 +10,12 @@
 
 @interface BLUser : NSObject
 
-@property (nonatomic) NSInteger Id;
+@property (nonatomic, assign) NSInteger Id;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *mobile;
 @property (nonatomic, strong) NSString *gender;
 @property (nonatomic, strong) NSString *headerImageId;
+@property (nonatomic, strong) NSString *password;
+@property (nonatomic, strong) NSMutableArray *keyTable;
 
 @end

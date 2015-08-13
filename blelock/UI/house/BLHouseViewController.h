@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BLKey.h"
 
 @interface BLHouseViewController : UIViewController
+
+- (id)initWithKey:(BLKey *)houseKey;
 
 @end

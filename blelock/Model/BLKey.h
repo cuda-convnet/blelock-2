@@ -9,18 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "BLUser.h"
 #import "BLLock.h"
-#import "BLShareTo.h"
 
 @interface BLKey : NSObject
 
-@property (nonatomic) NSInteger Id;
-@property (nonatomic) NSInteger maxTimes;
-@property (nonatomic) NSInteger usedTimes;
+@property (nonatomic, assign) NSInteger Id;
+@property (nonatomic, assign) NSInteger maxTimes;
+@property (nonatomic, assign) NSInteger usedTimes;
 @property (nonatomic, strong) NSDate *expiredDate;
 @property (nonatomic, strong) NSString *alias;
-@property (nonatomic, strong) BLUser *sharedFrom;
-@property (nonatomic, strong) NSArray *shareTo;
+@property (nonatomic, strong) NSString *address;
+@property (nonatomic, strong) BLUser *owner;
 @property (nonatomic, strong) BLLock *lock;
-
+@property (nonatomic, strong) NSMutableArray *sharerTable;
 
 @end

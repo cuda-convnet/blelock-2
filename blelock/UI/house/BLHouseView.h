@@ -11,20 +11,17 @@
 @protocol BLHouseViewDelegate <NSObject>
 
 @required
-- (void) goBackView;
-- (void) deleteAndGobackView: (NSString *)keyID;
+- (void)goBackView;
+- (void)deleteAndGobackView:(NSString *)keyID;
 //- (void) goToChangeView;
 //- (void) openBluetoothView;
+
 @end
 
 @interface BLHouseView : UIView
-//public属性
-@property NSString *keyIDForDelete;
-//@property int keyState;
-//@property (nonatomic, retain) NSArray *data;
 
--(id)initWithCaller:(id<BLHouseViewDelegate>)houseCaller;
-//- (void) changeForBLState;
-//- (void) changeForKeyState;
+@property NSString *keyIDForDelete;
+
+- (id)initWithCaller:(id<BLHouseViewDelegate>)houseCaller;
 
 @end
