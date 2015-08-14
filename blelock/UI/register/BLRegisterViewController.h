@@ -10,4 +10,7 @@
 
 @interface BLRegisterViewController:UIViewController<UITextFieldDelegate>
 
+//YES:注册 NO:忘记密码
+@property (nonatomic,assign) BOOL isRegister;
+
 @end

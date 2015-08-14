@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BLLoginViewController.h"
 #import <UIKit/UIKit.h>
 //测试更换的环境，是否有效
 
@@ -14,5 +15,6 @@
 
 + (instancetype)sharedInstance;
 - (void)launch;
+- (void)launchKey;
 
 @end

@@ -307,8 +307,8 @@
 		E963F37F1B65FE7C00EB9784 /* register */ = {
 			isa = PBXGroup;
 			children = (
-				E639F5241B7CC21600633947 /* BLRegisterViewController.m */,
 				E639F5271B7CC24500633947 /* BLRegisterViewController.h */,
+				E639F5241B7CC21600633947 /* BLRegisterViewController.m */,
 			);
 			name = register;
 			sourceTree = "<group>";
