@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface BLUser : NSObject
 
 @property (nonatomic, assign) NSInteger Id;
-@property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *mobile;
+@property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *gender;
 @property (nonatomic, strong) NSString *headerImageId;
+@property (nonatomic, strong) UIImage *img;
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSMutableArray *keyTable;
 

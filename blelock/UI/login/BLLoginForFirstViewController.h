@@ -9,7 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BLLoginForFirstViewController : UIViewController < UITextFieldDelegate >
-- (void) loginButtonAction:(id) sender;
-- (void) registerButtonAction:(id)sender;
 
 @end

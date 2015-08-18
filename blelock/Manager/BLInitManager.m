@@ -15,7 +15,7 @@
 
 @interface BLInitManager ()
 
-@property (nonatomic, strong) UINavigationController *rootNavigationController;
+//@property (nonatomic, strong) UINavigationController *rootNavigationController;
 
 
 @end
@@ -45,10 +45,6 @@
     [self showLoginViewController];
 }
 
-- (void)launchKey {
-    [self showKeyViewController];
-}
-
 - (NSString *)loginUserID {
     return [[NSUserDefaults standardUserDefaults] stringForKey:BLLoginUserID];
 }
@@ -59,46 +55,18 @@
 - (void)showLoginViewController {
     
     BLLoginViewController *loginVC = [[BLLoginViewController alloc] init];
-    _rootNavigationController = [[UINavigationController alloc] initWithRootViewController:loginVC];
+    UINavigationController *rootNavigationController = [[UINavigationController alloc] initWithRootViewController:loginVC];
     //导航栏统一初始化操作
-    _rootNavigationController.navigationBar.barTintColor = [UIColor blackColor];
-    _rootNavigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [_rootNavigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
-    _rootNavigationController.navigationBar.translucent = NO;//导航栏不透明
+    rootNavigationController.navigationBar.barTintColor = [UIColor blackColor];
+    rootNavigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [rootNavigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+    rootNavigationController.navigationBar.translucent = NO;//导航栏不透明
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(NSIntegerMin, NSIntegerMin) forBarMetrics:UIBarMetricsDefault];
     
-    [self showNewWindowWithViewController:_rootNavigationController animated:YES];
+    [self showNewWindowWithViewController:rootNavigationController animated:YES];
     
 }
-- (void)showLoginForFirstViewController {
-    
-    BLLoginForFirstViewController *loginVC = [[BLLoginForFirstViewController alloc] init];
-    _rootNavigationController = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    //导航栏统一初始化操作
-    _rootNavigationController.navigationBar.barTintColor = [UIColor blackColor];
-    _rootNavigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [_rootNavigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
-    _rootNavigationController.navigationBar.translucent = NO;//导航栏不透明
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(NSIntegerMin, NSIntegerMin) forBarMetrics:UIBarMetricsDefault];
-    
-    [self showNewWindowWithViewController:_rootNavigationController animated:YES];
-    
-}
-- (void)showKeyViewController {
-    
-    BLKeyViewController *loginVC = [[BLKeyViewController alloc] init];
-    _rootNavigationController = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    
-    //导航栏统一初始化操作
-    _rootNavigationController.navigationBar.barTintColor = [UIColor blackColor];
-    _rootNavigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [_rootNavigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
-    _rootNavigationController.navigationBar.translucent = NO;//导航栏不透明
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(NSIntegerMin, NSIntegerMin) forBarMetrics:UIBarMetricsDefault];
-    
-    [self showNewWindowWithViewController:_rootNavigationController animated:YES];
-    
-}
+
 
 
 - (void)showNewWindowWithViewController:(UIViewController*)vc animated:(BOOL)animated {
@@ -110,7 +78,6 @@
     
     window.rootViewController = vc;
     [window makeKeyAndVisible];
-    
 }
 
 @end

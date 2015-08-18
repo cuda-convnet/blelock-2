@@ -11,8 +11,11 @@
 #import "BLRegisterViewController.h"
 #import "SFHFKeychainUtils.h"
 #import "BLInitManager.h"
+#import "BLKeyViewController.h"
+#import "BLUser.h"
+#import "UIViewController+Utils.h"
 
-@interface BLLoginViewController ()
+@interface BLLoginViewController ()<UIAlertViewDelegate>
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *mobilephoneLabel;
@@ -20,63 +23,68 @@
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UILabel *forgetPassword;
 @property (nonatomic, strong) UILabel *otherUser;
+@property (nonatomic, strong) UIAlertView *alertView;
+
+@property (nonatomic, strong) BLUser *user;
 
 @end
 
 @implementation BLLoginViewController
 
 - (void)loadView {
+    //数据初始化
+    _user = [[BLUser alloc]init];
+    _user.img = [UIImage imageNamed:@"users.jpg"];
+    _user.mobile = @"13813888888";
+
     CGRect navframe = self.navigationController.navigationBar.frame;
-    self.navigationItem.title = @"钥匙";
-//    //导航栏统一初始化操作，以后放到第一个页面
-//    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
-//    self.navigationController.navigationBar.translucent = NO;//导航栏不透明
-//    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(NSIntegerMin, NSIntegerMin) forBarMetrics:UIBarMetricsDefault];
-    
+    self.title = @"钥匙";
     //右边按钮
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     rightButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
     [rightButton setTitle:@"注册" forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(goToRegister:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
-
-    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-    view.backgroundColor = [UIColor colorWithRed:238/255.0 green:233/255.0 blue:233/255.0 alpha:1];
+    
+    UIView *view = [UIViewController customView:CGRectZero andColor:[UIColor colorWithRed:238/255.0 green:233/255.0 blue:233/255.0 alpha:1]];
+//    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+//    view.backgroundColor = [UIColor colorWithRed:238/255.0 green:233/255.0 blue:233/255.0 alpha:1];
     
     _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _avatarImageView.backgroundColor = [UIColor clearColor];
-    UIImage *img = [UIImage imageNamed:@"users.jpg"];
-    [_avatarImageView setImage:img];
-    [view addSubview:_avatarImageView];
-    
     _mobilephoneLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _mobilephoneLabel.text = @"13813888888";
+    _passwordTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+    _loginButton = [[UIButton alloc] initWithFrame:CGRectZero];
+    _forgetPassword = [[UILabel alloc] initWithFrame:CGRectZero];
+    _otherUser = [[UILabel alloc] initWithFrame:CGRectZero];
+    
+    _avatarImageView.backgroundColor = [UIColor clearColor];
+    [_avatarImageView setImage:_user.img];
+    
+    
+    _mobilephoneLabel.text = _user.mobile;
     _mobilephoneLabel.textColor = [UIColor blackColor];
     _mobilephoneLabel.textAlignment = NSTextAlignmentCenter;
     _mobilephoneLabel.font = [UIFont systemFontOfSize:14.0f];
     _mobilephoneLabel.backgroundColor = [UIColor clearColor];
-    [view addSubview:_mobilephoneLabel];
     
-    _passwordTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+    
     _passwordTextField.placeholder = @"  密码：";
+    _passwordTextField.secureTextEntry = YES;
     _passwordTextField.textColor = [UIColor blackColor];
     [_passwordTextField setFont:[UIFont systemFontOfSize:16.0f]];
     [_passwordTextField setBorderStyle:UITextBorderStyleNone];
     [_passwordTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [_passwordTextField setKeyboardType:UIKeyboardTypeASCIICapable];
     _passwordTextField.returnKeyType = UIReturnKeyDone;
     _passwordTextField.backgroundColor = [UIColor whiteColor];
     _passwordTextField.delegate = self;
-    [view addSubview:_passwordTextField];
+    [_passwordTextField addTarget:self action:@selector(TextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    _loginButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [_loginButton setTitle:@"登陆" forState:UIControlStateNormal];
     _loginButton.backgroundColor = [UIColor colorWithRed:30/255.0 green:144/255.0 blue:255/255.0 alpha:1];
     [_loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:_loginButton];
     
-    _forgetPassword = [[UILabel alloc] initWithFrame:CGRectZero];
+
     _forgetPassword.text = @"忘记密码？";
     _forgetPassword.textColor = [UIColor redColor];
     _forgetPassword.textAlignment = NSTextAlignmentRight;
@@ -85,9 +93,7 @@
     _forgetPassword.userInteractionEnabled = YES;
     UITapGestureRecognizer *forgetGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(forgetPasswordAction:)];
     [_forgetPassword addGestureRecognizer:forgetGesture];
-    [view addSubview:_forgetPassword];
     
-    _otherUser = [[UILabel alloc] initWithFrame:CGRectZero];
     _otherUser.text = @"使用其他账户登录";
     _otherUser.textColor = [UIColor grayColor];
     _otherUser.textAlignment = NSTextAlignmentCenter;
@@ -96,15 +102,23 @@
     _otherUser.userInteractionEnabled = YES;
     UITapGestureRecognizer *otherGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(otherUserAction:)];
     [_otherUser addGestureRecognizer:otherGesture];
-    [view addSubview:_otherUser];
     
+    [view addSubview:_avatarImageView];
+    [view addSubview:_mobilephoneLabel];
+    [view addSubview:_passwordTextField];
+    [view addSubview:_loginButton];
+    [view addSubview:_forgetPassword];
+    [view addSubview:_otherUser];
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
     self.view = view;
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
+    // Do any additional setup after loading the view.
+
 
 - (void)viewWillLayoutSubviews {
     
@@ -121,21 +135,21 @@
     
     CGRect r2 = _mobilephoneLabel.frame;
     r2.origin.x = 20.0f;
-    r2.origin.y = CGRectGetMaxY(_avatarImageView.frame) + 20.0f;
+    r2.origin.y = CGRectGetMaxY(_avatarImageView.frame) + 18.0f;
     r2.size.width = rect.size.width - r2.origin.x * 2;
     r2.size.height = 44.0f;
     _mobilephoneLabel.frame = r2;
     
     CGRect r3 = _passwordTextField.frame;
     r3.origin.x = 0.0f;
-    r3.origin.y = CGRectGetMaxY(_mobilephoneLabel.frame) + 20.0f;
+    r3.origin.y = CGRectGetMaxY(_mobilephoneLabel.frame) + 18.0f;
     r3.size.width = rect.size.width;
     r3.size.height = 44.0f;
     _passwordTextField.frame = r3;
     
     CGRect r4 = _loginButton.frame;
     r4.origin.x = 20.0f;
-    r4.origin.y = CGRectGetMaxY(_passwordTextField.frame) + 20.0f;
+    r4.origin.y = CGRectGetMaxY(_passwordTextField.frame) + 18.0f;
     r4.size.width = rect.size.width - r4.origin.x * 2;
     r4.size.height = 44.0f;
     _loginButton.frame = r4;
@@ -155,40 +169,40 @@
     _otherUser.frame = r6;
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+}
+
+- (void)TextField_DidEndOnExit:(id)sender {
+    [sender resignFirstResponder];
+}
+
 #pragma mark - login Button Action
 
-- (void)loginButtonAction:(id)sender
-{
+- (void)loginButtonAction:(id)sender {
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
     if(_mobilephoneLabel.text.length==0||_passwordTextField.text.length==0)
     {
-        UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不能为空，请输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        [alertView show];
+        _alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不能为空，请输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        _alertView.tag = 0;
+        [_alertView show];
     }
     else
     {
         //NSLog(@"%@ %@",[SFHFKeychainUtils getPasswordForUsername:user.text andServiceName:@"passwordTest" error:nil],password.text);
         //后门：万能密码1993
-        if([[SFHFKeychainUtils getPasswordForUsername:_mobilephoneLabel.text andServiceName:@"passwordTest" error:nil] isEqual: _passwordTextField.text] || [_passwordTextField.text isEqualToString:@"1993"])
-        {
-            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alertView show];
-            // 弹出栈中所有页面
-            NSArray* tempVCA = [self.navigationController viewControllers];
-            for(UIViewController *tempVC in tempVCA)
-            {
-                if([tempVC isKindOfClass:[UIViewController class]])
-                {
-                    [self.navigationController removeFromParentViewController];
-                }
-            }
-            [[BLInitManager sharedInstance] launchKey];
+        if([[SFHFKeychainUtils getPasswordForUsername:_mobilephoneLabel.text andServiceName:@"passwordTest" error:nil] isEqual: _passwordTextField.text] || [_passwordTextField.text isEqualToString:@"1993"]) {
+            BLKeyViewController *blKeyViewController = [[BLKeyViewController alloc] init];
+            [self.navigationController pushViewController: blKeyViewController animated:YES];
         }
         else
         {
-            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不正确，请重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alertView show];
+            _alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不正确，请重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            _alertView.tag = -1;
+            [_alertView show];
         }
     }
+    
 }
 
 - (void)goToRegister:(id)sender {
@@ -212,5 +226,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+//    if (_alertView.tag == 1) {
+//        BLKeyViewController *blKeyViewController = [[BLKeyViewController alloc] init];
+//        [self.navigationController pushViewController: blKeyViewController animated:YES];
+//    }
+//}
 
 @end

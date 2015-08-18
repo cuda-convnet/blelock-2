@@ -13,13 +13,14 @@
 @interface BLKey : NSObject
 
 @property (nonatomic, assign) NSInteger Id;
+@property (nonatomic, strong) BLLock *lock;
+@property (nonatomic, strong) BLUser *owner;
+@property (nonatomic, strong) BLKey *sharedFrom;
+@property (nonatomic, strong) NSDate *expiredDate;
 @property (nonatomic, assign) NSInteger maxTimes;
 @property (nonatomic, assign) NSInteger usedTimes;
-@property (nonatomic, strong) NSDate *expiredDate;
 @property (nonatomic, strong) NSString *alias;
-@property (nonatomic, strong) NSString *address;
-@property (nonatomic, strong) BLUser *owner;
-@property (nonatomic, strong) BLLock *lock;
+@property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSMutableArray *sharerTable;
 
 @end

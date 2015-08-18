@@ -15,6 +15,5 @@
 
 + (instancetype)sharedInstance;
 - (void)launch;
-- (void)launchKey;
 
 @end

@@ -11,6 +11,6 @@
 
 @interface BLHouseViewController : UIViewController
 
-- (id)initWithKey:(BLKey *)houseKey;
+- (id)initWithKey:(BLKey *)myKey;
 
 @end
