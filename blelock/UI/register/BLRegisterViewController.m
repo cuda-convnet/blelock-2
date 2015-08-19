@@ -7,8 +7,11 @@
 //
 
 #import "BLRegisterViewController.h"
+#import "UIViewController+Utils.h"
+
 #import "BLLoginViewController.h"
-#import "BLInitManager.h"
+
+
 
 @interface BLRegisterViewController ()
 
@@ -18,82 +21,49 @@
 @property (nonatomic, strong) UITextField *captchaTextField;
 @property (nonatomic, strong) UIButton *getCaptchaButton;
 @property (nonatomic, strong) UIButton *confirmButton;
+@property (nonatomic, strong) UIAlertView *alertView;
 
 @end
 
 @implementation BLRegisterViewController
 
 - (void)loadView {
+    UIView *view = [UIViewController customView];
     //CGRect navframe = self.navigationController.navigationBar.frame;
     if (_isRegister) {
-        self.navigationItem.title = @"注册";
-        _passwordTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-        _passwordTextField.placeholder = @"  设置密码";
+        self.title = @"注册";
+        _passwordTextField = [UIViewController customTextField:@"  设置密码"];
     }else {
-        self.navigationItem.title = @"忘记密码";
-        _passwordTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-        _passwordTextField.placeholder = @"  新的密码";
+        self.title = @"忘记密码";
+        _passwordTextField = [UIViewController customTextField:@"  新的密码"];
     }
     
+    _userTextField = [UIViewController customTextField:@"  手机号"];
+    _userTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    [_userTextField addTarget:self action:@selector(userTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-    view.backgroundColor = [UIColor colorWithRed:238/255.0 green:233/255.0 blue:233/255.0 alpha:1];
+    _passwordTextField.secureTextEntry = YES;
+    [_passwordTextField addTarget:self action:@selector(passwordTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
+    _confirmPasswordTextField = [UIViewController customTextField:@"  确认密码"];
+    _confirmPasswordTextField.secureTextEntry = YES;
+    [_confirmPasswordTextField addTarget:self action:@selector(confirmPasswordTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    _userTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _userTextField.placeholder = @"  手机号";
-    _userTextField.textColor = [UIColor blackColor];
-    [_userTextField setFont:[UIFont systemFontOfSize:16.0f]];
-    [_userTextField setBorderStyle:UITextBorderStyleNone];
-    [_userTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
-    _userTextField.returnKeyType = UIReturnKeyDone;
-    _userTextField.backgroundColor = [UIColor whiteColor];
-    _userTextField.delegate = self;
-    [view addSubview:_userTextField];
+    _captchaTextField = [UIViewController customTextField:@"  验证码"];
+    _captchaTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    [_captchaTextField addTarget:self action:@selector(captchaTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    
-    _passwordTextField.textColor = [UIColor blackColor];
-    [_passwordTextField setFont:[UIFont systemFontOfSize:16.0f]];
-    [_passwordTextField setBorderStyle:UITextBorderStyleNone];
-    [_passwordTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
-    _passwordTextField.returnKeyType = UIReturnKeyDone;
-    _passwordTextField.backgroundColor = [UIColor whiteColor];
-    _passwordTextField.delegate = self;
-    [view addSubview:_passwordTextField];
-    
-    _confirmPasswordTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _confirmPasswordTextField.placeholder = @"  确认密码";
-    _confirmPasswordTextField.textColor = [UIColor blackColor];
-    [_confirmPasswordTextField setFont:[UIFont systemFontOfSize:16.0f]];
-    [_confirmPasswordTextField setBorderStyle:UITextBorderStyleNone];
-    [_confirmPasswordTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
-    _confirmPasswordTextField.returnKeyType = UIReturnKeyDone;
-    _confirmPasswordTextField.backgroundColor = [UIColor whiteColor];
-    _confirmPasswordTextField.delegate = self;
-    [view addSubview:_confirmPasswordTextField];
-    
-    _captchaTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _captchaTextField.placeholder = @"  验证码";
-    _captchaTextField.textColor = [UIColor blackColor];
-    [_captchaTextField setFont:[UIFont systemFontOfSize:16.0f]];
-    [_captchaTextField setBorderStyle:UITextBorderStyleNone];
-    [_captchaTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
-    _captchaTextField.returnKeyType = UIReturnKeyDone;
-    _captchaTextField.backgroundColor = [UIColor whiteColor];
-    _captchaTextField.delegate = self;
-    [view addSubview:_captchaTextField];
-    
-    _getCaptchaButton = [[UIButton alloc] initWithFrame:CGRectZero];
-    [_getCaptchaButton setTitle:@"获取验证码" forState:UIControlStateNormal];
-    _getCaptchaButton.titleLabel.font = [UIFont systemFontOfSize:10.0f];
-    _getCaptchaButton.backgroundColor = [UIColor lightGrayColor];
+    _getCaptchaButton = [UIViewController customButton:@"获取验证码" andFont:10.0f andBackgroundColor:BLBlue];
     [_getCaptchaButton addTarget:self action:@selector(getCaptchaAction:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:_getCaptchaButton];
     
-    _confirmButton = [[UIButton alloc] initWithFrame:CGRectZero];
-    [_confirmButton setTitle:@"确定" forState:UIControlStateNormal];
-    _confirmButton.backgroundColor = [UIColor lightGrayColor];
+    _confirmButton = [UIViewController customButton:@"确定" andFont:16.0f andBackgroundColor:BLBlue];
     [_confirmButton addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [view addSubview:_userTextField];
+    [view addSubview:_passwordTextField];
+    [view addSubview:_confirmPasswordTextField];
+    [view addSubview:_captchaTextField];
+    [view addSubview:_getCaptchaButton];
     [view addSubview:_confirmButton];
     
     self.view = view;
@@ -151,18 +121,75 @@
     _confirmButton.frame = r6;
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    
+}
+
+- (void)userTextField_DidEndOnExit:(id)sender {
+    // 将焦点移至下一个文本框.
+    
+    [self.passwordTextField becomeFirstResponder];
+}
+
+- (void)passwordTextField_DidEndOnExit:(id)sender {
+    [self.confirmPasswordTextField becomeFirstResponder];
+}
+
+- (void)confirmPasswordTextField_DidEndOnExit:(id)sender {
+    [self.captchaTextField becomeFirstResponder];
+}
+
+- (void)captchaTextField_DidEndOnExit:(id)sender {
+    [sender resignFirstResponder];
+}
+
 - (void)getCaptchaAction:(id)sender {
-    //获取验证码
+    if (_userTextField.text.length != 0) {
+        _getCaptchaButton.backgroundColor = [UIColor lightGrayColor];
+        //获取验证码
+    }
 }
 
 - (void)confirmAction:(id)sender {
-    if (_isRegister) {
-        //确认注册信息
-    } else {
-        //确认修改密码
+    if ([self isRightInput]) {
+        if (_isRegister) {
+            //确认注册信息
+        } else {
+            //确认修改密码
+        }
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    // 弹出栈中所有页面
-    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (BOOL)isRightInput{
+    NSUInteger l1 = _userTextField.text.length;
+    NSUInteger l2 = _passwordTextField.text.length;
+    NSUInteger l3 = _captchaTextField.text.length;
+    if (l1 == 0) {
+        _alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"手机号不能为空，请输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        _alertView.tag = 1;
+        [_alertView show];
+        [self.userTextField becomeFirstResponder];
+    } else if (l2 == 0) {
+        _alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"密码不能为空，请输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        _alertView.tag = 2;
+        [_alertView show];
+        [self.passwordTextField becomeFirstResponder];
+    } else if (l3 == 0) {
+        _alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"验证码不能为空，请输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        _alertView.tag = 3;
+        [_alertView show];
+        [self.captchaTextField becomeFirstResponder];
+    } else if (![_passwordTextField.text isEqualToString:_confirmPasswordTextField.text]){
+        _alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"两次输入的密码不同，请重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        _alertView.tag = 4;
+        [_alertView show];
+        [self.passwordTextField becomeFirstResponder];
+    }else {
+        return YES;
+    }
+    return NO;
 }
 
 @end

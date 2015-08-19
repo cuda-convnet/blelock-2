@@ -1,41 +1,32 @@
 //
-//  BLUserViewController.m
+//  BLUserInformationViewController.m
 //  blelock
 //
-//  Created by biliyuan on 15/7/30.
+//  Created by NetEase on 15/8/19.
 //  Copyright (c) 2015年 Netease. All rights reserved.
 //
 
 #import<Foundation/Foundation.h>
-#import "BLUserViewController.h"
-#import "BLKeyViewController.h"
+#import "BLUserInformationViewController.h"
 #import "UIViewController+Utils.h"
 
-#import "BLLoginForFirstViewController.h"
-
-@interface BLUserViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface BLUserInformationViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *setTableView;
-@property (nonatomic, strong) UIButton *quitButton;
 
 @end
 
-@implementation BLUserViewController
+@implementation BLUserInformationViewController
 
 - (void)loadView {
-
+    
     UIView *view = [UIViewController customView];
     self.title = @"账户及设置";
     
     _setTableView = [[UITableView alloc] initWithFrame:CGRectZero];
     _setTableView.delegate = self;
     _setTableView.dataSource = self;
-    
-    _quitButton = [UIViewController customButton:@"退出登录" andFont:16.0f andBackgroundColor:BLBlue];
-    [_quitButton addTarget:self action:@selector(quitAction:) forControlEvents:UIControlEventTouchUpInside];
-    
     [view addSubview:_setTableView];
-    [view addSubview:_quitButton];
     self.view = view;
 }
 
@@ -54,19 +45,8 @@
     r1.size.width = rect.size.width;
     r1.size.height = 316.0f;
     _setTableView.frame = r1;
-    
-    CGRect r2 = _quitButton.frame;
-    r2.origin.x = 20.0f;
-    r2.origin.y = CGRectGetMaxY(_setTableView.frame)+20.0f;
-    r2.size.width = rect.size.width - 40.0f;
-    r2.size.height = 44.0f;
-    _quitButton.frame = r2;
 }
 
-- (void)quitAction:(id)sender {
-    BLLoginForFirstViewController *blLoginForFirstViewController = [[BLLoginForFirstViewController alloc]init];
-    [self.navigationController pushViewController: blLoginForFirstViewController animated:YES];
-}
 
 //列表需要的方法
 //列表内容
@@ -84,13 +64,11 @@
                 [usersImageView setImage:[UIImage imageNamed:@"users.jpg"]];
                 usersImageView.layer.cornerRadius = 50;
                 usersImageView.layer.masksToBounds = YES;
-                
-                UILabel *userNameLabel =[UIViewController customLabel:@"人间四月天" andColor:[UIColor blackColor] andFont:16.0f];
-                userNameLabel.frame = CGRectMake(100, 20, 200, 30);
-                
-                UILabel *userPhoneLabel = [UIViewController customLabel:@"1515****690" andColor:[UIColor lightGrayColor] andFont:16.0f];
-                userPhoneLabel.frame = CGRectMake(100, 50, 200, 30);
-                
+                UILabel *userNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 30, 200, 30)];
+                userNameLabel.text = @"人间四月天";
+                UILabel *userPhoneLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 60, 200, 30)];
+                userPhoneLabel.text = @"1515****690";
+                userPhoneLabel.textColor = [UIColor lightGrayColor];
                 [cell.contentView addSubview: userNameLabel];
                 [cell.contentView addSubview: userPhoneLabel];
                 [cell.contentView addSubview: usersImageView];

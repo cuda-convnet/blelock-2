@@ -7,13 +7,16 @@
 //
 
 #import "BLLoginForFirstViewController.h"
-#import "BLRegisterViewController.h"
 #import "SFHFKeychainUtils.h"
 #import "BLUserViewController.h"
 #import "BLKeyViewController.h"
+#import "UIViewController+Utils.h"
+
+#import "BLRegisterViewController.h"
 
 @interface BLLoginForFirstViewController () 
 
+@property (nonatomic, strong) UIButton *navButton;
 @property (nonatomic, strong) UITextField *userTextField;
 @property (nonatomic, strong) UITextField *passwordTextField;
 @property (nonatomic, strong) UIButton *loginButton;
@@ -23,62 +26,35 @@
 
 @implementation BLLoginForFirstViewController
 - (void)loadView {
-    //导航栏
-    CGRect navframe = self.navigationController.navigationBar.frame;
+    
+    UIView *view = [UIViewController customView];
     self.title = @"钥匙";
-    //右边按钮
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
-    [rightButton setTitle:@"注册" forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(goToRegister:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    
+    //导航栏右边按钮
+    _navButton = [UIViewController customButton:@"注册" andFont:17.0f andBackgroundColor:[UIColor blackColor]];
+    [_navButton addTarget:self action:@selector(goToRegister:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_navButton];
 
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-    view.backgroundColor = [UIColor colorWithRed:238/255.0 green:233/255.0 blue:233/255.0 alpha:1];
-    
-    _userTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _passwordTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _loginButton = [[UIButton alloc] initWithFrame:CGRectZero];
-    _forgetPassword = [[UILabel alloc] initWithFrame:CGRectZero];
-   
-    _userTextField.placeholder = @"  手机号";
-    _userTextField.textColor = [UIColor blackColor];
-    [_userTextField setFont:[UIFont systemFontOfSize:16.0f]];
-    [_userTextField setBorderStyle:UITextBorderStyleNone];
-    [_userTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
-    _userTextField.returnKeyType = UIReturnKeyDone;
-    _userTextField.backgroundColor = [UIColor whiteColor];
-    [_userTextField setKeyboardType:UIKeyboardTypeNumbersAndPunctuation];
+    _userTextField = [UIViewController customTextField:@"  手机号"];
+    _userTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     [_userTextField addTarget:self action:@selector(userTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    _userTextField.delegate = self;
-    [view addSubview:_userTextField];
     
-    _passwordTextField.placeholder = @"  密码";
-    _passwordTextField.textColor = [UIColor blackColor];
-    [_passwordTextField setFont:[UIFont systemFontOfSize:16.0f]];
-    [_passwordTextField setBorderStyle:UITextBorderStyleNone];
-    [_passwordTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
-    _passwordTextField.returnKeyType = UIReturnKeyDone;
-    _passwordTextField.backgroundColor = [UIColor whiteColor];
-    [_passwordTextField setKeyboardType:UIKeyboardTypeASCIICapable];
+    _passwordTextField = [UIViewController customTextField:@"  密码"];
+    _passwordTextField.secureTextEntry = YES;
     [_passwordTextField addTarget:self action:@selector(passwordTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    _passwordTextField.delegate = self;
-    [view addSubview:_passwordTextField];
     
-    [_loginButton setTitle:@"登录" forState:UIControlStateNormal];
-    _loginButton.backgroundColor = [UIColor colorWithRed:30/255.0 green:144/255.0 blue:255/255.0 alpha:1];
+    _loginButton = [UIViewController customButton:@"登录" andFont:16.0f andBackgroundColor:BLBlue];
     [_loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:_loginButton];
     
-    _forgetPassword.text = @"忘记密码？";
-    _forgetPassword.textColor = [UIColor redColor];
+    _forgetPassword = [UIViewController customLabel:@"忘记密码？" andColor:[UIColor redColor] andFont:12.0f];
     _forgetPassword.textAlignment = NSTextAlignmentRight;
-    _forgetPassword.font = [UIFont systemFontOfSize:12.0f];
-    _forgetPassword.backgroundColor = [UIColor clearColor];
     _forgetPassword.userInteractionEnabled = YES;
     UITapGestureRecognizer *forgetGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(forgetPasswordAction:)];
     [_forgetPassword addGestureRecognizer:forgetGesture];
+    
+    [view addSubview:_userTextField];
+    [view addSubview:_passwordTextField];
+    [view addSubview:_loginButton];
     [view addSubview:_forgetPassword];
     self.view = view;
     
@@ -92,6 +68,12 @@
 - (void)viewWillLayoutSubviews {
     
     CGRect rect = self.view.bounds;
+    CGRect navframe = self.navigationController.navigationBar.frame;
+
+    CGRect nav = _navButton.frame;
+    nav.size.width = navframe.size.height;
+    nav.size.height = navframe.size.height;
+    _navButton.frame = nav;
     
     CGRect r1 = _userTextField.frame;
     r1.origin.x = 0.0f;
@@ -123,9 +105,17 @@
     
 }
 
-- (void) userTextField_DidEndOnExit:(id)sender {
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+}
+
+- (void)userTextField_DidEndOnExit:(id)sender {
     // 将焦点移至下一个文本框.
     [self.passwordTextField becomeFirstResponder];
+}
+
+- (void)passwordTextField_DidEndOnExit:(id)sender {
+    [sender resignFirstResponder];
 }
 
 - (void)goToRegister:(id)sender {
@@ -137,22 +127,18 @@
 #pragma mark - login Button Action
 
 - (void)loginButtonAction:(id)sender {
-    if(_userTextField.text.length==0||_passwordTextField.text.length==0)
-    {
+    if(_userTextField.text.length==0||_passwordTextField.text.length==0) {
         UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不能为空，请输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alertView show];
     }
-    else
-    {
+    else {
         //NSLog(@"%@ %@",[SFHFKeychainUtils getPasswordForUsername:user.text andServiceName:@"passwordTest" error:nil],password.text);
         //后门：万能密码1993
-        if([[SFHFKeychainUtils getPasswordForUsername:_userTextField.text andServiceName:@"passwordTest" error:nil] isEqual: _passwordTextField.text] || [_passwordTextField.text isEqualToString:@"1993"])
-        {
-            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alertView show];
+        if([[SFHFKeychainUtils getPasswordForUsername:_userTextField.text andServiceName:@"passwordTest" error:nil] isEqual: _passwordTextField.text] || [_passwordTextField.text isEqualToString:@"1993"]) {
+            BLKeyViewController *blKeyViewController = [[BLKeyViewController alloc] init];
+            [self.navigationController pushViewController: blKeyViewController animated:YES];
         }
-        else
-        {
+        else {
             UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不正确，请重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alertView show];
         }
@@ -170,10 +156,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    BLKeyViewController *blKeyViewController = [[BLKeyViewController alloc] init];
-    [self.navigationController pushViewController: blKeyViewController animated:YES];
-}
 
 
 /*
