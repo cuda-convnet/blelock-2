@@ -10,32 +10,41 @@
 #import "BLUserViewController.h"
 #import "BLKeyViewController.h"
 #import "UIViewController+Utils.h"
+#import "BLUser.h"
 
 #import "BLLoginForFirstViewController.h"
+#import "BLUserInformationViewController.h"
 
 @interface BLUserViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *setTableView;
 @property (nonatomic, strong) UIButton *quitButton;
 
+@property (nonatomic, strong) BLUser *user;
+
 @end
 
 @implementation BLUserViewController
 
 - (void)loadView {
-
-    UIView *view = [UIViewController customView];
+    //数据加载
+    _user = [[BLUser alloc]init];
+    _user.img = @"users";
+    _user.name = @"田雨橙";
+    _user.gender = @"女";
+    _user.mobile = @"1515****690";
+    
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     self.title = @"账户及设置";
     
-    _setTableView = [[UITableView alloc] initWithFrame:CGRectZero];
-    _setTableView.delegate = self;
-    _setTableView.dataSource = self;
+    _setTableView = [UIViewController customTableView:CGRectZero andDelegate:self];
     
-    _quitButton = [UIViewController customButton:@"退出登录" andFont:16.0f andBackgroundColor:BLBlue];
+    _quitButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"退出登录" andFont:16.0f andBackgroundColor:BLBlue];
     [_quitButton addTarget:self action:@selector(quitAction:) forControlEvents:UIControlEventTouchUpInside];
     
     [view addSubview:_setTableView];
     [view addSubview:_quitButton];
+    
     self.view = view;
 }
 
@@ -52,7 +61,7 @@
     r1.origin.x = 0.0f;
     r1.origin.y = [self.topLayoutGuide length];
     r1.size.width = rect.size.width;
-    r1.size.height = 316.0f;
+    r1.size.height = 336.0f;
     _setTableView.frame = r1;
     
     CGRect r2 = _quitButton.frame;
@@ -80,15 +89,12 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         switch (section) {
             case 0: {
-                UIImageView *usersImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-                [usersImageView setImage:[UIImage imageNamed:@"users.jpg"]];
-                usersImageView.layer.cornerRadius = 50;
-                usersImageView.layer.masksToBounds = YES;
+                UIImageView *usersImageView = [UIViewController customImageView:CGRectMake(0, 0, 100, 100) andImage:_user.img];
                 
-                UILabel *userNameLabel =[UIViewController customLabel:@"人间四月天" andColor:[UIColor blackColor] andFont:16.0f];
+                UILabel *userNameLabel =[UIViewController customLabel:CGRectZero andText:_user.name andColor:[UIColor blackColor] andFont:16.0f];
                 userNameLabel.frame = CGRectMake(100, 20, 200, 30);
                 
-                UILabel *userPhoneLabel = [UIViewController customLabel:@"1515****690" andColor:[UIColor lightGrayColor] andFont:16.0f];
+                UILabel *userPhoneLabel = [UIViewController customLabel:CGRectZero andText:_user.mobile andColor:[UIColor lightGrayColor] andFont:16.0f];
                 userPhoneLabel.frame = CGRectMake(100, 50, 200, 30);
                 
                 [cell.contentView addSubview: userNameLabel];
@@ -117,31 +123,42 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //Tells the delegate that the specified row is now selected.
     [_setTableView deselectRowAtIndexPath:indexPath animated:NO];
+    switch (indexPath.section) {
+        case 0: {
+            BLUserInformationViewController *blUserInformationViewController = [[BLUserInformationViewController alloc] init];
+            blUserInformationViewController.user = _user;
+            [self.navigationController pushViewController: blUserInformationViewController animated:YES];
+            break;
+        }
+        case 1: {
+            switch (indexPath.row) {
+                case 0:
+                    NSLog(@"安全手势");
+                    break;
+                case 1:
+                    NSLog(@"重置密码");
+                    break;
+                case 2:
+                    NSLog(@"消息推送");
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
+        case 2: {
+            NSLog(@"关于");
+            break;
+        }
+        default:
+            break;
+    }
     NSLog(@"hello");
 }
 //section头部
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    UILabel *headerLabel = [UIViewController customLabel:nil andColor:BLBlue andFont:15.0f];
-    headerLabel.textAlignment = NSTextAlignmentLeft;
-    headerLabel.backgroundColor = BLGray;
-    headerLabel.frame = CGRectMake(130, 5, 150, 20);
-    switch (section) {
-        case 0:
-            return nil;
-            break;
-        case 1:
-            headerLabel.text = @"    设置";
-            return headerLabel;
-            break;
-        case 2:
-            headerLabel.text = @"    其他";
-            return headerLabel;
-            break;
-        default:
-            return nil;
-            break;
-    }
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
+    return view;
 }
 
 //列表排版
@@ -161,9 +178,6 @@
     return 3;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return 0;
-    }
     return 20;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {

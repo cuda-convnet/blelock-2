@@ -8,6 +8,7 @@
 
 #import<Foundation/Foundation.h>
 #import "BLHouseViewController.h"
+#import "UIViewController+Utils.h"
 
 @interface BLHouseViewController()<UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
@@ -15,12 +16,12 @@
 @property (nonatomic, strong) UIButton *rightButton;
 @property (nonatomic, strong) UIButton *deleteButton;
 
-@property (nonatomic, strong) BLKey *key;
+
 
 @end
 
 @implementation BLHouseViewController
-
+/////////////////要改
 - (id)initWithKey:(BLKey *)myKey {
     self = [self init];
     self.key = myKey;
@@ -131,33 +132,27 @@
                 break;
             }
             case 1:{
-                //cell.textLabel.text = @"钥匙主人";
-                UIImageView *usersImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-                [usersImageView setImage:_key.owner.img];
-                usersImageView.layer.cornerRadius = 50;
-                usersImageView.layer.masksToBounds = YES;
+                UIImageView *usersImageView = [UIViewController customImageView:CGRectMake(0, 0, 100, 100) andImage:_key.owner.img];
+                UILabel *userNameLabel = [UIViewController customLabel:CGRectMake(100, 30, 200, 30) andText:_key.owner.name andColor:[UIColor blackColor] andFont:16.0f];
+                UILabel *userPhoneLabel = [UIViewController customLabel:CGRectMake(100, 60, 200, 30) andText:_key.owner.mobile andColor:[UIColor lightGrayColor] andFont:16.0f];
                 
-                UILabel *userNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 30, 200, 30)];
-                userNameLabel.text = _key.owner.name;
-                UILabel *userPhoneLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 60, 200, 30)];
-                userPhoneLabel.text = _key.owner.mobile;
-                userPhoneLabel.textColor = [UIColor lightGrayColor];
                 [cell addSubview: userNameLabel];
                 [cell addSubview: userPhoneLabel];
                 [cell addSubview: usersImageView];
                 break;
             }
             case 2:{
-                UILabel *timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 300, 30)];
-                timeLabel.text = @"   到期时间";
-                UILabel *numberLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 40, 300, 30)];
-                numberLabel.text = @"   剩余次数";
-                UILabel *time= [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 280, 30)];
-                time.text = @"2015-07-14";
-                 time.textAlignment = NSTextAlignmentRight;
-                UILabel *number = [[UILabel alloc]initWithFrame:CGRectMake(0, 40, 280, 30)];
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+                UILabel *timeLabel = [UIViewController customLabel:CGRectMake(0, 10, 300, 30) andText:@"   到期时间" andColor:[UIColor blackColor] andFont:16.0f];
+                UILabel *numberLabel = [UIViewController customLabel:CGRectMake(0, 40, 300, 30) andText:@"   剩余次数" andColor:[UIColor blackColor] andFont:16.0f];
+                UILabel *time = [UIViewController customLabel:CGRectMake(0, 10, 280, 30) andText:[dateFormatter stringFromDate:_key.expiredDate] andColor:[UIColor blackColor] andFont:16.0f];
+                time.textAlignment = NSTextAlignmentRight;
+
+                NSString *numberText = [[NSString alloc]initWithFormat:@"%d %@", _key.maxTimes-_key.usedTimes, @"次"];
+                UILabel *number = [UIViewController customLabel:CGRectMake(0, 40, 280, 30) andText:numberText andColor:[UIColor blackColor] andFont:16.0f];
                 number.textAlignment = NSTextAlignmentRight;
-                number.text = @"10次";
+                
                 [cell.contentView addSubview: timeLabel];
                 [cell.contentView addSubview: numberLabel];
                 [cell.contentView addSubview: time];
@@ -179,10 +174,8 @@
 
 //section头部
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    headerLabel.font = [UIFont boldSystemFontOfSize:15.0];
-    headerLabel.backgroundColor = [UIColor colorWithRed:238/255.0 green:233/255.0 blue:233/255.0 alpha:1];
-    headerLabel.textColor = [UIColor colorWithRed:30/255.0 green:144/255.0 blue:255/255.0 alpha:1];
+    UILabel *headerLabel = [UIViewController customLabel:CGRectZero andText:nil andColor:BLBlue andFont:15.0f];
+    headerLabel.backgroundColor = BLGray;
     switch (section) {
         case 0:
             headerLabel.text = @"    地址信息";

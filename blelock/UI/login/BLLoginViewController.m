@@ -36,38 +36,37 @@
 - (void)loadView {
     //数据初始化
     _user = [[BLUser alloc]init];
-    _user.img = [UIImage imageNamed:@"users.jpg"];
+    _user.img = @"users";
     _user.mobile = @"13813888888";
 
     
-    UIView *view = [UIViewController customView];
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     self.title = @"钥匙";
     
     //导航栏右边按钮
-    _navButton = [UIViewController customButton:@"注册" andFont:17.0f andBackgroundColor:[UIColor blackColor]];
+    _navButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"注册" andFont:17.0f andBackgroundColor:[UIColor blackColor]];
     [_navButton addTarget:self action:@selector(goToRegister:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_navButton];
     
-    _avatarImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [_avatarImageView setImage:_user.img];
+    _avatarImageView = [UIViewController customImageView:CGRectZero andImage:_user.img];
     
-    _mobilephoneLabel = [UIViewController customLabel:_user.mobile andColor:[UIColor blackColor] andFont:14.0f];
+    _mobilephoneLabel = [UIViewController customLabel:CGRectZero andText:_user.mobile andColor:[UIColor blackColor] andFont:14.0f];
     
-    _passwordTextField = [UIViewController customTextField:@"  密码"];
+    _passwordTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  密码"];
     _passwordTextField.secureTextEntry = YES;
     [_passwordTextField addTarget:self action:@selector(TextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    _loginButton = [UIViewController customButton:@"登陆" andFont:17.0f andBackgroundColor:BLBlue];
+    _loginButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"登陆" andFont:17.0f andBackgroundColor:BLBlue];
     [_loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 
     
-    _forgetPassword = [UIViewController customLabel:@"忘记密码？" andColor:[UIColor redColor] andFont:12.0f];
+    _forgetPassword = [UIViewController customLabel:CGRectZero andText:@"忘记密码？" andColor:[UIColor redColor] andFont:12.0f];
     _forgetPassword.textAlignment = NSTextAlignmentRight;
     _forgetPassword.userInteractionEnabled = YES;
     UITapGestureRecognizer *forgetGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(forgetPasswordAction:)];
     [_forgetPassword addGestureRecognizer:forgetGesture];
     
-    _otherUser = [UIViewController customLabel:@"使用其他账户登录" andColor:[UIColor grayColor] andFont:12.0f];
+    _otherUser = [UIViewController customLabel:CGRectZero andText:@"使用其他账户登录" andColor:[UIColor grayColor] andFont:12.0f];
     _otherUser.userInteractionEnabled = YES;
     //要申请多个，还是可以重复利用
     UITapGestureRecognizer *otherGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(otherUserAction:)];

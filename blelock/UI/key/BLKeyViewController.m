@@ -11,10 +11,11 @@
 #import "BLUserViewController.h"
 #import "BLHouseViewController.h"
 #import <CoreBluetooth/CoreBluetooth.h>
-#import "UIView+Utils.h"
+#import "UIViewController+Utils.h"
 //
 @interface BLKeyViewController()<UITableViewDelegate,  UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate>
 
+@property (nonatomic, strong) UIButton *navButton;
 @property (nonatomic, strong) UIView *operateUIView;
 @property (nonatomic, strong) UIButton *operateUIButton;
 @property (nonatomic, strong) UILabel *hintLabel;
@@ -44,7 +45,7 @@
     key.lock.house = [[BLHouse alloc]init];
     key.lock.house.inaccurateAddress = @"杭州市西湖区文一路";
     key.owner = [[BLUser alloc]init];
-    key.owner.img = [UIImage imageNamed:@"lin.jpg"];
+    key.owner.img = @"lin.jpg";
     key.owner.name = @"林小志";
     key.owner.mobile = @"135***4245";
     key.expiredDate = [dateFormatter dateFromString:@"2015-07-14"];
@@ -65,44 +66,28 @@
     key6.alias = @"浙大玉泉";
     
     _keyTable = [[NSMutableArray alloc] initWithObjects:key, key1, key2, key3, key4, key5 ,key6, nil];
-    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-    view.backgroundColor = [UIColor colorWithRed:238/255.0 green:233/255.0 blue:233/255.0 alpha:1];
-    //导航栏
-    CGRect navframe = self.navigationController.navigationBar.frame;
-    self.navigationItem.title = @"钥匙";
-    //右边按钮
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
-    [rightButton setBackgroundImage: [UIImage imageNamed : @"user.png"] forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(gotoBLUser) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     
-    _operateUIView = [[UIView alloc] initWithFrame:CGRectZero];
-    _operateUIButton = [[UIButton alloc] initWithFrame:CGRectZero];
-    _hintLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _keyTableView = [[UITableView alloc] initWithFrame:CGRectZero];
-
+    self.title = @"钥匙";
     
-    _operateUIView.backgroundColor = [UIColor colorWithRed:238/255.0 green:233/255.0 blue:233/255.0 alpha:1];
-    [view addSubview:_operateUIView];
+    //导航栏右边按钮
+    _navButton = [UIViewController customButton:CGRectZero andImg:@"user"];
+    [_navButton addTarget:self action:@selector(gotoBLUser) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_navButton];
     
-    [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"bluetooth.png"] forState:UIControlStateNormal];
+    _operateUIView = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
+    
+    _operateUIButton = [UIViewController customButton:CGRectZero andImg:@"bluetooth"];
     [_operateUIButton addTarget:self action:@selector(openBluetooth) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:_operateUIButton];
     
-    _hintLabel.text = @"点击这里打开蓝牙";
-    _hintLabel.textColor = [UIColor blackColor];
-    _hintLabel.textAlignment = NSTextAlignmentCenter;
-    _hintLabel.font = [UIFont systemFontOfSize:16.0f];
-    _hintLabel.backgroundColor = [UIColor clearColor];
-    [view addSubview:_hintLabel];
-
-    //钥匙列表
+    _hintLabel = [UIViewController customLabel:CGRectZero andText:@"点击这里打开蓝牙" andColor:[UIColor blackColor] andFont:16.0f];
     
-    _keyTableView.backgroundColor = [UIColor whiteColor];
-    _keyTableView.dataSource = self;
-    _keyTableView.delegate = self;
+    _keyTableView = [UIViewController customTableView:CGRectZero andDelegate:self];
     [_keyTableView reloadData];
+    
+    [view addSubview:_operateUIView];
+    [view addSubview:_operateUIButton];
+    [view addSubview:_hintLabel];
     [view addSubview:_keyTableView];
     
     self.view = view;
@@ -112,6 +97,12 @@
 - (void)viewWillLayoutSubviews {
     
     CGRect rect = self.view.bounds;
+    CGRect navFrame = self.navigationController.navigationBar.frame;
+    
+    CGRect nav = _navButton.frame;
+    nav.size.width = navFrame.size.height;
+    nav.size.height = navFrame.size.height;
+    _navButton.frame = nav;
     
     CGRect r1 = _operateUIView.frame;
     r1.origin.x = 0.0f;
@@ -161,8 +152,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     //config the cell
-    NSString *a= [[NSString alloc]initWithString:((BLKey *)_keyTable[indexPath.row]).alias];
-    cell.textLabel.text = a;
+    cell.textLabel.text = [[NSString alloc]initWithString:((BLKey *)_keyTable[indexPath.row]).alias];
     cell.imageView.image = [UIImage imageNamed : @"key"];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -170,7 +160,7 @@
 //<UITableViewDelegate>里实现的
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     //Asks the delegate for the height to use for a row in a specified location.
-    return 50;
+    return 44;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [_keyTableView deselectRowAtIndexPath:indexPath animated:NO];

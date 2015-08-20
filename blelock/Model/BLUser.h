@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *gender;
 @property (nonatomic, strong) NSString *headerImageId;
-@property (nonatomic, strong) UIImage *img;
+@property (nonatomic, strong) NSString *img;
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSMutableArray *keyTable;
 

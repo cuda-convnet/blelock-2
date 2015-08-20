@@ -17,8 +17,8 @@
 @property (nonatomic, strong) BLUser *owner;
 @property (nonatomic, strong) BLKey *sharedFrom;
 @property (nonatomic, strong) NSDate *expiredDate;
-@property (nonatomic, assign) NSInteger maxTimes;
-@property (nonatomic, assign) NSInteger usedTimes;
+@property (nonatomic, assign) short maxTimes;
+@property (nonatomic, assign) short usedTimes;
 @property (nonatomic, strong) NSString *alias;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSMutableArray *sharerTable;

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BLUser.h"
 
 @interface BLUserInformationViewController : UIViewController
+
+@property (nonatomic, strong) BLUser *user;
 
 @end

@@ -28,35 +28,35 @@
 @implementation BLRegisterViewController
 
 - (void)loadView {
-    UIView *view = [UIViewController customView];
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     //CGRect navframe = self.navigationController.navigationBar.frame;
     if (_isRegister) {
         self.title = @"注册";
-        _passwordTextField = [UIViewController customTextField:@"  设置密码"];
+        _passwordTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  设置密码"];
     }else {
         self.title = @"忘记密码";
-        _passwordTextField = [UIViewController customTextField:@"  新的密码"];
+        _passwordTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  新的密码"];
     }
     
-    _userTextField = [UIViewController customTextField:@"  手机号"];
+    _userTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  手机号"];
     _userTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     [_userTextField addTarget:self action:@selector(userTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
     _passwordTextField.secureTextEntry = YES;
     [_passwordTextField addTarget:self action:@selector(passwordTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    _confirmPasswordTextField = [UIViewController customTextField:@"  确认密码"];
+    _confirmPasswordTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  确认密码"];
     _confirmPasswordTextField.secureTextEntry = YES;
     [_confirmPasswordTextField addTarget:self action:@selector(confirmPasswordTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    _captchaTextField = [UIViewController customTextField:@"  验证码"];
+    _captchaTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  验证码"];
     _captchaTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     [_captchaTextField addTarget:self action:@selector(captchaTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    _getCaptchaButton = [UIViewController customButton:@"获取验证码" andFont:10.0f andBackgroundColor:BLBlue];
+    _getCaptchaButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"获取验证码" andFont:10.0f andBackgroundColor:BLBlue];
     [_getCaptchaButton addTarget:self action:@selector(getCaptchaAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    _confirmButton = [UIViewController customButton:@"确定" andFont:16.0f andBackgroundColor:BLBlue];
+    _confirmButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"确定" andFont:16.0f andBackgroundColor:BLBlue];
     [_confirmButton addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
     
     [view addSubview:_userTextField];

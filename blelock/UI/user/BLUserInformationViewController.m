@@ -10,6 +10,7 @@
 #import "BLUserInformationViewController.h"
 #import "UIViewController+Utils.h"
 
+
 @interface BLUserInformationViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *setTableView;
@@ -20,12 +21,11 @@
 
 - (void)loadView {
     
-    UIView *view = [UIViewController customView];
-    self.title = @"账户及设置";
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
+    self.title = @"我的资料";
     
-    _setTableView = [[UITableView alloc] initWithFrame:CGRectZero];
-    _setTableView.delegate = self;
-    _setTableView.dataSource = self;
+    _setTableView = [UIViewController customTableView:CGRectZero andDelegate:self];
+    
     [view addSubview:_setTableView];
     self.view = view;
 }
@@ -43,16 +43,45 @@
     r1.origin.x = 0.0f;
     r1.origin.y = [self.topLayoutGuide length];
     r1.size.width = rect.size.width;
-    r1.size.height = 316.0f;
+    r1.size.height = 312.0f;
     _setTableView.frame = r1;
 }
 
 
 //列表需要的方法
 //列表内容
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 100;
+    }
+    return 44;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 4;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 20;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0;
+}
+
+//section头部
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
+    return view;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSInteger section = indexPath.section;
-    NSInteger row = indexPath.row;
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -60,92 +89,42 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         switch (section) {
             case 0: {
-                UIImageView *usersImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
-                [usersImageView setImage:[UIImage imageNamed:@"users.jpg"]];
-                usersImageView.layer.cornerRadius = 50;
-                usersImageView.layer.masksToBounds = YES;
-                UILabel *userNameLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 30, 200, 30)];
-                userNameLabel.text = @"人间四月天";
-                UILabel *userPhoneLabel = [[UILabel alloc]initWithFrame:CGRectMake(100, 60, 200, 30)];
-                userPhoneLabel.text = @"1515****690";
-                userPhoneLabel.textColor = [UIColor lightGrayColor];
-                [cell.contentView addSubview: userNameLabel];
-                [cell.contentView addSubview: userPhoneLabel];
+                UIImageView *usersImageView = [UIViewController customImageView:CGRectMake(120, 0, 100, 100) andImage:_user.img];
                 [cell.contentView addSubview: usersImageView];
                 break;
             }
-            case 1:
-                if (row == 0) {
-                    cell.textLabel.text = @"安全手势";
-                } else if (row == 1) {
-                    cell.textLabel.text = @"重置密码";
-                } else {
-                    cell.textLabel.text = @"消息推送";
-                }
+            case 1: {
+                cell.textLabel.text = @"姓名";
+                UILabel *userNameLabel = [UIViewController customLabel:CGRectMake(120, 0, 150, 30) andText:_user.name andColor:[UIColor blackColor] andFont:16.0f];
+                userNameLabel.textAlignment = NSTextAlignmentRight;
+                [cell.contentView addSubview: userNameLabel];
                 break;
-            case 2:
-                cell.textLabel.text =  @"关于";
+            }
+            case 2: {
+                cell.textLabel.text = @"性别";
+                UILabel *userGenderLabel = [UIViewController customLabel:CGRectMake(120, 0, 150, 30) andText:_user.gender andColor:[UIColor blackColor] andFont:16.0f];
+                userGenderLabel.textAlignment = NSTextAlignmentRight;
+                [cell.contentView addSubview: userGenderLabel];
                 break;
+            }
+            case 3:{
+                cell.textLabel.text = @"手机";
+                UILabel *userPhoneLabel = [UIViewController customLabel:CGRectMake(120, 0, 150, 30) andText:_user.mobile andColor:[UIColor blackColor] andFont:16.0f];
+                userPhoneLabel.textAlignment = NSTextAlignmentRight;
+                [cell.contentView addSubview: userPhoneLabel];
+                break;
+            }
             default:
                 break;
         }
     }
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //Tells the delegate that the specified row is now selected.
     [_setTableView deselectRowAtIndexPath:indexPath animated:NO];
     NSLog(@"hello");
-}
-//section头部
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    UILabel *headerLabel = [UIViewController customLabel:nil andColor:BLBlue andFont:15.0f];
-    headerLabel.textAlignment = NSTextAlignmentLeft;
-    headerLabel.backgroundColor = BLGray;
-    headerLabel.frame = CGRectMake(130, 5, 150, 20);
-    switch (section) {
-        case 0:
-            return nil;
-            break;
-        case 1:
-            headerLabel.text = @"    设置";
-            return headerLabel;
-            break;
-        case 2:
-            headerLabel.text = @"    其他";
-            return headerLabel;
-            break;
-        default:
-            return nil;
-            break;
-    }
-}
-
-//列表排版
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 100;
-    }
-    return 44;
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0||section == 2) {
-        return 1;
-    }
-    return 3;
-}
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return 0;
-    }
-    return 20;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0;
 }
 
 @end

@@ -11,6 +11,7 @@
 
 @interface BLHouseViewController : UIViewController
 
+@property (nonatomic, strong) BLKey *key;
 - (id)initWithKey:(BLKey *)myKey;
 
 @end

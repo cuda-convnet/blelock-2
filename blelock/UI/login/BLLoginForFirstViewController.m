@@ -27,26 +27,26 @@
 @implementation BLLoginForFirstViewController
 - (void)loadView {
     
-    UIView *view = [UIViewController customView];
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     self.title = @"钥匙";
     
     //导航栏右边按钮
-    _navButton = [UIViewController customButton:@"注册" andFont:17.0f andBackgroundColor:[UIColor blackColor]];
+    _navButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"注册" andFont:17.0f andBackgroundColor:[UIColor blackColor]];
     [_navButton addTarget:self action:@selector(goToRegister:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_navButton];
 
-    _userTextField = [UIViewController customTextField:@"  手机号"];
+    _userTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  手机号"];
     _userTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     [_userTextField addTarget:self action:@selector(userTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    _passwordTextField = [UIViewController customTextField:@"  密码"];
+    _passwordTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  密码"];
     _passwordTextField.secureTextEntry = YES;
     [_passwordTextField addTarget:self action:@selector(passwordTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    _loginButton = [UIViewController customButton:@"登录" andFont:16.0f andBackgroundColor:BLBlue];
+    _loginButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"登录" andFont:16.0f andBackgroundColor:BLBlue];
     [_loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
-    _forgetPassword = [UIViewController customLabel:@"忘记密码？" andColor:[UIColor redColor] andFont:12.0f];
+    _forgetPassword = [UIViewController customLabel:CGRectZero andText:@"忘记密码？" andColor:[UIColor redColor] andFont:12.0f];
     _forgetPassword.textAlignment = NSTextAlignmentRight;
     _forgetPassword.userInteractionEnabled = YES;
     UITapGestureRecognizer *forgetGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(forgetPasswordAction:)];
