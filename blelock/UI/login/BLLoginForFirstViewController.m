@@ -16,24 +16,31 @@
 
 @interface BLLoginForFirstViewController () 
 
-@property (nonatomic, strong) UIButton *navButton;
 @property (nonatomic, strong) UITextField *userTextField;
 @property (nonatomic, strong) UITextField *passwordTextField;
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UILabel *forgetPassword;
+
+@property (nonatomic, assign) BOOL userTextChange;
+@property (nonatomic, assign) BOOL passwordTextChange;
+
 
 @end
 
 @implementation BLLoginForFirstViewController
 - (void)loadView {
     
+    _userTextChange = NO;
+    _passwordTextChange = NO;
     UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     self.title = @"钥匙";
     
-    //导航栏右边按钮
-    _navButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"注册" andFont:17.0f andBackgroundColor:[UIColor blackColor]];
-    [_navButton addTarget:self action:@selector(goToRegister:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_navButton];
+    //导航栏按钮
+    UIBarButtonItem *navLeftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
+    
+    UIBarButtonItem *navRightButton = [[UIBarButtonItem alloc]initWithTitle:@"注册" style:UIBarButtonItemStylePlain target:self action:@selector(goToRegister:)];    
+    self.navigationItem.leftBarButtonItem = navLeftButton;
+    self.navigationItem.rightBarButtonItem = navRightButton;
 
     _userTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  手机号"];
     _userTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
@@ -41,9 +48,9 @@
     
     _passwordTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  密码"];
     _passwordTextField.secureTextEntry = YES;
-    [_passwordTextField addTarget:self action:@selector(passwordTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    [_passwordTextField addTarget:self action:@selector(lastTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
-    _loginButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"登录" andFont:16.0f andBackgroundColor:BLBlue];
+    _loginButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"登录" andFont:16.0f andBackgroundColor:[UIColor lightGrayColor]];
     [_loginButton addTarget:self action:@selector(loginButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     _forgetPassword = [UIViewController customLabel:CGRectZero andText:@"忘记密码？" andColor:[UIColor redColor] andFont:12.0f];
@@ -51,6 +58,11 @@
     _forgetPassword.userInteractionEnabled = YES;
     UITapGestureRecognizer *forgetGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(forgetPasswordAction:)];
     [_forgetPassword addGestureRecognizer:forgetGesture];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userTextDidChange:) name:UITextFieldTextDidChangeNotification object:_userTextField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passwordTextDidChange:) name:UITextFieldTextDidChangeNotification object:_passwordTextField];
+   
+
     
     [view addSubview:_userTextField];
     [view addSubview:_passwordTextField];
@@ -62,18 +74,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self dismissKeyBoard];
 }
 
 - (void)viewWillLayoutSubviews {
     
     CGRect rect = self.view.bounds;
-    CGRect navframe = self.navigationController.navigationBar.frame;
-
-    CGRect nav = _navButton.frame;
-    nav.size.width = navframe.size.height;
-    nav.size.height = navframe.size.height;
-    _navButton.frame = nav;
     
     CGRect r1 = _userTextField.frame;
     r1.origin.x = 0.0f;
@@ -104,18 +110,26 @@
     _forgetPassword.frame = r4;
     
 }
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+/////////////////////////
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
 }
 
-- (void)userTextField_DidEndOnExit:(id)sender {
-    // 将焦点移至下一个文本框.
-    [self.passwordTextField becomeFirstResponder];
+- (void)userTextDidChange:(id)sender {
+    _userTextChange = YES;
+    if (_passwordTextChange) {
+        _loginButton.backgroundColor = BLBlue;
+    }
 }
 
-- (void)passwordTextField_DidEndOnExit:(id)sender {
-    [sender resignFirstResponder];
+- (void)passwordTextDidChange:(id)sender {
+    _passwordTextChange = YES;
+    if (_userTextChange) {
+        _loginButton.backgroundColor = BLBlue;
+    }
+}
+
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)goToRegister:(id)sender {
@@ -124,31 +138,50 @@
     [self.navigationController pushViewController: blRegisterViewController animated:YES];
 }
 
-#pragma mark - login Button Action
-
-- (void)loginButtonAction:(id)sender {
-    if(_userTextField.text.length==0||_passwordTextField.text.length==0) {
-        UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不能为空，请输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-        [alertView show];
-    }
-    else {
-        //NSLog(@"%@ %@",[SFHFKeychainUtils getPasswordForUsername:user.text andServiceName:@"passwordTest" error:nil],password.text);
-        //后门：万能密码1993
-        if([[SFHFKeychainUtils getPasswordForUsername:_userTextField.text andServiceName:@"passwordTest" error:nil] isEqual: _passwordTextField.text] || [_passwordTextField.text isEqualToString:@"1993"]) {
-            BLKeyViewController *blKeyViewController = [[BLKeyViewController alloc] init];
-            [self.navigationController pushViewController: blKeyViewController animated:YES];
-        }
-        else {
-            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不正确，请重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
-            [alertView show];
-        }
-    }
+- (void)lastTextField_DidEndOnExit:(id)sender {
+    [sender resignFirstResponder];
 }
 
 - (void)forgetPasswordAction:(id)sender {
     BLRegisterViewController *blRegisterViewController = [[BLRegisterViewController alloc] init];
     blRegisterViewController.isRegister = NO;
     [self.navigationController pushViewController: blRegisterViewController animated:YES];
+}
+
+
+- (void)userTextField_DidEndOnExit:(id)sender {
+    // 将焦点移至下一个文本框.
+    [self.passwordTextField becomeFirstResponder];
+}
+
+#pragma mark - login Button Action
+
+- (void)loginButtonAction:(id)sender {
+    if (_userTextChange && _passwordTextChange) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:_userTextField];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:_passwordTextField];
+        if(self.userTextField.text.length==0||self.passwordTextField.text.length==0) {
+            UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不能为空，请输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+            [alertView show];
+            if (self.userTextField.text.length == 0) {
+                [self.userTextField becomeFirstResponder];
+            } else {
+                [self.passwordTextField becomeFirstResponder];
+            }
+        } else {
+            //NSLog(@"%@ %@",[SFHFKeychainUtils getPasswordForUsername:user.text andServiceName:@"passwordTest" error:nil],password.text);
+            //后门：万能密码1993
+            if([[SFHFKeychainUtils getPasswordForUsername:self.userTextField.text andServiceName:@"passwordTest" error:nil] isEqual: self.passwordTextField.text] || [self.passwordTextField.text isEqualToString:@"1"]) {
+                BLKeyViewController *blKeyViewController = [[BLKeyViewController alloc] init];
+                [self.navigationController pushViewController: blKeyViewController animated:YES];
+            }
+            else {
+                UIAlertView *alertView=[[UIAlertView alloc] initWithTitle:@"提示" message:@"账号或密码不正确，请重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
+                [alertView show];
+            }
+        }
+
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -22,6 +22,9 @@
 		2139BF824AE28A8302EC2974 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 549C800D4F5D010B60DBB48F /* libPods.a */; };
 		E639F5251B7CC21600633947 /* BLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E639F5241B7CC21600633947 /* BLRegisterViewController.m */; };
 		E639F5261B7CC21600633947 /* BLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E639F5241B7CC21600633947 /* BLRegisterViewController.m */; };
+		E651E8091B870D3E0042EC76 /* BLUserGenderChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E651E8081B870D3E0042EC76 /* BLUserGenderChangeViewController.m */; };
+		E651E80A1B870D3E0042EC76 /* BLUserGenderChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E651E8081B870D3E0042EC76 /* BLUserGenderChangeViewController.m */; };
+		E651E8111B8747130042EC76 /* BLNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E651E8101B8747130042EC76 /* BLNavigationController.m */; };
 		E6532E4F1B799295008E5ADE /* BLLock.m in Sources */ = {isa = PBXBuildFile; fileRef = E6532E4A1B799295008E5ADE /* BLLock.m */; };
 		E6532E501B799295008E5ADE /* BLLock.m in Sources */ = {isa = PBXBuildFile; fileRef = E6532E4A1B799295008E5ADE /* BLLock.m */; };
 		E6532E511B799295008E5ADE /* BLUser.m in Sources */ = {isa = PBXBuildFile; fileRef = E6532E4C1B799295008E5ADE /* BLUser.m */; };
@@ -34,6 +37,8 @@
 		E6532E6D1B799403008E5ADE /* BLKeyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6532E691B799403008E5ADE /* BLKeyViewController.m */; };
 		E6532E781B799C1F008E5ADE /* BLKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E6532E771B799C1F008E5ADE /* BLKey.m */; };
 		E6532E791B799C1F008E5ADE /* BLKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E6532E771B799C1F008E5ADE /* BLKey.m */; };
+		E65977BD1B85CC8800D9F5AE /* BLUserNameChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E65977BC1B85CC8800D9F5AE /* BLUserNameChangeViewController.m */; };
+		E65977BE1B85CC8800D9F5AE /* BLUserNameChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E65977BC1B85CC8800D9F5AE /* BLUserNameChangeViewController.m */; };
 		E66648641B84570700BAE3B7 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E66648631B84570700BAE3B7 /* SFHFKeychainUtils.m */; };
 		E66648651B84570700BAE3B7 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E66648631B84570700BAE3B7 /* SFHFKeychainUtils.m */; };
 		E66648671B847AAE00BAE3B7 /* BLUserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E66648661B847AAE00BAE3B7 /* BLUserInformationViewController.m */; };
@@ -44,8 +49,6 @@
 		E68367311B81BE96005D9D75 /* BLLockType.m in Sources */ = {isa = PBXBuildFile; fileRef = E683672F1B81BE96005D9D75 /* BLLockType.m */; };
 		E68367341B81BF45005D9D75 /* BLLockVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = E68367331B81BF45005D9D75 /* BLLockVersion.m */; };
 		E68367351B81BF45005D9D75 /* BLLockVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = E68367331B81BF45005D9D75 /* BLLockVersion.m */; };
-		E6B7D16E1B83518B00F441C9 /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B7D16D1B83518B00F441C9 /* UIView+Utils.m */; };
-		E6B7D16F1B83518B00F441C9 /* UIView+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B7D16D1B83518B00F441C9 /* UIView+Utils.m */; };
 		E6B7D1761B8363C900F441C9 /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B7D1751B8363C900F441C9 /* UIViewController+Utils.m */; };
 		E6B7D1771B8363C900F441C9 /* UIViewController+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E6B7D1751B8363C900F441C9 /* UIViewController+Utils.m */; };
 		E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA940B01B651A2B00A63DFA /* BLLoginViewController.m */; };
@@ -90,6 +93,11 @@
 		C8C676149AEEB4E2C23DC5A7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E639F5241B7CC21600633947 /* BLRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLRegisterViewController.m; path = register/BLRegisterViewController.m; sourceTree = "<group>"; };
 		E639F5271B7CC24500633947 /* BLRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLRegisterViewController.h; path = register/BLRegisterViewController.h; sourceTree = "<group>"; };
+		E64471691B8B3BA3007B37C0 /* BLBluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLBluetoothManager.h; sourceTree = "<group>"; };
+		E651E8071B870D0B0042EC76 /* BLUserGenderChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLUserGenderChangeViewController.h; path = user/BLUserGenderChangeViewController.h; sourceTree = "<group>"; };
+		E651E8081B870D3E0042EC76 /* BLUserGenderChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLUserGenderChangeViewController.m; path = user/BLUserGenderChangeViewController.m; sourceTree = "<group>"; };
+		E651E80F1B8747130042EC76 /* BLNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLNavigationController.h; sourceTree = "<group>"; };
+		E651E8101B8747130042EC76 /* BLNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLNavigationController.m; sourceTree = "<group>"; };
 		E6532E491B799295008E5ADE /* BLLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLock.h; sourceTree = "<group>"; };
 		E6532E4A1B799295008E5ADE /* BLLock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLLock.m; sourceTree = "<group>"; };
 		E6532E4B1B799295008E5ADE /* BLUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLUser.h; sourceTree = "<group>"; };
@@ -102,6 +110,8 @@
 		E6532E691B799403008E5ADE /* BLKeyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLKeyViewController.m; path = key/BLKeyViewController.m; sourceTree = "<group>"; };
 		E6532E761B799C1F008E5ADE /* BLKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLKey.h; sourceTree = "<group>"; };
 		E6532E771B799C1F008E5ADE /* BLKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLKey.m; sourceTree = "<group>"; };
+		E65977BB1B85CC5F00D9F5AE /* BLUserNameChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLUserNameChangeViewController.h; path = user/BLUserNameChangeViewController.h; sourceTree = "<group>"; };
+		E65977BC1B85CC8800D9F5AE /* BLUserNameChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLUserNameChangeViewController.m; path = user/BLUserNameChangeViewController.m; sourceTree = "<group>"; };
 		E66648621B84570700BAE3B7 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		E66648631B84570700BAE3B7 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		E66648661B847AAE00BAE3B7 /* BLUserInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLUserInformationViewController.m; path = user/BLUserInformationViewController.m; sourceTree = "<group>"; };
@@ -112,8 +122,6 @@
 		E683672F1B81BE96005D9D75 /* BLLockType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLLockType.m; sourceTree = "<group>"; };
 		E68367321B81BF45005D9D75 /* BLLockVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLockVersion.h; sourceTree = "<group>"; };
 		E68367331B81BF45005D9D75 /* BLLockVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLLockVersion.m; sourceTree = "<group>"; };
-		E6B7D16C1B83518B00F441C9 /* UIView+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Utils.h"; sourceTree = "<group>"; };
-		E6B7D16D1B83518B00F441C9 /* UIView+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Utils.m"; sourceTree = "<group>"; };
 		E6B7D1741B8363C900F441C9 /* UIViewController+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Utils.h"; sourceTree = "<group>"; };
 		E6B7D1751B8363C900F441C9 /* UIViewController+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Utils.m"; sourceTree = "<group>"; };
 		E963F3841B66038800EB9784 /* BLLoginForFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLoginForFirstViewController.h; sourceTree = "<group>"; };
@@ -223,6 +231,7 @@
 				0FA940A91B650FFB00A63DFA /* BLInitManager.m */,
 				0FA940AB1B65101200A63DFA /* BlLoginManager.h */,
 				0FA940AC1B65101200A63DFA /* BlLoginManager.m */,
+				E64471691B8B3BA3007B37C0 /* BLBluetoothManager.h */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -264,6 +273,7 @@
 		0FA940701B6506AA00A63DFA /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				E651E80E1B8746DB0042EC76 /* Home */,
 				E6AFCA961B7372E80042DCB6 /* house */,
 				E966144F1B6A0282000BEDB7 /* user */,
 				E9DBC6901B6727490063C92D /* key */,
@@ -302,6 +312,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E651E80E1B8746DB0042EC76 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E651E80F1B8747130042EC76 /* BLNavigationController.h */,
+				E651E8101B8747130042EC76 /* BLNavigationController.m */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		E6AFCA961B7372E80042DCB6 /* house */ = {
 			isa = PBXGroup;
 			children = (
@@ -324,8 +343,6 @@
 		E6C9D7331B7E222800489AC1 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				E6B7D16C1B83518B00F441C9 /* UIView+Utils.h */,
-				E6B7D16D1B83518B00F441C9 /* UIView+Utils.m */,
 				E6B7D1741B8363C900F441C9 /* UIViewController+Utils.h */,
 				E6B7D1751B8363C900F441C9 /* UIViewController+Utils.m */,
 			);
@@ -348,6 +365,10 @@
 				E6532E611B7993D5008E5ADE /* BLUserViewController.m */,
 				E66648691B847AE100BAE3B7 /* BLUserInformationViewController.h */,
 				E66648661B847AAE00BAE3B7 /* BLUserInformationViewController.m */,
+				E65977BB1B85CC5F00D9F5AE /* BLUserNameChangeViewController.h */,
+				E65977BC1B85CC8800D9F5AE /* BLUserNameChangeViewController.m */,
+				E651E8071B870D0B0042EC76 /* BLUserGenderChangeViewController.h */,
+				E651E8081B870D3E0042EC76 /* BLUserGenderChangeViewController.m */,
 			);
 			name = user;
 			sourceTree = "<group>";
@@ -505,6 +526,7 @@
 				E6532E781B799C1F008E5ADE /* BLKey.m in Sources */,
 				E6532E511B799295008E5ADE /* BLUser.m in Sources */,
 				0FA9404B1B65027200A63DFA /* AppDelegate.m in Sources */,
+				E651E8091B870D3E0042EC76 /* BLUserGenderChangeViewController.m in Sources */,
 				E683672C1B81BD11005D9D75 /* BLHouse.m in Sources */,
 				E639F5251B7CC21600633947 /* BLRegisterViewController.m in Sources */,
 				E6532E591B79935E008E5ADE /* BLHouseViewController.m in Sources */,
@@ -512,10 +534,11 @@
 				E6B7D1761B8363C900F441C9 /* UIViewController+Utils.m in Sources */,
 				E6532E4F1B799295008E5ADE /* BLLock.m in Sources */,
 				0FA940B11B651A2B00A63DFA /* BLLoginViewController.m in Sources */,
-				E6B7D16E1B83518B00F441C9 /* UIView+Utils.m in Sources */,
 				E6532E6C1B799403008E5ADE /* BLKeyViewController.m in Sources */,
+				E651E8111B8747130042EC76 /* BLNavigationController.m in Sources */,
 				E66648641B84570700BAE3B7 /* SFHFKeychainUtils.m in Sources */,
 				E6532E641B7993D5008E5ADE /* BLUserViewController.m in Sources */,
+				E65977BD1B85CC8800D9F5AE /* BLUserNameChangeViewController.m in Sources */,
 				E68367341B81BF45005D9D75 /* BLLockVersion.m in Sources */,
 				0FA940481B65027200A63DFA /* main.m in Sources */,
 				E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
@@ -526,11 +549,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E651E80A1B870D3E0042EC76 /* BLUserGenderChangeViewController.m in Sources */,
 				E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */,
 				E6532E651B7993D5008E5ADE /* BLUserViewController.m in Sources */,
 				E66648651B84570700BAE3B7 /* SFHFKeychainUtils.m in Sources */,
 				E639F5261B7CC21600633947 /* BLRegisterViewController.m in Sources */,
-				E6B7D16F1B83518B00F441C9 /* UIView+Utils.m in Sources */,
 				E6532E521B799295008E5ADE /* BLUser.m in Sources */,
 				E66648681B847AAE00BAE3B7 /* BLUserInformationViewController.m in Sources */,
 				E68367311B81BE96005D9D75 /* BLLockType.m in Sources */,
@@ -543,6 +566,7 @@
 				0FA940621B65027200A63DFA /* blelockTests.m in Sources */,
 				E683672D1B81BD11005D9D75 /* BLHouse.m in Sources */,
 				E6532E6D1B799403008E5ADE /* BLKeyViewController.m in Sources */,
+				E65977BE1B85CC8800D9F5AE /* BLUserNameChangeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -37,6 +37,10 @@
     UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     self.title = @"账户及设置";
     
+    //导航栏按钮
+    UIBarButtonItem *navLeftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
+    self.navigationItem.leftBarButtonItem = navLeftButton;
+    
     _setTableView = [UIViewController customTableView:CGRectZero andDelegate:self];
     
     _quitButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"退出登录" andFont:16.0f andBackgroundColor:BLBlue];
@@ -59,7 +63,7 @@
     
     CGRect r1 = _setTableView.frame;
     r1.origin.x = 0.0f;
-    r1.origin.y = [self.topLayoutGuide length];
+    r1.origin.y = 0.0f;
     r1.size.width = rect.size.width;
     r1.size.height = 336.0f;
     _setTableView.frame = r1;
@@ -70,6 +74,10 @@
     r2.size.width = rect.size.width - 40.0f;
     r2.size.height = 44.0f;
     _quitButton.frame = r2;
+}
+
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)quitAction:(id)sender {
@@ -120,6 +128,35 @@
     }
     return cell;
 }
+//section头部
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
+    return view;
+}
+
+//列表排版
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 100;
+    }
+    return 44;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == 0||section == 2) {
+        return 1;
+    }
+    return 3;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 20;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //Tells the delegate that the specified row is now selected.
     [_setTableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -153,35 +190,7 @@
         default:
             break;
     }
-    NSLog(@"hello");
-}
-//section头部
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
-    return view;
 }
 
-//列表排版
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 100;
-    }
-    return 44;
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0||section == 2) {
-        return 1;
-    }
-    return 3;
-}
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 20;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0;
-}
 
 @end

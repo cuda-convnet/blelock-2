@@ -34,7 +34,7 @@
 
 + (UIButton *)customButton:(CGRect)frame andImg:(NSString *)img {
     UIButton *button = [[UIButton alloc]initWithFrame:frame];
-    [button setImage:[UIImage imageNamed:img] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:img] forState:UIControlStateNormal];
     return button;
 }
 
@@ -68,5 +68,23 @@
     return tableView;
 }
 
+- (void)addNavLeftButtonWithText:(NSString*)text target:(id) target action:(SEL)action{
+    UIBarButtonItem *leftBtn = [[UIBarButtonItem alloc]initWithTitle:text style:UIBarButtonItemStylePlain target:target action:action];
+    self.navigationItem.leftBarButtonItem = leftBtn;
+}
 
+- (void)dismissKeyBoard{
+    
+    UITapGestureRecognizer* singleRecognizer;
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyBoardAction)];
+    //点击的次数
+    singleRecognizer.numberOfTapsRequired = 1; // 单击
+    [self.view addGestureRecognizer:singleRecognizer];
+}
+
+#pragma mark - Action
+
+- (void)dismissKeyBoardAction{
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
+}
 @end

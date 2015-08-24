@@ -63,9 +63,9 @@
     
     CGRect r1 = _houseTableView.frame;
     r1.origin.x = 0.0f;
-    r1.origin.y = [self.topLayoutGuide length];
+    r1.origin.y = 0.0f;
     r1.size.width = rect.size.width;
-    r1.size.height = 284.0f;
+    r1.size.height = 348.0f;
     _houseTableView.frame = r1;
     
     CGRect r2 = _deleteButton.frame;
@@ -176,6 +176,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UILabel *headerLabel = [UIViewController customLabel:CGRectZero andText:nil andColor:BLBlue andFont:15.0f];
     headerLabel.backgroundColor = BLGray;
+    headerLabel.textAlignment = NSTextAlignmentLeft;
     switch (section) {
         case 0:
             headerLabel.text = @"    地址信息";

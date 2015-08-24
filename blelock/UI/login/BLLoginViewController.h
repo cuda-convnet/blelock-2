@@ -10,6 +10,4 @@
 
 @interface BLLoginViewController:UIViewController<UITextFieldDelegate>
 
-- (void)loginButtonAction:(id)sender;
-
 @end

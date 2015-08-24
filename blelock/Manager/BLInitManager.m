@@ -10,6 +10,7 @@
 
 #import "BLLoginForFirstViewController.h"
 #import "BLKeyViewController.h"
+#import "BLNavigationController.h"
 
 #define BLLoginUserID  @"blelock.login.uid"
 
@@ -54,15 +55,10 @@
 
 - (void)showLoginViewController {
     
-    BLLoginViewController *loginVC = [[BLLoginViewController alloc] init];
-    UINavigationController *rootNavigationController = [[UINavigationController alloc] initWithRootViewController:loginVC];
-    //导航栏统一初始化操作
-    rootNavigationController.navigationBar.barTintColor = [UIColor blackColor];
-    rootNavigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [rootNavigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
-    rootNavigationController.navigationBar.translucent = NO;//导航栏不透明
-    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(NSIntegerMin, NSIntegerMin) forBarMetrics:UIBarMetricsDefault];
     
+    BLLoginViewController *loginVC = [[BLLoginViewController alloc] init];
+    BLNavigationController *rootNavigationController = [[BLNavigationController alloc] initWithRootViewController:loginVC];
+       
     [self showNewWindowWithViewController:rootNavigationController animated:YES];
     
 }

@@ -21,4 +21,6 @@
 + (UILabel *)customLabel:(CGRect)frame andText:(NSString *)text andColor:(UIColor *)color andFont:(CGFloat)font;
 + (UITableView *)customTableView:(CGRect)frame andDelegate:(id)delegate;
 
+- (void)addNavLeftButtonWithText:(NSString*)text target:(id) target action:(SEL)action;
+- (void)dismissKeyBoard;
 @end

@@ -10,6 +10,7 @@
 #import "UIViewController+Utils.h"
 
 #import "BLLoginViewController.h"
+#import "BLLoginForFirstViewController.h"
 
 
 
@@ -29,7 +30,7 @@
 
 - (void)loadView {
     UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
-    //CGRect navframe = self.navigationController.navigationBar.frame;
+
     if (_isRegister) {
         self.title = @"注册";
         _passwordTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  设置密码"];
@@ -38,8 +39,12 @@
         _passwordTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  新的密码"];
     }
     
+    //导航栏按钮
+    UIBarButtonItem *navLeftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
+    self.navigationItem.leftBarButtonItem = navLeftButton;
+
     _userTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  手机号"];
-    _userTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+    _userTextField.keyboardType = UIKeyboardTypePhonePad;
     [_userTextField addTarget:self action:@selector(userTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
     _passwordTextField.secureTextEntry = YES;
@@ -51,13 +56,18 @@
     
     _captchaTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  验证码"];
     _captchaTextField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-    [_captchaTextField addTarget:self action:@selector(captchaTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    [_captchaTextField addTarget:self action:@selector(lastTextField_DidEndOnExit:) forControlEvents:UIControlEventEditingDidEndOnExit];
     
     _getCaptchaButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"获取验证码" andFont:10.0f andBackgroundColor:BLBlue];
     [_getCaptchaButton addTarget:self action:@selector(getCaptchaAction:) forControlEvents:UIControlEventTouchUpInside];
     
     _confirmButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"确定" andFont:16.0f andBackgroundColor:BLBlue];
     [_confirmButton addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userTextDidChange:) name:UITextFieldTextDidChangeNotification object:_userTextField];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passwordTextDidChange:) name:UITextFieldTextDidChangeNotification object:_passwordTextField];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userTextDidChange:) name:UITextFieldTextDidChangeNotification object:_confirmPasswordTextField];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(passwordTextDidChange:) name:UITextFieldTextDidChangeNotification object:_captchaTextField];
     
     [view addSubview:_userTextField];
     [view addSubview:_passwordTextField];
@@ -71,6 +81,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self dismissKeyBoard];
     // Do any additional setup after loading the view.
 }
 
@@ -121,14 +132,16 @@
     _confirmButton.frame = r6;
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [[UIApplication sharedApplication].keyWindow endEditing:YES];
-    
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)lastTextField_DidEndOnExit:(id)sender {
+    [sender resignFirstResponder];
 }
 
 - (void)userTextField_DidEndOnExit:(id)sender {
     // 将焦点移至下一个文本框.
-    
     [self.passwordTextField becomeFirstResponder];
 }
 
@@ -138,10 +151,6 @@
 
 - (void)confirmPasswordTextField_DidEndOnExit:(id)sender {
     [self.captchaTextField becomeFirstResponder];
-}
-
-- (void)captchaTextField_DidEndOnExit:(id)sender {
-    [sender resignFirstResponder];
 }
 
 - (void)getCaptchaAction:(id)sender {
@@ -155,10 +164,12 @@
     if ([self isRightInput]) {
         if (_isRegister) {
             //确认注册信息
+            BLLoginForFirstViewController *blLoginForFirstViewController = [[BLLoginForFirstViewController alloc] init];
+            [self.navigationController pushViewController: blLoginForFirstViewController animated:YES];
         } else {
             //确认修改密码
+            [self.navigationController popToRootViewControllerAnimated:YES];
         }
-        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 

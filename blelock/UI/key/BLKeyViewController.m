@@ -15,7 +15,6 @@
 //
 @interface BLKeyViewController()<UITableViewDelegate,  UITableViewDataSource, CBCentralManagerDelegate, CBPeripheralDelegate>
 
-@property (nonatomic, strong) UIButton *navButton;
 @property (nonatomic, strong) UIView *operateUIView;
 @property (nonatomic, strong) UIButton *operateUIButton;
 @property (nonatomic, strong) UILabel *hintLabel;
@@ -70,10 +69,13 @@
     
     self.title = @"钥匙";
     
-    //导航栏右边按钮
-    _navButton = [UIViewController customButton:CGRectZero andImg:@"user"];
-    [_navButton addTarget:self action:@selector(gotoBLUser) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_navButton];
+    //导航栏按钮
+    UIBarButtonItem *navLeftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
+    
+    UIBarButtonItem *navRightButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nor_user"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoBLUser)];
+    
+    self.navigationItem.leftBarButtonItem = navLeftButton;
+    self.navigationItem.rightBarButtonItem = navRightButton;
     
     _operateUIView = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     
@@ -97,12 +99,6 @@
 - (void)viewWillLayoutSubviews {
     
     CGRect rect = self.view.bounds;
-    CGRect navFrame = self.navigationController.navigationBar.frame;
-    
-    CGRect nav = _navButton.frame;
-    nav.size.width = navFrame.size.height;
-    nav.size.height = navFrame.size.height;
-    _navButton.frame = nav;
     
     CGRect r1 = _operateUIView.frame;
     r1.origin.x = 0.0f;
@@ -129,7 +125,7 @@
     r4.origin.x = 0.0f;
     r4.origin.y = CGRectGetMaxY(_operateUIView.frame);
     r4.size.width = rect.size.width;
-    r4.size.height = rect.size.height-CGRectGetMaxY(_operateUIView.frame);
+    r4.size.height = _keyTable.count*44.0f;
     _keyTableView.frame = r4;
     
 }
@@ -138,6 +134,16 @@
     //Called after the controller's view is loaded into memory.
     [super viewDidLoad];
 }
+
+- (void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)gotoBLUser {
+    BLUserViewController * blUserViewController = [[BLUserViewController alloc]init];
+    [self.navigationController pushViewController: blUserViewController animated:YES];
+}
+
 
 //<UITableViewDataSource>里必须实现的
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -169,11 +175,8 @@
     //NSLog(@"%@", [self.data objectAtIndex:indexPath.row]);
 }
 
-//导航栏里右按钮
-- (void)gotoBLUser {
-    BLUserViewController * blUserViewController = [[BLUserViewController alloc]init];
-    [self.navigationController pushViewController: blUserViewController animated:YES];
-}
+
+
 //操作区打开蓝牙
 - (void)openBluetooth {
     _blState = 100;
@@ -215,14 +218,13 @@
     //-1——锁打开失败
     switch (_keyState) {
         case 2: {
-            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"openLock.png"] forState:UIControlStateNormal];
+            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"openLock"] forState:UIControlStateNormal];
             [_operateUIView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:139/255.0 blue:69/255.0 alpha:1]];
             _hintLabel.text = @"门锁已打开，请转动把手进门";
-            [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(waitForSeconds) userInfo:nil repeats:NO];
             break;
         }
         case 1: {
-            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"connect.png"] forState:UIControlStateNormal];
+            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"connect.jpg"] forState:UIControlStateNormal];
             _hintLabel.text = @"连接中，请耐心等待";
             break;
         }
@@ -263,13 +265,15 @@
 //蓝牙相关操作
 - (void)bluetoothISOpen {
     _keyState = 100;
+    [_manager scanForPeripheralsWithServices:nil options:nil];
+    //[_peripheral discoverServices:nil];
 //    //高级功能：首先并不是扫描，而是试图连接已经知道的周边，找不到再试图扫描，流程图如pdf48页。
 //    //knownPeripherals = [_manager retrievePeripheralsWithIdentifiers:savedIdentifiers];
       //[_manager connectPeripheral:_peripheral options:nil];
 //    //链接建立后，自动调用didConnectPeripheral
     //扫描周边，要把第一个nil改掉
 //    NSDictionary * dic = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:false],CBCentralManagerScanOptionAllowDuplicatesKey, nil];
-    [_manager scanForPeripheralsWithServices:nil options:nil];
+
     //[_manager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:@"d62a2015-7fac-a2a3-bec3-a68869e0f2bf"]] options:nil];
 //    //找到门锁，关闭扫描以节约电源
 //
@@ -282,7 +286,7 @@
 //        }
 //    }
     ////[NSThread sleepForTimeInterval:2.0];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(hello1) userInfo:nil repeats:NO];
+   // [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(hello1) userInfo:nil repeats:NO];
      // self.blKeyView.keyState = 1;
 //    //连接门锁周边
 //    [_manager connectPeripheral:_peripheral options:nil];
@@ -292,7 +296,7 @@
 //    //发现周边的服务,要把nil改掉,UUID
 //    //太费电了,用这个代替
      //[_peripheral discoverServices : @[firstServiceUUID, secondServiceUUID]];
-      [_peripheral discoverServices:nil];
+    //[_peripheral discoverServices:nil];
 //    //发现服务的特征,nil返回所有特征，可改成自己感兴趣的特征,太费电了换掉
 //    NSLog(@"Discovering characteristics for service %@", _interestingService);
 //    [_peripheral discoverCharacteristics: nil forService: _interestingService];
@@ -305,7 +309,7 @@
 //    NSLog(@"Writing value for characteristic %@", _interestingCharacteristic);
 //    //[_peripheral writeValue : _dataToWrite forCharacteristic : _interestingCharacteristic
 //    //                   type : CBCharacteristicWriteWithResponse];
-    [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(hello2) userInfo:nil repeats:NO];
+    //[NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(hello2) userInfo:nil repeats:NO];
     //self.blKeyView.keyState = 2;
 //    //开锁成功后，断开连接
 //    [_manager cancelPeripheralConnection : _peripheral];
@@ -342,6 +346,8 @@
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
     NSLog(@"%@",peripheral.name);
+    _keyState = 1;
+    [self changeForKeyState];
     if([peripheral.name  isEqualToString:@"XXX UltraLock"]){
         [self connect:peripheral];
     }
@@ -352,6 +358,8 @@
     [self.manager connectPeripheral:peripheral
                             options:nil];
     self.peripheral = peripheral;
+    _keyState = 2;
+    [self changeForKeyState];
     NSLog(@"连接成功");
     [_manager stopScan];
     return YES;
@@ -412,10 +420,10 @@
             NSLog(@"Writing value for characteristic %@", characteristic);
             
             [self.peripheral setNotifyValue:YES forCharacteristic:characteristic];
-            Byte command[] = {35};
-            NSData *data = [[NSData alloc] initWithBytes:&command length:1];
-            [self.peripheral writeValue:data forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
-            unsigned char command1[] = {3,16,2,3,4,5,6,7,8,9,10,11,12,13,16,15,16,17};
+//            Byte command[] = {35};
+//            NSData *data = [[NSData alloc] initWithBytes:&command length:1];
+//            [self.peripheral writeValue:data forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+            Byte command1[] = {3,16,2,3,4,5,6,7,8,9,10,11,12,13,16,15,16,17};
             NSData *dataToWrite1 = [[NSData alloc] initWithBytes:&command1 length:18];
             [self.peripheral writeValue:dataToWrite1 forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
             
@@ -427,8 +435,18 @@
     }
 }
 
-- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
-{
+
+- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    NSData *data = characteristic.value;
+    NSLog(@"收到的数据：%@", data);
+    
+    Byte *testByte = (Byte *)[data bytes];
+    for(int i=0;i<[data length];i++)
+        printf("testByte = %d\n",testByte[i]);
+}
+
+
+- (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
 //    if (error)
 //    {
 //        NSLog(@"Error updating value for characteristic %@ error: %@", characteristic.UUID, [error localizedDescription]);
@@ -438,22 +456,13 @@
 //    }
     NSData *data = characteristic.value;
     NSLog(@"收到的数据：%@", data);
-    //[self decodeData:characteristic.value];
-}
-
-///用于测试
-- (void)hello1 {
-    _keyState = 1;
-    [self changeForKeyState];
-}
-- (void)hello2 {
-    _keyState = 2;
-    [self changeForKeyState];
-
-}
-- (void)waitForSeconds {
+   
+    Byte *testByte = (Byte *)[data bytes];
+    for(int i=0;i<[data length];i++)
+        printf("testByte = %d\n",testByte[i]);
     [self.operateUIButton setBackgroundImage: [UIImage imageNamed : @"house.png"] forState:UIControlStateNormal];
     self.hintLabel.text = @"欢迎您！";
+    //[self decodeData:characteristic.value];
 }
 
 @end
