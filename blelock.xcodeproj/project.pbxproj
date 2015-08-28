@@ -22,6 +22,8 @@
 		2139BF824AE28A8302EC2974 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 549C800D4F5D010B60DBB48F /* libPods.a */; };
 		E639F5251B7CC21600633947 /* BLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E639F5241B7CC21600633947 /* BLRegisterViewController.m */; };
 		E639F5261B7CC21600633947 /* BLRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E639F5241B7CC21600633947 /* BLRegisterViewController.m */; };
+		E644F7921B8F3AEB0059DF12 /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E644F7911B8F3AEB0059DF12 /* BluetoothManager.framework */; };
+		E644F7931B8F3AEB0059DF12 /* BluetoothManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E644F7911B8F3AEB0059DF12 /* BluetoothManager.framework */; };
 		E651E8091B870D3E0042EC76 /* BLUserGenderChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E651E8081B870D3E0042EC76 /* BLUserGenderChangeViewController.m */; };
 		E651E80A1B870D3E0042EC76 /* BLUserGenderChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E651E8081B870D3E0042EC76 /* BLUserGenderChangeViewController.m */; };
 		E651E8111B8747130042EC76 /* BLNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E651E8101B8747130042EC76 /* BLNavigationController.m */; };
@@ -39,10 +41,20 @@
 		E6532E791B799C1F008E5ADE /* BLKey.m in Sources */ = {isa = PBXBuildFile; fileRef = E6532E771B799C1F008E5ADE /* BLKey.m */; };
 		E65977BD1B85CC8800D9F5AE /* BLUserNameChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E65977BC1B85CC8800D9F5AE /* BLUserNameChangeViewController.m */; };
 		E65977BE1B85CC8800D9F5AE /* BLUserNameChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E65977BC1B85CC8800D9F5AE /* BLUserNameChangeViewController.m */; };
+		E662073B1B8DAC8E00E63C7F /* BLBluetoothCommandManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E66207381B8DAC8E00E63C7F /* BLBluetoothCommandManager.m */; };
+		E662073C1B8DAC8E00E63C7F /* BLBluetoothCommandManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E66207381B8DAC8E00E63C7F /* BLBluetoothCommandManager.m */; };
+		E662073D1B8DAC8E00E63C7F /* BLBluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E662073A1B8DAC8E00E63C7F /* BLBluetoothManager.m */; };
+		E662073E1B8DAC8E00E63C7F /* BLBluetoothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E662073A1B8DAC8E00E63C7F /* BLBluetoothManager.m */; };
+		E66207411B8DAE0D00E63C7F /* BLBluetoothServer.m in Sources */ = {isa = PBXBuildFile; fileRef = E66207401B8DAE0D00E63C7F /* BLBluetoothServer.m */; };
+		E66207421B8DAE0D00E63C7F /* BLBluetoothServer.m in Sources */ = {isa = PBXBuildFile; fileRef = E66207401B8DAE0D00E63C7F /* BLBluetoothServer.m */; };
 		E66648641B84570700BAE3B7 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E66648631B84570700BAE3B7 /* SFHFKeychainUtils.m */; };
 		E66648651B84570700BAE3B7 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E66648631B84570700BAE3B7 /* SFHFKeychainUtils.m */; };
 		E66648671B847AAE00BAE3B7 /* BLUserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E66648661B847AAE00BAE3B7 /* BLUserInformationViewController.m */; };
 		E66648681B847AAE00BAE3B7 /* BLUserInformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E66648661B847AAE00BAE3B7 /* BLUserInformationViewController.m */; };
+		E676760D1B900BBD008190D6 /* BLDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = E676760C1B900BBD008190D6 /* BLDiscovery.m */; };
+		E676760E1B900BBD008190D6 /* BLDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = E676760C1B900BBD008190D6 /* BLDiscovery.m */; };
+		E67676111B900C6A008190D6 /* BLService.m in Sources */ = {isa = PBXBuildFile; fileRef = E67676101B900C6A008190D6 /* BLService.m */; };
+		E67676121B900C6A008190D6 /* BLService.m in Sources */ = {isa = PBXBuildFile; fileRef = E67676101B900C6A008190D6 /* BLService.m */; };
 		E683672C1B81BD11005D9D75 /* BLHouse.m in Sources */ = {isa = PBXBuildFile; fileRef = E683672B1B81BD11005D9D75 /* BLHouse.m */; };
 		E683672D1B81BD11005D9D75 /* BLHouse.m in Sources */ = {isa = PBXBuildFile; fileRef = E683672B1B81BD11005D9D75 /* BLHouse.m */; };
 		E68367301B81BE96005D9D75 /* BLLockType.m in Sources */ = {isa = PBXBuildFile; fileRef = E683672F1B81BE96005D9D75 /* BLLockType.m */; };
@@ -93,7 +105,7 @@
 		C8C676149AEEB4E2C23DC5A7 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E639F5241B7CC21600633947 /* BLRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLRegisterViewController.m; path = register/BLRegisterViewController.m; sourceTree = "<group>"; };
 		E639F5271B7CC24500633947 /* BLRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLRegisterViewController.h; path = register/BLRegisterViewController.h; sourceTree = "<group>"; };
-		E64471691B8B3BA3007B37C0 /* BLBluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLBluetoothManager.h; sourceTree = "<group>"; };
+		E644F7911B8F3AEB0059DF12 /* BluetoothManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BluetoothManager.framework; sourceTree = "<group>"; };
 		E651E8071B870D0B0042EC76 /* BLUserGenderChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLUserGenderChangeViewController.h; path = user/BLUserGenderChangeViewController.h; sourceTree = "<group>"; };
 		E651E8081B870D3E0042EC76 /* BLUserGenderChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLUserGenderChangeViewController.m; path = user/BLUserGenderChangeViewController.m; sourceTree = "<group>"; };
 		E651E80F1B8747130042EC76 /* BLNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLNavigationController.h; sourceTree = "<group>"; };
@@ -112,10 +124,20 @@
 		E6532E771B799C1F008E5ADE /* BLKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLKey.m; sourceTree = "<group>"; };
 		E65977BB1B85CC5F00D9F5AE /* BLUserNameChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLUserNameChangeViewController.h; path = user/BLUserNameChangeViewController.h; sourceTree = "<group>"; };
 		E65977BC1B85CC8800D9F5AE /* BLUserNameChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLUserNameChangeViewController.m; path = user/BLUserNameChangeViewController.m; sourceTree = "<group>"; };
+		E66207371B8DAC8E00E63C7F /* BLBluetoothCommandManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLBluetoothCommandManager.h; path = Bluetooth/BLBluetoothCommandManager.h; sourceTree = "<group>"; };
+		E66207381B8DAC8E00E63C7F /* BLBluetoothCommandManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLBluetoothCommandManager.m; path = Bluetooth/BLBluetoothCommandManager.m; sourceTree = "<group>"; };
+		E66207391B8DAC8E00E63C7F /* BLBluetoothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLBluetoothManager.h; path = Bluetooth/BLBluetoothManager.h; sourceTree = "<group>"; };
+		E662073A1B8DAC8E00E63C7F /* BLBluetoothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLBluetoothManager.m; path = Bluetooth/BLBluetoothManager.m; sourceTree = "<group>"; };
+		E662073F1B8DADDA00E63C7F /* BLBluetoothServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLBluetoothServer.h; sourceTree = "<group>"; };
+		E66207401B8DAE0D00E63C7F /* BLBluetoothServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLBluetoothServer.m; path = Bluetooth/BLBluetoothServer.m; sourceTree = "<group>"; };
 		E66648621B84570700BAE3B7 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		E66648631B84570700BAE3B7 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		E66648661B847AAE00BAE3B7 /* BLUserInformationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BLUserInformationViewController.m; path = user/BLUserInformationViewController.m; sourceTree = "<group>"; };
 		E66648691B847AE100BAE3B7 /* BLUserInformationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BLUserInformationViewController.h; path = user/BLUserInformationViewController.h; sourceTree = "<group>"; };
+		E676760B1B900BA4008190D6 /* BLDiscovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLDiscovery.h; sourceTree = "<group>"; };
+		E676760C1B900BBD008190D6 /* BLDiscovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLDiscovery.m; sourceTree = "<group>"; };
+		E676760F1B900C56008190D6 /* BLService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLService.h; sourceTree = "<group>"; };
+		E67676101B900C6A008190D6 /* BLService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLService.m; sourceTree = "<group>"; };
 		E683672A1B81BD11005D9D75 /* BLHouse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLHouse.h; sourceTree = "<group>"; };
 		E683672B1B81BD11005D9D75 /* BLHouse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLHouse.m; sourceTree = "<group>"; };
 		E683672E1B81BE96005D9D75 /* BLLockType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLockType.h; sourceTree = "<group>"; };
@@ -136,6 +158,7 @@
 			files = (
 				E99C349B1B6A3C8300C9262A /* CoreBluetooth.framework in Frameworks */,
 				2139BF824AE28A8302EC2974 /* libPods.a in Frameworks */,
+				E644F7921B8F3AEB0059DF12 /* BluetoothManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E644F7931B8F3AEB0059DF12 /* BluetoothManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +211,8 @@
 				0FA940491B65027200A63DFA /* AppDelegate.h */,
 				0FA9404A1B65027200A63DFA /* AppDelegate.m */,
 				0FA940521B65027200A63DFA /* Images.xcassets */,
+				E676760A1B900B3F008190D6 /* BL */,
+				E662072E1B8DABC900E63C7F /* Bluetooth */,
 				0FA9406E1B6506AA00A63DFA /* Network */,
 				0FA9406C1B6506AA00A63DFA /* Manager */,
 				0FA9406D1B6506AA00A63DFA /* Model */,
@@ -231,7 +257,6 @@
 				0FA940A91B650FFB00A63DFA /* BLInitManager.m */,
 				0FA940AB1B65101200A63DFA /* BlLoginManager.h */,
 				0FA940AC1B65101200A63DFA /* BlLoginManager.m */,
-				E64471691B8B3BA3007B37C0 /* BLBluetoothManager.h */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -298,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				E99C349A1B6A3C8300C9262A /* CoreBluetooth.framework */,
+				E644F7911B8F3AEB0059DF12 /* BluetoothManager.framework */,
 				549C800D4F5D010B60DBB48F /* libPods.a */,
 			);
 			name = Frameworks;
@@ -319,6 +345,30 @@
 				E651E8101B8747130042EC76 /* BLNavigationController.m */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		E662072E1B8DABC900E63C7F /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				E66207391B8DAC8E00E63C7F /* BLBluetoothManager.h */,
+				E662073A1B8DAC8E00E63C7F /* BLBluetoothManager.m */,
+				E66207371B8DAC8E00E63C7F /* BLBluetoothCommandManager.h */,
+				E66207381B8DAC8E00E63C7F /* BLBluetoothCommandManager.m */,
+				E662073F1B8DADDA00E63C7F /* BLBluetoothServer.h */,
+				E66207401B8DAE0D00E63C7F /* BLBluetoothServer.m */,
+			);
+			name = Bluetooth;
+			sourceTree = "<group>";
+		};
+		E676760A1B900B3F008190D6 /* BL */ = {
+			isa = PBXGroup;
+			children = (
+				E676760B1B900BA4008190D6 /* BLDiscovery.h */,
+				E676760C1B900BBD008190D6 /* BLDiscovery.m */,
+				E676760F1B900C56008190D6 /* BLService.h */,
+				E67676101B900C6A008190D6 /* BLService.m */,
+			);
+			path = BL;
 			sourceTree = "<group>";
 		};
 		E6AFCA961B7372E80042DCB6 /* house */ = {
@@ -524,6 +574,9 @@
 				0FA940AA1B650FFB00A63DFA /* BLInitManager.m in Sources */,
 				E66648671B847AAE00BAE3B7 /* BLUserInformationViewController.m in Sources */,
 				E6532E781B799C1F008E5ADE /* BLKey.m in Sources */,
+				E676760D1B900BBD008190D6 /* BLDiscovery.m in Sources */,
+				E67676111B900C6A008190D6 /* BLService.m in Sources */,
+				E66207411B8DAE0D00E63C7F /* BLBluetoothServer.m in Sources */,
 				E6532E511B799295008E5ADE /* BLUser.m in Sources */,
 				0FA9404B1B65027200A63DFA /* AppDelegate.m in Sources */,
 				E651E8091B870D3E0042EC76 /* BLUserGenderChangeViewController.m in Sources */,
@@ -534,6 +587,7 @@
 				E6B7D1761B8363C900F441C9 /* UIViewController+Utils.m in Sources */,
 				E6532E4F1B799295008E5ADE /* BLLock.m in Sources */,
 				0FA940B11B651A2B00A63DFA /* BLLoginViewController.m in Sources */,
+				E662073D1B8DAC8E00E63C7F /* BLBluetoothManager.m in Sources */,
 				E6532E6C1B799403008E5ADE /* BLKeyViewController.m in Sources */,
 				E651E8111B8747130042EC76 /* BLNavigationController.m in Sources */,
 				E66648641B84570700BAE3B7 /* SFHFKeychainUtils.m in Sources */,
@@ -542,6 +596,7 @@
 				E68367341B81BF45005D9D75 /* BLLockVersion.m in Sources */,
 				0FA940481B65027200A63DFA /* main.m in Sources */,
 				E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
+				E662073B1B8DAC8E00E63C7F /* BLBluetoothCommandManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,10 +610,13 @@
 				E66648651B84570700BAE3B7 /* SFHFKeychainUtils.m in Sources */,
 				E639F5261B7CC21600633947 /* BLRegisterViewController.m in Sources */,
 				E6532E521B799295008E5ADE /* BLUser.m in Sources */,
+				E662073E1B8DAC8E00E63C7F /* BLBluetoothManager.m in Sources */,
 				E66648681B847AAE00BAE3B7 /* BLUserInformationViewController.m in Sources */,
 				E68367311B81BE96005D9D75 /* BLLockType.m in Sources */,
 				E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */,
 				E6532E5A1B79935E008E5ADE /* BLHouseViewController.m in Sources */,
+				E66207421B8DAE0D00E63C7F /* BLBluetoothServer.m in Sources */,
+				E676760E1B900BBD008190D6 /* BLDiscovery.m in Sources */,
 				E68367351B81BF45005D9D75 /* BLLockVersion.m in Sources */,
 				E6532E501B799295008E5ADE /* BLLock.m in Sources */,
 				E6532E791B799C1F008E5ADE /* BLKey.m in Sources */,
@@ -566,6 +624,8 @@
 				0FA940621B65027200A63DFA /* blelockTests.m in Sources */,
 				E683672D1B81BD11005D9D75 /* BLHouse.m in Sources */,
 				E6532E6D1B799403008E5ADE /* BLKeyViewController.m in Sources */,
+				E662073C1B8DAC8E00E63C7F /* BLBluetoothCommandManager.m in Sources */,
+				E67676121B900C6A008190D6 /* BLService.m in Sources */,
 				E65977BE1B85CC8800D9F5AE /* BLUserNameChangeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -667,6 +727,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = blelock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -680,6 +744,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = blelock/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
@@ -694,6 +762,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -713,6 +782,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = blelockTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

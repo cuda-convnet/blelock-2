@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) UITableView *setTableView;
 @property (nonatomic, strong) UIButton *quitButton;
+@property (nonatomic, strong) UIImageView *usersImageView;
+
 
 @property (nonatomic, strong) BLUser *user;
 
@@ -43,7 +45,7 @@
     
     _setTableView = [UIViewController customTableView:CGRectZero andDelegate:self];
     
-    _quitButton = [UIViewController customButton:(CGRect)CGRectZero andTitle:@"退出登录" andFont:16.0f andBackgroundColor:BLBlue];
+    _quitButton = [UIViewController customButton:CGRectZero andTitle:@"退出登录" andFont:16.0f andBackgroundColor:BLBlue];
     [_quitButton addTarget:self action:@selector(quitAction:) forControlEvents:UIControlEventTouchUpInside];
     
     [view addSubview:_setTableView];
@@ -55,6 +57,7 @@
 - (void)viewDidLoad {
     //Called after the controller's view is loaded into memory.
     [super viewDidLoad];
+    
 }
 
 - (void)viewWillLayoutSubviews {
@@ -74,6 +77,20 @@
     r2.size.width = rect.size.width - 40.0f;
     r2.size.height = 44.0f;
     _quitButton.frame = r2;
+}
+
+//从NSUserDefaults中读取数据
+-(void)readNSUserDefaults
+{
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    
+    //读取数据到各个label中
+    
+    //读取NSString类型的数据
+    NSString *img = [userDefaultes stringForKey:@"img"];
+    NSLog(@"%@",img);
+    [_usersImageView setImage:[UIImage imageNamed:img]];
+    
 }
 
 - (void)goBack {
@@ -97,17 +114,18 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         switch (section) {
             case 0: {
-                UIImageView *usersImageView = [UIViewController customImageView:CGRectMake(0, 0, 100, 100) andImage:_user.img];
+                _usersImageView = [UIViewController customImageView:CGRectMake(0, 0, 100, 100) andImage:nil];
                 
                 UILabel *userNameLabel =[UIViewController customLabel:CGRectZero andText:_user.name andColor:[UIColor blackColor] andFont:16.0f];
                 userNameLabel.frame = CGRectMake(100, 20, 200, 30);
                 
                 UILabel *userPhoneLabel = [UIViewController customLabel:CGRectZero andText:_user.mobile andColor:[UIColor lightGrayColor] andFont:16.0f];
                 userPhoneLabel.frame = CGRectMake(100, 50, 200, 30);
+                [self readNSUserDefaults];
                 
                 [cell.contentView addSubview: userNameLabel];
                 [cell.contentView addSubview: userPhoneLabel];
-                [cell.contentView addSubview: usersImageView];
+                [cell.contentView addSubview: _usersImageView];
                 break;
             }
             case 1:

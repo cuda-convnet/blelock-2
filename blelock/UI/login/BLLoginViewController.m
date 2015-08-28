@@ -35,10 +35,10 @@
 
 - (void)loadView {
     //数据初始化
-    _user = [[BLUser alloc]init];
-    _user.img = @"users";
-    _user.mobile = @"13813888888";
-    _change = NO;
+//    _user = [[BLUser alloc]init];
+//    _user.img = @"users";
+//    _user.mobile = @"13813888888";
+//    _change = NO;
 
     
     UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
@@ -49,9 +49,9 @@
     UIBarButtonItem *navRightButton = [[UIBarButtonItem alloc]initWithTitle:@"注册" style:UIBarButtonItemStylePlain target:self action:@selector(goToRegister:)];
     self.navigationItem.rightBarButtonItem = navRightButton;
     
-    _avatarImageView = [UIViewController customImageView:CGRectZero andImage:_user.img];
+    _avatarImageView = [UIViewController customImageView:CGRectZero andImage:nil];
     
-    _mobilephoneLabel = [UIViewController customLabel:CGRectZero andText:_user.mobile andColor:[UIColor blackColor] andFont:14.0f];
+    _mobilephoneLabel = [UIViewController customLabel:CGRectZero andText:nil andColor:[UIColor blackColor] andFont:14.0f];
     
     _passwordTextField = [UIViewController customTextField:CGRectZero andPlaceHolder:@"  密码"];
     _passwordTextField.secureTextEntry = YES;
@@ -88,6 +88,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //[self saveNSUserDefaults];  //调用此方法将各种数据存储到NSUserDefautls中，在下面定义
+    [self readNSUserDefaults];  //调用此方法从NSUserDefautls中读取各种数据，在下面定义
     [self dismissKeyBoard];
 }
 
@@ -138,6 +140,40 @@
     r6.size.width = rect.size.width - r6.origin.x * 2;
     r6.size.height = 14.0f;
     _otherUser.frame = r6;
+}
+
+//保存数据到NSUserDefaults
+- (void)saveNSUserDefaults
+{
+    _user = [[BLUser alloc]init];
+    _user.img = @"users";
+    _user.mobile = @"13813888888";
+    _change = NO;
+    NSString *img = @"users";
+    NSString *mobile = @"13813888888";
+    
+    //将上述数据全部存储到NSUserDefaults中
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:img forKey:@"img"];
+    [userDefaults setObject:mobile forKey:@"mobile"];
+    
+    //这里建议同步存储到磁盘中，但是不是必须的
+    [userDefaults synchronize];
+    
+}
+
+//从NSUserDefaults中读取数据
+-(void)readNSUserDefaults
+{
+    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
+    
+    //读取数据到各个label中
+    
+    //读取NSString类型的数据
+    NSString *img = [userDefaultes stringForKey:@"img"];
+    NSString *mobile = [userDefaultes stringForKey:@"mobile"];
+    [_avatarImageView setImage:[UIImage imageNamed:img]];
+    _mobilephoneLabel.text = mobile;
 }
 
 - (void)goBack {

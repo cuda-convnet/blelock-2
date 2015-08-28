@@ -13,7 +13,6 @@
 @interface BLHouseViewController()<UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
 @property (nonatomic, strong) UITableView *houseTableView;
-@property (nonatomic, strong) UIButton *rightButton;
 @property (nonatomic, strong) UIButton *deleteButton;
 
 
@@ -29,32 +28,32 @@
 }
 
 - (void)loadView {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-    view.backgroundColor = [UIColor colorWithRed:238/255.0 green:233/255.0 blue:233/255.0 alpha:1];
-    //导航栏
-    CGRect navframe = self.navigationController.navigationBar.frame;
+    UIView *view = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     self.title = _key.alias;
+    
+    //导航栏按钮
+    UIBarButtonItem *navLeftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack)];
+    self.navigationItem.leftBarButtonItem = navLeftButton;
+
     //右边按钮：修改
-    _rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _rightButton.frame = CGRectMake(0, 0, navframe.size.height, navframe.size.height);
-    [_rightButton setBackgroundImage: [UIImage imageNamed : @"change.png"] forState:UIControlStateNormal];
-    [_rightButton addTarget:self action:@selector(goToChange) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightButton];
+    UIBarButtonItem *navRightButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed : @"change.png"] style:UIBarButtonItemStylePlain target:self action:@selector(goToChange)];
+    self.navigationItem.rightBarButtonItem = navRightButton;
 
     //设置列表
-    _houseTableView = [[UITableView alloc] initWithFrame:CGRectZero];
-    [_houseTableView setDelegate:self];
-    [_houseTableView setDataSource:self];
+    _houseTableView = [UIViewController customTableView:CGRectZero andDelegate:self];
     //_houseTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, 20)];
-    [view addSubview:_houseTableView];
+    
 
     //删除按钮
+    _deleteButton = [UIViewController customButton:CGRectZero andTitle:@"删除这把钥匙" andFont:16.0f andBackgroundColor:BLBlue];
     _deleteButton = [[UIButton alloc]initWithFrame:CGRectZero];
-    [_deleteButton setTitle:@"删除这把钥匙" forState:UIControlStateNormal];
-    _deleteButton.backgroundColor = [UIColor colorWithRed:30/255.0 green:144/255.0 blue:255/255.0 alpha:1];
     [_deleteButton addTarget:self action:@selector(goToDeleteTheKey) forControlEvents:UIControlEventTouchUpInside];
+    
+    [view addSubview:_houseTableView];
     [view addSubview:_deleteButton];
     self.view = view;
+    
+    
 }
 
 - (void)viewWillLayoutSubviews {
@@ -83,7 +82,7 @@
     [super viewDidLoad];
 }
 
-- (void)goBackView {
+- (void)goBack {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -133,8 +132,10 @@
             }
             case 1:{
                 UIImageView *usersImageView = [UIViewController customImageView:CGRectMake(0, 0, 100, 100) andImage:_key.owner.img];
-                UILabel *userNameLabel = [UIViewController customLabel:CGRectMake(100, 30, 200, 30) andText:_key.owner.name andColor:[UIColor blackColor] andFont:16.0f];
-                UILabel *userPhoneLabel = [UIViewController customLabel:CGRectMake(100, 60, 200, 30) andText:_key.owner.mobile andColor:[UIColor lightGrayColor] andFont:16.0f];
+                UILabel *userNameLabel = [UIViewController customLabel:CGRectMake(0, 30, 380, 30) andText:_key.owner.name andColor:[UIColor blackColor] andFont:16.0f];
+                UILabel *userPhoneLabel = [UIViewController customLabel:CGRectMake(0, 60, 380, 30) andText:_key.owner.mobile andColor:[UIColor lightGrayColor] andFont:16.0f];
+                userNameLabel.textAlignment = NSTextAlignmentRight;
+                userPhoneLabel.textAlignment = NSTextAlignmentRight;
                 
                 [cell addSubview: userNameLabel];
                 [cell addSubview: userPhoneLabel];
@@ -146,11 +147,14 @@
                 [dateFormatter setDateFormat:@"yyyy-MM-dd"];
                 UILabel *timeLabel = [UIViewController customLabel:CGRectMake(0, 10, 300, 30) andText:@"   到期时间" andColor:[UIColor blackColor] andFont:16.0f];
                 UILabel *numberLabel = [UIViewController customLabel:CGRectMake(0, 40, 300, 30) andText:@"   剩余次数" andColor:[UIColor blackColor] andFont:16.0f];
-                UILabel *time = [UIViewController customLabel:CGRectMake(0, 10, 280, 30) andText:[dateFormatter stringFromDate:_key.expiredDate] andColor:[UIColor blackColor] andFont:16.0f];
-                time.textAlignment = NSTextAlignmentRight;
+                UILabel *time = [UIViewController customLabel:CGRectMake(0, 10, 380, 30) andText:[dateFormatter stringFromDate:_key.expiredDate] andColor:[UIColor blackColor] andFont:16.0f];
+                
 
                 NSString *numberText = [[NSString alloc]initWithFormat:@"%d %@", _key.maxTimes-_key.usedTimes, @"次"];
-                UILabel *number = [UIViewController customLabel:CGRectMake(0, 40, 280, 30) andText:numberText andColor:[UIColor blackColor] andFont:16.0f];
+                UILabel *number = [UIViewController customLabel:CGRectMake(0, 40, 380, 30) andText:numberText andColor:[UIColor blackColor] andFont:16.0f];
+                timeLabel.textAlignment = NSTextAlignmentLeft;
+                numberLabel.textAlignment = NSTextAlignmentLeft;
+                time.textAlignment = NSTextAlignmentRight;
                 number.textAlignment = NSTextAlignmentRight;
                 
                 [cell.contentView addSubview: timeLabel];

@@ -10,6 +10,7 @@
 
 @protocol BLUserGenderChangeViewControllerDelegate
 
+@required
 - (void) changeUserGender:(NSString *)newGender;
 
 @end
