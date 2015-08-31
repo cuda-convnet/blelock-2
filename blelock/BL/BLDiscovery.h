@@ -18,14 +18,11 @@ enum Mode {
     MODE_DFU             // 升级模式
 };
 
-
-
 /****************************************************************************/
 /*							UI protocols									*/
 /****************************************************************************/
 @protocol BLDiscoveryDelegate <NSObject>
 - (void) discoveryDidRefresh;
-- (void) discoveryStatePoweredOff;
 @end
 
 
