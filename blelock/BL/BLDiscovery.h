@@ -62,7 +62,7 @@ enum BluetoothState {
 - (void) startScanningForServiceUUIDString:(NSString *)uuidString;
 - (void) stopScanning;
 
-- (void) connectPeripheral:(CBPeripheral*)per.ipheral;
+- (void) connectPeripheral:(CBPeripheral*)peripheral;
 - (void) disconnectPeripheral:(CBPeripheral*)peripheral;
 
 
