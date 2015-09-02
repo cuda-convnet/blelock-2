@@ -8,10 +8,10 @@
 
 #import "BLDiscovery.h"
 
-@interface BLDiscovery () <CBCentralManagerDelegate, CBPeripheralDelegate> {
-    CBCentralManager    *centralManager;
-    BOOL				pendingInit;
-}
+@interface BLDiscovery () <CBCentralManagerDelegate, CBPeripheralDelegate>
+
+@property (nonatomic, strong) CBCentralManager *centralManager;
+
 @end
 
 
@@ -36,9 +36,6 @@
 {
     self = [super init];
     if (self) {
-        pendingInit = YES;
-        centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
-        
         _foundPeripherals = [[NSMutableArray alloc] init];
         _connectedServices = [[NSMutableArray alloc] init];
     }
@@ -51,22 +48,22 @@
 /*								Settings									*/
 /****************************************************************************/
 /* Reload from file. */
-- (void) loadSavedDevices
-{
+- (BOOL)loadSavedDevices {
     NSArray	*storedDevices	= [[NSUserDefaults standardUserDefaults] arrayForKey:@"StoredDevices"];
     
     if (![storedDevices isKindOfClass:[NSArray class]]) {
         NSLog(@"No stored array to load");
-        return;
+        return NO;
     }
     CBPeripheral	*peripheral;
     NSArray *peripherals = [NSArray array];
-    peripherals = [centralManager retrievePeripheralsWithIdentifiers:storedDevices];
+    peripherals = [_centralManager retrievePeripheralsWithIdentifiers:storedDevices];
     /* Add to list. */
     for (peripheral in peripherals) {
-        [centralManager connectPeripheral:peripheral options:nil];
+        [_centralManager connectPeripheral:peripheral options:nil];
     }
-    [_discoveryDelegate discoveryDidRefresh];
+    return YES;
+
 }
 
 
@@ -112,17 +109,20 @@
 /****************************************************************************/
 /*								Discovery                                   */
 /****************************************************************************/
-- (void) startScanningForServiceUUID:(NSString *)uuidString
-{
+- (void)openBluetooth{
+    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
+}
+
+- (void)startScanningForServiceUUIDString:(NSString *)uuidString {
     NSArray			*uuidArray	= [NSArray arrayWithObjects:[CBUUID UUIDWithString:uuidString], nil];
     NSDictionary	*options	= [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:CBCentralManagerScanOptionAllowDuplicatesKey];
-    [centralManager scanForPeripheralsWithServices:uuidArray options:options];
+    [_centralManager scanForPeripheralsWithServices:uuidArray options:options];
 }
 
 
 - (void) stopScanning
 {
-    [centralManager stopScan];
+    [_centralManager stopScan];
 }
 
 
@@ -144,14 +144,14 @@
 - (void) connectPeripheral:(CBPeripheral*)peripheral
 {
     if (!peripheral.state) {
-        [centralManager connectPeripheral:peripheral options:nil];
+        [_centralManager connectPeripheral:peripheral options:nil];
     }
 }
 
 
 - (void) disconnectPeripheral:(CBPeripheral*)peripheral
 {
-    [centralManager cancelPeripheralConnection:peripheral];
+    [_centralManager cancelPeripheralConnection:peripheral];
 }
 
 
@@ -187,6 +187,7 @@
         [_discoveryDelegate discoveryDidRefresh];
 
     }
+    [self stopScanning];
     
 }
 
@@ -213,38 +214,22 @@
 }
 
 
-- (void) clearDevices
-{
-//    LeTemperatureAlarmService	*service;
-//    [foundPeripherals removeAllObjects];
-//    
-//    for (service in connectedServices) {
-//        [service reset];
-//    }
-//    [connectedServices removeAllObjects];
+- (void)clearDevices {
+    _foundPeripherals = nil;
+    _connectedServices = nil;
 }
 
 - (void) centralManagerDidUpdateState:(CBCentralManager *)central
 {
-    static CBCentralManagerState previousState = -1;
-    
-    switch ([centralManager state]) {
+        switch ([_centralManager state]) {
         case CBCentralManagerStatePoweredOn: {
             NSLog(@"蓝牙已打开,请扫描外设");
-//            _bluetoothState = BLUETOOTH_IS_OPEN;
-//            [_delegate changeForBluetoothState:_bluetoothState];
-//            [self scanPeripheral];
-            pendingInit = NO;
-            [self loadSavedDevices];
-            //[centralManager retrievePeripheralsWithIdentifiers:<#(NSArray *)#>];
-            [_discoveryDelegate discoveryDidRefresh];
+            [_discoveryDelegate changeForBluetoothState:BLUETOOTH_IS_OPEN];
             break;
         }
         case CBCentralManagerStatePoweredOff: {
             NSLog(@"蓝牙关闭");
-            //_bluetoothState = BLUETOOTH_IS_CLOSED;
-            [self clearDevices];
-            [_discoveryDelegate discoveryDidRefresh];
+            [_discoveryDelegate changeForBluetoothState:BLUETOOTH_IS_CLOSED];
             break;
         }
             
@@ -255,7 +240,7 @@
             
         case CBCentralManagerStateUnsupported: {
             NSLog(@"设备不支持BLE");
-            //_bluetoothState = BLUETOOTH_NOT_SUPPORT;
+            [_discoveryDelegate changeForBluetoothState:BLUETOOTH_NOT_SUPPORT];
             break;
         }
             
@@ -266,11 +251,8 @@
             
         case CBCentralManagerStateResetting:
         {
-            //[self clearDevices];
+            [self clearDevices];
             [_discoveryDelegate discoveryDidRefresh];
-            //[_peripheralDelegate alarmServiceDidReset];
-            
-            pendingInit = YES;
             break;
         }
         
@@ -279,8 +261,6 @@
             break;
         }
     }
-    
-    previousState = [centralManager state];
 }
 @end
 

@@ -29,7 +29,7 @@ extern NSString *kDfuPacketCharacteristicUUIDString;            //00001531-1212-
 
 
 /****************************************************************************/
-/*						Lock service.                          */
+/*						Dfu service.                          */
 /****************************************************************************/
 @interface BLDfuService : NSObject
 

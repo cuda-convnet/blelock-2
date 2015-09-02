@@ -14,6 +14,7 @@
 @interface UIViewController (Utils)
 
 + (UIView *)customView:(CGRect)frame andBackgroundColor:(UIColor *)backgroundColor;
++ (UIImageView *)customImageView:(CGRect)frame;
 + (UIImageView *)customImageView:(CGRect)frame andImage:(NSString *)img;
 + (UIButton *)customButton:(CGRect)frame andTitle:(NSString *)title andFont:(CGFloat)font andBackgroundColor:(UIColor *)backgroundColor;
 + (UIButton *)customButton:(CGRect)frame andImg:(NSString *)img;

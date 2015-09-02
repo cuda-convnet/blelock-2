@@ -49,7 +49,7 @@
     UIBarButtonItem *navRightButton = [[UIBarButtonItem alloc]initWithTitle:@"注册" style:UIBarButtonItemStylePlain target:self action:@selector(goToRegister:)];
     self.navigationItem.rightBarButtonItem = navRightButton;
     
-    _avatarImageView = [UIViewController customImageView:CGRectZero andImage:nil];
+    _avatarImageView = [UIViewController customImageView:CGRectZero];
     
     _mobilephoneLabel = [UIViewController customLabel:CGRectZero andText:nil andColor:[UIColor blackColor] andFont:14.0f];
     

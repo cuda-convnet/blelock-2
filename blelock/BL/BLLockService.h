@@ -9,6 +9,22 @@
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
+//锁状态
+enum LockState {
+    LOCK_IS_FIND,
+    LOCK_NOT_FIND,
+    LOCK_IS_CONNECT,
+    LOCK_NOT_CONNECT,
+    LOCK_IS_OPEN,
+    LOCK_IS_CLOSED,
+};
+
+//门状态
+enum DoorState {
+    DOOR_IS_OPEN,
+    DOOR_IS_CLOSED
+};
+
 
 /****************************************************************************/
 /*						Service Characteristics								*/
@@ -22,15 +38,10 @@ extern NSString *kLockControlPointDescriptorUUIDString;         // 00002902-0000
 /****************************************************************************/
 @class BLLockService;
 
-//蓝牙状态
-typedef enum {
-    BLUETOOTH_IS_OPEN = 0,
-    BLUETOOTH_IS_CLOSED = 1,
-    BLUETOOTH_NOT_SUPPORT = 2
-} BluetoothState;
-
 @protocol BLLockServiceProtocol<NSObject>
-- (void) alarmServiceDidChangeStatus:(BLLockService*)service;
+
+- (void)changeForLockState:(enum LockState)lockState;
+
 @end
 
 

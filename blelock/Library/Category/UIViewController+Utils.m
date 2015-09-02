@@ -16,6 +16,13 @@
     return view;
 }
 
++ (UIImageView *)customImageView:(CGRect)frame {
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:frame];
+    imageView.layer.cornerRadius = frame.size.height/2.0f;
+    imageView.layer.masksToBounds = YES;
+    return imageView;
+}
+
 + (UIImageView *)customImageView:(CGRect)frame andImage:(NSString *)img {
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:frame];
     imageView.image = [UIImage imageNamed:img];

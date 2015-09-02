@@ -13,19 +13,28 @@
 #import "BLDfuService.h"
 
 enum Mode {
-    MODE_UNCONNECTED,
-    MODE_NORMAL,            // 正常模式
-    MODE_DFU             // 升级模式
+    MODE_UNCONNECTED = 0,
+    MODE_NORMAL = 1,            // 正常模式
+    MODE_DFU = 2             // 升级模式
 };
 
+//蓝牙状态
+enum BluetoothState {
+    BLUETOOTH_IS_OPEN = 0,
+    BLUETOOTH_IS_CLOSED = 1,
+    BLUETOOTH_NOT_SUPPORT = 2
+};
 
 
 /****************************************************************************/
 /*							UI protocols									*/
 /****************************************************************************/
 @protocol BLDiscoveryDelegate <NSObject>
-- (void) discoveryDidRefresh;
-- (void) discoveryStatePoweredOff;
+
+@required
+- (void)changeForBluetoothState:(enum BluetoothState)bluetoothState;
+- (void)discoveryDidRefresh;
+
 @end
 
 
@@ -49,10 +58,11 @@ enum Mode {
 /****************************************************************************/
 /*								Actions										*/
 /****************************************************************************/
-- (void) startScanningForUUIDString:(NSString *)uuidString;
+- (BOOL) loadSavedDevices;
+- (void) startScanningForServiceUUIDString:(NSString *)uuidString;
 - (void) stopScanning;
 
-- (void) connectPeripheral:(CBPeripheral*)peripheral;
+- (void) connectPeripheral:(CBPeripheral*)per.ipheral;
 - (void) disconnectPeripheral:(CBPeripheral*)peripheral;
 
 
