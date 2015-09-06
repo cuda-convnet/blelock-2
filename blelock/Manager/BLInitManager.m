@@ -36,14 +36,13 @@
 
 - (void)launch {
 
-//    NSString *userID = [self loginUserID];
-//    if ([userID length] > 0) {
-//        [self setupUserWithID:userID];
-//        //[self showMainViewController];
-//    }
-//    else
-//        [self showLoginViewController];
-    [self showLoginViewController];
+    NSString *userID = [self loginUserID];
+    if ([userID length] > 0) {
+        [self setupUserWithID:userID];
+        [self showLoginViewController];
+    }
+    else
+        [self showLoginForFirstViewController];
 }
 
 - (NSString *)loginUserID {
@@ -63,6 +62,14 @@
     
 }
 
+- (void)showLoginForFirstViewController {
+    
+    BLLoginForFirstViewController *loginVC = [[BLLoginForFirstViewController alloc] init];
+    BLNavigationController *rootNavigationController = [[BLNavigationController alloc] initWithRootViewController:loginVC];
+    
+    [self showNewWindowWithViewController:rootNavigationController animated:YES];
+    
+}
 
 
 - (void)showNewWindowWithViewController:(UIViewController*)vc animated:(BOOL)animated {

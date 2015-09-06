@@ -7,6 +7,7 @@
 //
 
 #import "BLDiscovery.h"
+#import "BLKey.h"
 
 @interface BLDiscovery () <CBCentralManagerDelegate, CBPeripheralDelegate>
 
@@ -130,9 +131,16 @@
 {
     //根据设备名和gap地址进行排除和找钥匙
     NSLog(@"%@",peripheral.name);
-    if (![_foundPeripherals containsObject:peripheral]) {
-        [_foundPeripherals addObject:peripheral];
-        [_discoveryDelegate discoveryDidRefresh];
+    BLKey *key = [[BLKey alloc]init];
+    for (key in _keys) {
+        if ([key.alias  isEqual: @"翠苑四区"] && [peripheral.name  isEqual: @"XXX UltraLock"]) {
+            [_discoveryDelegate changeForLockState:LOCK_IS_FIND];
+            if (![_foundPeripherals containsObject:peripheral]) {
+                [_foundPeripherals addObject:peripheral];
+                [_discoveryDelegate discoveryDidRefresh];
+            }
+            [self connectPeripheral:peripheral];
+        }
     }
 }
 

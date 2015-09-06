@@ -145,10 +145,6 @@
 //保存数据到NSUserDefaults
 - (void)saveNSUserDefaults
 {
-    _user = [[BLUser alloc]init];
-    _user.img = @"users";
-    _user.mobile = @"13813888888";
-    _change = NO;
     NSString *img = @"users";
     NSString *mobile = @"13813888888";
     
@@ -161,6 +157,7 @@
     [userDefaults synchronize];
     
 }
+
 
 //从NSUserDefaults中读取数据
 -(void)readNSUserDefaults

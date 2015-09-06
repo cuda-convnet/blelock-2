@@ -110,6 +110,24 @@
     _forgetPassword.frame = r4;
     
 }
+
+//保存数据到NSUserDefaults
+- (void)saveNSUserDefaults
+{
+    
+    NSString *blLoginUserID = @"13813888888";
+    
+    //将上述数据全部存储到NSUserDefaults中
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:blLoginUserID forKey:@"BLLoginUserID"];
+    
+    //这里建议同步存储到磁盘中，但是不是必须的
+    [userDefaults synchronize];
+    
+}
+
+
+
 /////////////////////////
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
 }

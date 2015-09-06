@@ -25,7 +25,6 @@ enum BluetoothState {
     BLUETOOTH_NOT_SUPPORT = 2
 };
 
-
 /****************************************************************************/
 /*							UI protocols									*/
 /****************************************************************************/
@@ -33,6 +32,7 @@ enum BluetoothState {
 
 @required
 - (void)changeForBluetoothState:(enum BluetoothState)bluetoothState;
+- (void)changeForLockState:(enum LockState)lockState;
 - (void)discoveryDidRefresh;
 
 @end
@@ -70,6 +70,7 @@ enum BluetoothState {
 /*							Access to the devices							*/
 /****************************************************************************/
 @property (assign, nonatomic) enum Mode mode;
+@property (assign, nonatomic) NSMutableArray    *keys;
 @property (retain, nonatomic) NSMutableArray    *foundPeripherals;
 @property (retain, nonatomic) NSMutableArray	*connectedServices;	// Array of BLLockService,BLDfuService
 @end

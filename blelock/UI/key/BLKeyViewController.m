@@ -78,7 +78,7 @@
     
     _operateUIView = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     
-    _operateUIButton = [UIViewController customButton:CGRectZero andImg:@"bluetooth"];
+    _operateUIButton = [UIViewController customButton:CGRectZero andImg:@"bluetooth_black"];
     [_operateUIButton addTarget:self action:@selector(openBluetooth) forControlEvents:UIControlEventTouchUpInside];
     
     _hintLabel = [UIViewController customLabel:CGRectZero andText:@"点击这里打开蓝牙" andColor:[UIColor blackColor] andFont:16.0f];
@@ -184,68 +184,18 @@
 - (void)openBluetooth {
     [[BLDiscovery sharedInstance] setDiscoveryDelegate:self];
     [[BLDiscovery sharedInstance] setLockPeripheralDelegate:self];
-    [[BLDiscovery sharedInstance] setDfuPeripheralDelegate:self];
+    
     [[BLDiscovery sharedInstance] openBluetooth];
+}
+
+- (void)openDfuMode{
+    [_currentDisplayService resetToDfuMode];
 }
 
 //选择table
 - (void)goToBLHouse:(NSInteger)row {
     BLHouseViewController * blHouseViewController = [[BLHouseViewController alloc]initWithKey:(BLKey *)_keyTable[row]];
     [self.navigationController pushViewController: blHouseViewController animated:YES];
-}
-
-
-
-//- (void)changeForLockState:(LockState)lockState {
-//   
-//    switch (lockState) {
-//        case LOCK_IS_FIND: {
-//            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"connect.jpg"] forState:UIControlStateNormal];
-//            _hintLabel.text = @"连接中，请耐心等待";
-//            break;
-//        }
-//        case LOCK_NOT_FIND: {
-//            _hintLabel.text = @"附近没有锁";
-//            break;
-//        }
-//        case LOCK_IS_CONNECT: {
-//            _hintLabel.text = @"连接成功，正在尝试开锁";
-//            break;
-//        }
-//        case LOCK_NOT_CONNECT: {
-//            _hintLabel.text = @"连接失败";
-//            break;
-//        }
-//        case LOCK_IS_OPEN: {
-//            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"openLock"] forState:UIControlStateNormal];
-//            [_operateUIView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:139/255.0 blue:69/255.0 alpha:1]];
-//            _hintLabel.text = @"门锁已打开，请转动把手进门";
-//            break;
-//        }
-//        case LOCK_IS_CLOSED: {
-//            _hintLabel.text = @"您没有权限开这把锁";
-//            break;
-//        }
-//        default:
-//            break;
-//    }
-//}
-
-- (void)changeForDoorState:(enum DoorState)doorState {
-    
-    switch (doorState) {
-        case DOOR_IS_OPEN: {
-            [self.operateUIButton setBackgroundImage: [UIImage imageNamed : @"house.png"] forState:UIControlStateNormal];
-            self.hintLabel.text = @"欢迎您！";
-            break;
-        }
-        case DOOR_IS_CLOSED: {
-            _hintLabel.text = @"门还没开!";
-            break;
-        }
-        default:
-            break;
-    }
 }
 
 #pragma mark -
@@ -264,7 +214,9 @@
             [_operateUIView setBackgroundColor: BLBlue];
             _hintLabel.text = @"请触摸门锁上的灯";
             _hintLabel.textColor = [UIColor whiteColor];
+            //进入Lock模式
             [[BLDiscovery sharedInstance] setMode:MODE_NORMAL];
+            [[BLDiscovery sharedInstance] setKeys:_keyTable];
             if (![[BLDiscovery sharedInstance] loadSavedDevices]) {
                 [[BLDiscovery sharedInstance] startScanningForServiceUUIDString:kLockServiceUUIDString];
             };
@@ -287,5 +239,104 @@
     }
 }
 
+- (void)changeForLockState:(enum LockState)lockState {
+
+    switch (lockState) {
+        case LOCK_IS_FIND: {
+            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"bluetooth_white.jpg"] forState:UIControlStateNormal];
+            _hintLabel.text = @"连接中，请耐心等待";
+            break;
+        }
+        case LOCK_NOT_FIND: {
+            _hintLabel.text = @"附近没有锁";
+            break;
+        }
+        case LOCK_IS_CONNECT: {
+            _hintLabel.text = @"连接成功，正在尝试开锁";
+            break;
+        }
+        case LOCK_NOT_CONNECT: {
+            _hintLabel.text = @"连接失败";
+            break;
+        }
+        case LOCK_IS_OPEN: {
+            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"unlock"] forState:UIControlStateNormal];
+            [_operateUIView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:139/255.0 blue:69/255.0 alpha:1]];
+            _hintLabel.text = @"门锁已打开，请转动把手进门";
+            break;
+        }
+        case LOCK_IS_CLOSED: {
+            _hintLabel.text = @"您没有权限开这把锁";
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+/****************************************************************************/
+/*				BLLockServiceProtocol Delegate Methods					*/
+/****************************************************************************/
+- (void) lockService:(BLLockService *)service changeForLockState:(enum LockState)lockState {
+    //if (![service isEqual:currentlyDisplayingService])
+        //return;
+    switch (lockState) {
+        case LOCK_IS_FIND: {
+            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"bluetooth_white"] forState:UIControlStateNormal];
+            _hintLabel.text = @"连接中，请耐心等待";
+            break;
+        }
+        case LOCK_NOT_FIND: {
+            _hintLabel.text = @"附近没有锁";
+            break;
+        }
+        case LOCK_IS_CONNECT: {
+            _hintLabel.text = @"连接成功，正在尝试开锁";
+            break;
+        }
+        case LOCK_NOT_CONNECT: {
+            _hintLabel.text = @"连接失败";
+            break;
+        }
+        case LOCK_IS_OPEN: {
+            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"unlock"] forState:UIControlStateNormal];
+            [_operateUIView setBackgroundColor:[UIColor colorWithRed:0/255.0 green:139/255.0 blue:69/255.0 alpha:1]];
+            _hintLabel.text = @"门锁已打开，请转动把手进门";
+            break;
+        }
+        case LOCK_IS_CLOSED: {
+            _hintLabel.text = @"您没有权限开这把锁";
+            break;
+        }
+        default:
+            break;
+    }
+
+}
+
+- (void)lockService:(BLLockService *)service changeForDoorState:(enum DoorState)doorState {
+    switch (doorState) {
+        case DOOR_IS_OPEN: {
+            [self.operateUIButton setBackgroundImage: [UIImage imageNamed : @"house"] forState:UIControlStateNormal];
+            self.hintLabel.text = @"欢迎您！";
+            break;
+        }
+        case DOOR_IS_CLOSED: {
+            //_hintLabel.text = @"门还没开!";
+            break;
+        }
+        default:
+            break;
+    }
+
+}
+
+- (void)letUserControl:(BLLockService *)service {
+    [_operateUIView setBackgroundColor:[UIColor colorWithRed:255/255.0 green:193/255.0 blue:37/255.0 alpha:1]];
+    [self.operateUIButton setBackgroundImage: [UIImage imageNamed : @"update"] forState:UIControlStateNormal];
+    self.hintLabel.text = @"门锁有新的固件，点击这里进行更新";
+    _currentDisplayService = service;
+    [_operateUIButton addTarget:self action:@selector(openDfuMode) forControlEvents:UIControlEventTouchUpInside];
+}
 
 @end

@@ -43,8 +43,8 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
 {
     self = [super init];
     if (self) {
-        _peripheral = peripheral;
-        [_peripheral setDelegate:self];
+        servicePeripheral = peripheral;
+        [servicePeripheral setDelegate:self];
         peripheralDelegate = controller;
         
         dfuServiceUUID = [CBUUID UUIDWithString:kDfuServiceUUIDString];
@@ -72,7 +72,7 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
     NSArray		*services	= nil;
     NSArray		*uuids	= [NSArray arrayWithObjects: dfuControlPointCharacteristicUUID, dfuPacketCharacteristicUUID, nil];
     
-    if (peripheral != _peripheral) {
+    if (peripheral != servicePeripheral) {
         NSLog(@"Wrong Peripheral.\n");
         return ;
     }
@@ -107,7 +107,7 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
     NSArray		*characteristics	= [service characteristics];
     CBCharacteristic *characteristic;
     
-    if (peripheral != _peripheral) {
+    if (peripheral != servicePeripheral) {
         NSLog(@"Wrong Peripheral.\n");
         return ;
     }
@@ -148,4 +148,12 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
 /****************************************************************************/
 /*						Characteristics Interactions						*/
 /****************************************************************************/
+
+
+#pragma mark -
+#pragma mark Command
+/****************************************************************************/
+/*						            Command		  		            		*/
+/****************************************************************************/
+
 @end
