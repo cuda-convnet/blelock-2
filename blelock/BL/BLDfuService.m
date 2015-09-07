@@ -41,6 +41,7 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
 /****************************************************************************/
 - (id) initWithPeripheral:(CBPeripheral *)peripheral controller:(id<BLDfuServiceProtocol>)controller
 {
+    NSLog(@"Dfu服务初始化");
     self = [super init];
     if (self) {
         servicePeripheral = peripheral;
@@ -63,8 +64,8 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
 {
     CBUUID	*serviceUUID	= [CBUUID UUIDWithString:kDfuServiceUUIDString];
     NSArray	*serviceArray	= [NSArray arrayWithObjects:serviceUUID, nil];
-    
-    [servicePeripheral discoverServices:serviceArray];
+    NSLog(@"4.搜索Dfu服务");
+    [servicePeripheral discoverServices:nil];
 }
 
 - (void) peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
@@ -92,7 +93,12 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
     for (CBService *service in services) {
         if ([[service UUID] isEqual:[CBUUID UUIDWithString:kDfuServiceUUIDString]]) {
             dfuService = service;
+            NSLog(@"找到dfu服务了");
             break;
+        }else if([[service UUID] isEqual:[CBUUID UUIDWithString:kLockServiceUUIDString]]) {
+            NSLog(@"5.找到服务了:%@",service);
+        }else {
+            NSLog(@"5.找到其他服务");
         }
     }
     

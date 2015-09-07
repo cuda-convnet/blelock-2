@@ -58,12 +58,15 @@ enum BluetoothState {
 /****************************************************************************/
 /*								Actions										*/
 /****************************************************************************/
-- (BOOL) loadSavedDevices;
-- (void) startScanningForServiceUUIDString:(NSString *)uuidString;
-- (void) stopScanning;
+- (void)openBluetooth;
+- (void)openDfu;
+- (void)openDfuForTest;
+- (BOOL)loadSavedDevices;
+- (void)startScanningForServiceUUIDString:(NSString *)uuidString;
+- (void)stopScanning;
 
-- (void) connectPeripheral:(CBPeripheral*)peripheral;
-- (void) disconnectPeripheral:(CBPeripheral*)peripheral;
+- (void)connectPeripheral:(CBPeripheral*)peripheral;
+- (void)disconnectPeripheral:(CBPeripheral*)peripheral;
 
 
 /****************************************************************************/

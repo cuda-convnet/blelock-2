@@ -79,7 +79,8 @@
     _operateUIView = [UIViewController customView:CGRectZero andBackgroundColor:BLGray];
     
     _operateUIButton = [UIViewController customButton:CGRectZero andImg:@"bluetooth_black"];
-    [_operateUIButton addTarget:self action:@selector(openBluetooth) forControlEvents:UIControlEventTouchUpInside];
+    _operateUIButton.tag = 0;
+    [_operateUIButton addTarget:self action:@selector(openBluetoothOrDfu:) forControlEvents:UIControlEventTouchUpInside];
     
     _hintLabel = [UIViewController customLabel:CGRectZero andText:@"点击这里打开蓝牙" andColor:[UIColor blackColor] andFont:16.0f];
     
@@ -181,16 +182,23 @@
 
 
 //操作区打开蓝牙
-- (void)openBluetooth {
-    [[BLDiscovery sharedInstance] setDiscoveryDelegate:self];
-    [[BLDiscovery sharedInstance] setLockPeripheralDelegate:self];
+- (void)openBluetoothOrDfu:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    if (button.tag == 0) {
+        [[BLDiscovery sharedInstance] setDiscoveryDelegate:self];
+        [[BLDiscovery sharedInstance] setLockPeripheralDelegate:self];
+        [[BLDiscovery sharedInstance] setDfuPeripheralDelegate:self];
+        [[BLDiscovery sharedInstance] openBluetooth];
+    }else if (button.tag == 1) {
+        NSLog(@"dfu模式已经准备进入");
+        
+        [_currentDisplayService resetToDfuMode];
+        
+    }
     
-    [[BLDiscovery sharedInstance] openBluetooth];
+    
 }
 
-- (void)openDfuMode{
-    [_currentDisplayService resetToDfuMode];
-}
 
 //选择table
 - (void)goToBLHouse:(NSInteger)row {
@@ -210,17 +218,24 @@
 - (void)changeForBluetoothState:(enum BluetoothState)bluetoothState {
     switch (bluetoothState) {
         case BLUETOOTH_IS_OPEN: {
-            [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"touch.png"] forState:UIControlStateNormal];
-            [_operateUIView setBackgroundColor: BLBlue];
-            _hintLabel.text = @"请触摸门锁上的灯";
-            _hintLabel.textColor = [UIColor whiteColor];
-            //进入Lock模式
-            [[BLDiscovery sharedInstance] setMode:MODE_NORMAL];
-            [[BLDiscovery sharedInstance] setKeys:_keyTable];
-            if (![[BLDiscovery sharedInstance] loadSavedDevices]) {
-                [[BLDiscovery sharedInstance] startScanningForServiceUUIDString:kLockServiceUUIDString];
-            };
-            [self discoveryDidRefresh];
+            NSLog(@"mode:%d",((BLDiscovery *)[BLDiscovery sharedInstance]).mode);
+            if (((BLDiscovery *)[BLDiscovery sharedInstance]).mode == MODE_DFU) {
+                //进入DFU模式
+                NSLog(@"1.开始扫描dfu");
+                [[BLDiscovery sharedInstance] startScanningForServiceUUIDString:kDfuServiceUUIDString];
+            } else {
+                [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"touch.png"] forState:UIControlStateNormal];
+                [_operateUIView setBackgroundColor: BLBlue];
+                _hintLabel.text = @"请触摸门锁上的灯";
+                _hintLabel.textColor = [UIColor whiteColor];
+                //进入Lock模式
+                [[BLDiscovery sharedInstance] setMode:MODE_NORMAL];
+                [[BLDiscovery sharedInstance] setKeys:_keyTable];
+                if (![[BLDiscovery sharedInstance] loadSavedDevices]) {
+                    [[BLDiscovery sharedInstance] startScanningForServiceUUIDString:kLockServiceUUIDString];
+                };
+                [self discoveryDidRefresh];
+            }
             break;
         }
         case BLUETOOTH_IS_CLOSED: {
@@ -336,7 +351,8 @@
     [self.operateUIButton setBackgroundImage: [UIImage imageNamed : @"update"] forState:UIControlStateNormal];
     self.hintLabel.text = @"门锁有新的固件，点击这里进行更新";
     _currentDisplayService = service;
-    [_operateUIButton addTarget:self action:@selector(openDfuMode) forControlEvents:UIControlEventTouchUpInside];
+    _operateUIButton.tag = 1;
+    [_operateUIButton addTarget:self action:@selector(openBluetoothOrDfu:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 @end

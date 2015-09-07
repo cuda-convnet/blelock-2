@@ -64,13 +64,14 @@ NSString *kLockControlPointDescriptorUUIDString = @"00002902-0000-1000-8000-0080
     CBUUID	*serviceUUID	= [CBUUID UUIDWithString:kLockServiceUUIDString];
     NSArray	*serviceArray	= [NSArray arrayWithObjects:serviceUUID, nil];
     
-    [servicePeripheral discoverServices:serviceArray];
+    //[servicePeripheral discoverServices:serviceArray];
+    [servicePeripheral discoverServices:nil];
     NSLog(@"寻找锁服务");
 }
 
 - (void) resetToDfuMode {
     //进入DFU模式
-    NSLog(@"发送进入DFU模式命令");
+    NSLog(@"1.发送进入DFU模式命令");
     Byte keyBytes[] = {2,3,4,5,6,7,8,9,10,11,12,13,16,15,16,17};
     NSData *dataToDfu = [self commandResetToDfuMode:keyBytes length:16];
     [servicePeripheral writeValue:dataToDfu forCharacteristic:lockControlPointCharacteristic type:CBCharacteristicWriteWithResponse];
@@ -286,7 +287,7 @@ NSString *kLockControlPointDescriptorUUIDString = @"00002902-0000-1000-8000-0080
 
 - (void)readResponse:(NSData *)command{
     Byte *commandBytes = (Byte *)[command bytes];
-    if (command.length>2) {
+    if (command.length>1) {
         
         switch (commandBytes[1]) {
             case OP_CODE_GET_DISPOSABLE_LOCK_WORD: {
@@ -305,12 +306,20 @@ NSString *kLockControlPointDescriptorUUIDString = @"00002902-0000-1000-8000-0080
                 break;
             }
             case OP_CODE_RESET_TO_DFU_MODE: {
-                switch (commandBytes[2]) {
-                    case RESULT_SUCCESS:
-                        NSLog(@"成功转换成DFU模式");
-                        break;
-                    default:
-                        break;
+                if (command.length>3 && commandBytes[2]>0) {
+                    switch (commandBytes[3]) {
+                        case RESULT_SUCCESS:{
+                            NSLog(@"2.收到通知：成功转换成DFU模式");
+                            [[BLDiscovery sharedInstance] disconnectPeripheral:servicePeripheral];
+                            servicePeripheral = nil;
+                            [[BLDiscovery sharedInstance] openDfuForTest];
+                            //[[BLDiscovery sharedInstance] openDfu];
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+
                 }
                 break;
             }
@@ -374,8 +383,8 @@ NSString *kLockControlPointDescriptorUUIDString = @"00002902-0000-1000-8000-0080
 
 - (void)readNotifyObjectLock:(NSData *)command{
     Byte *commandBytes = (Byte *)[command bytes];
-    if (command.length>2) {
-        switch (commandBytes[2]) {
+    if (command.length>3 && commandBytes[2]>0) {
+        switch (commandBytes[3]) {
             case LOCK_STATE_UNLOCKED:
                 [peripheralDelegate lockService:self changeForLockState:LOCK_IS_OPEN];
                 break;
@@ -393,21 +402,17 @@ NSString *kLockControlPointDescriptorUUIDString = @"00002902-0000-1000-8000-0080
 
 - (void)readNotifyObjectDoor:(NSData *)command{
     Byte *commandBytes = (Byte *)[command bytes];
-     NSLog(@"%d,%d",commandBytes[2],DOOR_STATE_OPENED);
-    if (command.length>2) {
-        switch (commandBytes[2]) {
+    if (command.length>3 && commandBytes[2]>0) {
+        switch (commandBytes[3]) {
             case DOOR_STATE_OPENED: {
+                NSLog(@"门开了");
                 [peripheralDelegate lockService:self changeForDoorState:DOOR_IS_OPEN];
+                //访问服务器查看是否有新的固件
+                [peripheralDelegate letUserControl:self];
                 break;
             }
             case DOOR_STATE_CLOSED: {
                 [peripheralDelegate lockService:self changeForDoorState:DOOR_IS_CLOSED];
-                
-                //硬件程序有问题，此句为测试辅助代码
-                [peripheralDelegate lockService:self changeForDoorState:DOOR_IS_OPEN];
-                //访问服务器查看是否有新的固件
-                [peripheralDelegate letUserControl:self];
-                
                 break;
             }
             default:

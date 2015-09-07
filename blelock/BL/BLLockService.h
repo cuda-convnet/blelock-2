@@ -35,7 +35,8 @@
 #define NOTIFY_OBJECT_BATTERY_LEVEL         18
 #define NOTIFY_OBJECT_FLASH                 19
 
-//第三个字节：通知对象的状态
+//第三个字节：长度
+//第四个字节：通知对象的状态
 #define DOOR_STATE_OPENED                   0
 #define DOOR_STATE_CLOSED                   1
 #define LOCK_STATE_LOCKED                   0
@@ -43,7 +44,7 @@
 #define LOCK_STATE_UNCERTAIN                2
 #define FLASH_READ_ERROR                    0
 
-//第三个字节：OP CODE的操作结果
+//第四个字节：OP CODE的操作结果
 #define RESULT_SUCCESS                      0
 #define RESULT_KEY_WORD_VALIDATE_FAILED     6
 #define RESULT_FLASH_WRITING_ERROR          7

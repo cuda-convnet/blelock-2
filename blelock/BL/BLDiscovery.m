@@ -12,6 +12,7 @@
 @interface BLDiscovery () <CBCentralManagerDelegate, CBPeripheralDelegate>
 
 @property (nonatomic, strong) CBCentralManager *centralManager;
+@property (nonatomic, strong) CBPeripheral *centralPeripheral;
 
 @end
 
@@ -110,14 +111,21 @@
 /****************************************************************************/
 /*								Discovery                                   */
 /****************************************************************************/
-- (void)openBluetooth{
+- (void)openBluetooth {
+    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
+}
+- (void)openDfuForTest {
+    
+    _mode = MODE_DFU;
     _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
 }
 
 - (void)startScanningForServiceUUIDString:(NSString *)uuidString {
+    NSLog(@"2.");
     NSArray			*uuidArray	= [NSArray arrayWithObjects:[CBUUID UUIDWithString:uuidString], nil];
     NSDictionary	*options	= [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:CBCentralManagerScanOptionAllowDuplicatesKey];
-    [_centralManager scanForPeripheralsWithServices:uuidArray options:options];
+    //[_centralManager scanForPeripheralsWithServices:uuidArray options:options];
+    [_centralManager scanForPeripheralsWithServices:nil options:options];
 }
 
 
@@ -127,14 +135,15 @@
 }
 
 
-- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
-{
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI {
     //根据设备名和gap地址进行排除和找钥匙
     NSLog(@"%@",peripheral.name);
     BLKey *key = [[BLKey alloc]init];
     for (key in _keys) {
         if ([key.alias  isEqual: @"翠苑四区"] && [peripheral.name  isEqual: @"XXX UltraLock"]) {
-            [_discoveryDelegate changeForLockState:LOCK_IS_FIND];
+            if (_mode == MODE_NORMAL) {
+                 [_discoveryDelegate changeForLockState:LOCK_IS_FIND];
+            }
             if (![_foundPeripherals containsObject:peripheral]) {
                 [_foundPeripherals addObject:peripheral];
                 [_discoveryDelegate discoveryDidRefresh];
@@ -149,22 +158,41 @@
 /****************************************************************************/
 /*						Connection/Disconnection                            */
 /****************************************************************************/
-- (void) connectPeripheral:(CBPeripheral*)peripheral
-{
+- (void)connectPeripheral:(CBPeripheral*)peripheral {
     if (!peripheral.state) {
         [_centralManager connectPeripheral:peripheral options:nil];
     }
 }
 
 
-- (void) disconnectPeripheral:(CBPeripheral*)peripheral
-{
+- (void)disconnectPeripheral:(CBPeripheral*)peripheral {
     [_centralManager cancelPeripheralConnection:peripheral];
+    NSLog(@"断开所周边");
+    _mode = MODE_DFU;
+}
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+    NSLog(@"断开！！！！！");
+    NSLog(@"断开失败 %@", [error localizedDescription]);
 }
 
+//- (void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+//{
+//    LeTemperatureAlarmService	*service	= nil;
+//
+//    for (service in _connectedServices) {
+//        if ([service peripheral] == peripheral) {
+//            [_connectedServices removeObject:service];
+//            [peripheralDelegate alarmServiceDidChangeStatus:service];
+//            break;
+//        }
+//    }
+//
+//    [discoveryDelegate discoveryDidRefresh];
+//}
 
-- (void) centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
-{
+- (void) centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+    _centralPeripheral = peripheral;
+    NSLog(@"mode:%d",_mode);
     if (_mode == MODE_NORMAL ) {
         BLLockService *service = nil;
         /* Create a service instance. */
@@ -181,6 +209,7 @@
         [_discoveryDelegate discoveryDidRefresh];
         
     } else if (_mode == MODE_DFU) {
+        NSLog(@"Mode_DFu");
         BLDfuService *service = nil;
         service = [[BLDfuService alloc] initWithPeripheral:peripheral controller:_dfuPeripheralDelegate];
         [service start];
@@ -200,26 +229,12 @@
 }
 
 
-- (void) centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
-{
+- (void) centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     NSLog(@"Attempted connection to peripheral %@ failed: %@", [peripheral name], [error localizedDescription]);
 }
 
 
-- (void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
-{
-//    LeTemperatureAlarmService	*service	= nil;
-//    
-//    for (service in _connectedServices) {
-//        if ([service peripheral] == peripheral) {
-//            [_connectedServices removeObject:service];
-//            [peripheralDelegate alarmServiceDidChangeStatus:service];
-//            break;
-//        }
-//    }
-//    
-//    [discoveryDelegate discoveryDidRefresh];
-}
+
 
 
 - (void)clearDevices {
