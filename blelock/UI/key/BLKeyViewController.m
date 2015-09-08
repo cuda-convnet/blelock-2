@@ -320,7 +320,7 @@
             break;
         }
         case LOCK_IS_CLOSED: {
-            _hintLabel.text = @"您没有权限开这把锁";
+            //_hintLabel.text = @"门锁关闭";
             break;
         }
         default:

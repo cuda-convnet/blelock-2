@@ -62,6 +62,8 @@
 		E963F37E1B65FB6300EB9784 /* BLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FA940B01B651A2B00A63DFA /* BLLoginViewController.m */; };
 		E963F3861B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */; };
 		E963F3871B6603D200EB9784 /* BLLoginForFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */; };
+		E998F12F1B9ED8720003BB3A /* lock_a_release_1.01.bin in Resources */ = {isa = PBXBuildFile; fileRef = E998F12E1B9ED8720003BB3A /* lock_a_release_1.01.bin */; };
+		E998F1301B9ED8720003BB3A /* lock_a_release_1.01.bin in Resources */ = {isa = PBXBuildFile; fileRef = E998F12E1B9ED8720003BB3A /* lock_a_release_1.01.bin */; };
 		E99C349B1B6A3C8300C9262A /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E99C349A1B6A3C8300C9262A /* CoreBluetooth.framework */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +142,7 @@
 		E6B7D1751B8363C900F441C9 /* UIViewController+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Utils.m"; sourceTree = "<group>"; };
 		E963F3841B66038800EB9784 /* BLLoginForFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLLoginForFirstViewController.h; sourceTree = "<group>"; };
 		E963F3851B6603D200EB9784 /* BLLoginForFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLLoginForFirstViewController.m; sourceTree = "<group>"; };
+		E998F12E1B9ED8720003BB3A /* lock_a_release_1.01.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = lock_a_release_1.01.bin; sourceTree = "<group>"; };
 		E99C349A1B6A3C8300C9262A /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -281,6 +284,7 @@
 		0FA9406F1B6506AA00A63DFA /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				E998F12E1B9ED8720003BB3A /* lock_a_release_1.01.bin */,
 				0F8EF9BF1B6898D0000C8929 /* images */,
 			);
 			path = Resource;
@@ -498,6 +502,7 @@
 				0F8EF9C81B689969000C8929 /* shadow_up.png in Resources */,
 				0F8EF9C61B689969000C8929 /* arrow_up@2x.png in Resources */,
 				0F8EF9C71B689969000C8929 /* key.png in Resources */,
+				E998F12F1B9ED8720003BB3A /* lock_a_release_1.01.bin in Resources */,
 				0F8EF9C51B689969000C8929 /* arrow_up.png in Resources */,
 				0F8EF9C91B689969000C8929 /* shadow_up@2x.png in Resources */,
 			);
@@ -507,6 +512,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E998F1301B9ED8720003BB3A /* lock_a_release_1.01.bin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

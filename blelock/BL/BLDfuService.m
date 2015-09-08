@@ -95,10 +95,8 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
             dfuService = service;
             NSLog(@"找到dfu服务了");
             break;
-        }else if([[service UUID] isEqual:[CBUUID UUIDWithString:kLockServiceUUIDString]]) {
-            NSLog(@"5.找到服务了:%@",service);
         }else {
-            NSLog(@"5.找到其他服务");
+            NSLog(@"找到其他服务");
         }
     }
     
@@ -134,15 +132,15 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
         if ([[characteristic UUID] isEqual:dfuControlPointCharacteristicUUID]) {
             NSLog(@"Discovered dfu cp Characteristic");
             dfuControlPointCharacteristic = characteristic;
-            [peripheral readValueForCharacteristic:characteristic];
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-            
+            NSData *dataToWrite = [self commandStartDfuForModeOne];
+            [peripheral writeValue:dataToWrite forCharacteristic:dfuControlPointCharacteristic type:CBCharacteristicWriteWithResponse];
         } else if ([[characteristic UUID] isEqual:dfuPacketCharacteristicUUID]) {
             NSLog(@"Discovered dfu p Characteristic");
             dfuPacketCharacteristic = characteristic;
-            [peripheral readValueForCharacteristic:characteristic];
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-            
+            NSData *dataToWrite = [self commandSendStartData];
+            [peripheral writeValue:dataToWrite forCharacteristic:dfuPacketCharacteristic type:CBCharacteristicWriteWithResponse];
         }
     }
 }
@@ -155,11 +153,91 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001531-1212-efde-1523-785feab
 /*						Characteristics Interactions						*/
 /****************************************************************************/
 
+- (void) peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    if (peripheral != servicePeripheral) {
+        NSLog(@"Wrong peripheral\n");
+        return ;
+    }
+    
+    if ([error code] != 0) {
+        NSLog(@"Error %@\n", error);
+        return ;
+    }
+    NSData *data = characteristic.value;
+    NSLog(@"收到的数据：%@", data);
+    [self readCommand:data];
+}
 
+- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error {
+    if ([error code] != 0) {
+        NSLog(@"Error %@\n", error);
+        return ;
+    }
+    if ([characteristic.UUID isEqual:dfuControlPointCharacteristic]) {
+        NSLog(@"app发送给蓝牙命令写成功");
+    }
+}
 #pragma mark -
 #pragma mark Command
 /****************************************************************************/
 /*						            Command		  		            		*/
 /****************************************************************************/
+//cp
+- (NSData *)commandStartDfuForModeOne {
+    Byte command[] = {OP_CODE_START_DFU, MODE_DFU_UPDATE_APP};
+    NSData *data = [[NSData alloc] initWithBytes:command length:2];
+    return data;
+}
+//p
+
+
+
+- (NSData *)commandSendStartData{
+    
+    NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"lock_a_release_1.01" ofType:@"bin"];
+    NSLog(@"resourcePath: %@", resourcePath);
+    NSData *resource = [[NSData alloc]initWithContentsOfFile:resourcePath];
+    NSLog(@"%lu",(unsigned long)resource.length);
+    NSString *size = [NSString stringWithFormat:@"%zd",resource.length];
+    Byte command[] = {0X00,0X00};
+    NSData *command2 = [size dataUsingEncoding:NSUTF16LittleEndianStringEncoding];
+    NSMutableData *data = [[NSMutableData alloc] initWithBytes:command length:8];
+    [data appendData:command2];
+    return [data copy];
+     
+    //NSString *filePath = [[NSBundle mainBundle] pathForResouse:@"lock_a_release_1.01" ofType:@"bin"];
+    //NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+}
+
+//读取蓝牙传给app的命令
+- (void)readCommand:(NSData *)command {
+    Byte *commandBytes = (Byte *)[command bytes];
+    for (int i=0; i<command.length; i++) {
+        NSLog(@"%d",commandBytes[i]);
+    }
+//    if (command.length>0) {
+//        switch (commandBytes[0]) {
+//            case OP_CODE_RESPONSE_IN_LOCK_MODE: {
+//                NSLog(@"收到操作回应");
+//                [self readResponse:command];
+//                break;
+//            }
+//            case OP_CODE_NOTIFY_IN_LOCK_MODE: {
+//                NSLog(@"收到通知消息");
+//                [self readNotify:command];
+//                break;
+//            }
+//            default: {
+//                [self onUnknownNotificationReceived:command];
+//                break;
+//                
+//            }
+//        }
+//        
+//    } else {
+//        [self onUnknownNotificationReceived:command];
+//    }
+}
+
 
 @end

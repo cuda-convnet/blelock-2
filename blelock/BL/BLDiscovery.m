@@ -117,7 +117,8 @@
 - (void)openDfuForTest {
     
     _mode = MODE_DFU;
-    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
+    //_centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
+     [_centralManager scanForPeripheralsWithServices:nil options:nil];
 }
 
 - (void)startScanningForServiceUUIDString:(NSString *)uuidString {
@@ -173,6 +174,8 @@
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     NSLog(@"断开！！！！！");
     NSLog(@"断开失败 %@", [error localizedDescription]);
+    [NSThread sleepForTimeInterval:3.0];
+    [self connectPeripheral:peripheral];
 }
 
 //- (void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error

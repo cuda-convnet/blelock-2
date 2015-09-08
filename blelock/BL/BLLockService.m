@@ -310,8 +310,6 @@ NSString *kLockControlPointDescriptorUUIDString = @"00002902-0000-1000-8000-0080
                     switch (commandBytes[3]) {
                         case RESULT_SUCCESS:{
                             NSLog(@"2.收到通知：成功转换成DFU模式");
-                            [[BLDiscovery sharedInstance] disconnectPeripheral:servicePeripheral];
-                            servicePeripheral = nil;
                             [[BLDiscovery sharedInstance] openDfuForTest];
                             //[[BLDiscovery sharedInstance] openDfu];
                             break;
