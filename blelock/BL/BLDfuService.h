@@ -30,13 +30,8 @@
 #define INIT_RX 0x00
 #define INIT_COMPLETE 0x01
 
-// dfu response state
-#define RESPONSE_SUCCESS 0X01
-#define RESPONSE_INVALID_STATE 0X02
-#define RESPONSE_NOT_SUPPORTED 0X03
-#define RESPONSE_DATA_SIZE_OVERFLOW 0X04
-#define RESPONSE_CRC_ERROR 0X05
-#define RESPONSE_OPERATION_FAIL 0X06
+//程序需要
+#define PROC_FIRST 0X00
 
 // dfu response procedure
 #define PROC_START 0X01
@@ -45,6 +40,15 @@
 #define PROC_VALIDATE 0X04
 #define PROC_ACTIVATE 0X05 // 这个状态不会由芯片返回
 #define PROC_PKT_RCPT_REQ 0X08
+
+// dfu response state
+#define RESPONSE_SUCCESS 0X01
+#define RESPONSE_INVALID_STATE 0X02
+#define RESPONSE_NOT_SUPPORTED 0X03
+#define RESPONSE_DATA_SIZE_OVERFLOW 0X04
+#define RESPONSE_CRC_ERROR 0X05
+#define RESPONSE_OPERATION_FAIL 0X06
+
 
 /****************************************************************************/
 /*						Service Characteristics								*/
