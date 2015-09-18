@@ -21,8 +21,9 @@
 @property (nonatomic, strong) UIButton *operateUIButton;
 @property (nonatomic, strong) UILabel *hintLabel;
 @property (nonatomic, strong) UITableView *keyTableView;
-@property (nonatomic, assign) NSInteger blState;
-@property (nonatomic, assign) NSInteger keyState;
+@property (nonatomic, strong) UIProgressView *progressView;
+//@property (nonatomic, assign) NSInteger blState;
+//@property (nonatomic, assign) NSInteger keyState;
 
 @property (nonatomic, strong) NSMutableArray *keyTable;
 
@@ -87,8 +88,12 @@
     _keyTableView = [UIViewController customTableView:CGRectZero andDelegate:self];
     [_keyTableView reloadData];
     
+    _progressView = [[UIProgressView alloc] initWithFrame:CGRectZero];
+    _progressView.hidden = YES;
+    
     [view addSubview:_operateUIView];
     [view addSubview:_operateUIButton];
+    [view addSubview:_progressView];
     [view addSubview:_hintLabel];
     [view addSubview:_keyTableView];
     
@@ -128,6 +133,12 @@
     r4.size.height = _keyTable.count*44.0f;
     _keyTableView.frame = r4;
     
+    CGRect r5 = _progressView.frame;
+    r5.origin.x = rect.size.width/2-100.0f;
+    r5.origin.y = CGRectGetMaxY(_hintLabel.frame)+20.0f;
+    r5.size.width = 200.0f;
+    r5.size.height = 20.0f;
+    _progressView.frame = r5;
 }
 
 - (void)viewDidLoad {
@@ -353,6 +364,59 @@
     _currentDisplayService = service;
     _operateUIButton.tag = 1;
     [_operateUIButton addTarget:self action:@selector(openBluetoothOrDfu:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+/****************************************************************************/
+/*				BLDfuServiceProtocol Delegate Methods					*/
+/****************************************************************************/
+
+- (void) dfuService:(BLDfuService*)service changeForDfuCommandState:(enum CommandState)commandState {
+    switch (commandState) {
+        case CP_START_DFU: {
+            _hintLabel.text = @"start dfu";
+            _progressView.hidden = NO;
+            break;
+        }
+        case P_SEND_START_DATA: {
+            _hintLabel.text = @"send start data";
+            break;
+        }
+        case CP_INIT_BEGIN: {
+            _hintLabel.text = @"init begin";
+            break;
+        }
+        case P_SEND_INIT_DATA: {
+            _hintLabel.text = @"send init data";
+            break;
+        }
+        case CP_INIT_END: {
+            _hintLabel.text = @"init end";
+            break;
+        }
+        case CP_PKT_NOTIFY: {
+            _hintLabel.text = @"pkt notify";
+            break;
+        }
+        case CP_DATA_COMMAND: {
+            _hintLabel.text = @"data command";
+            break;
+        }
+
+        case P_DATA: {
+            _hintLabel.text = @"send data";
+            break;
+        }
+        case CP_VALIDATE: {
+            _hintLabel.text = @"validate";
+            break;
+        }
+        case CP_ACTIVATE: {
+            _hintLabel.text = @"activate";
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 @end

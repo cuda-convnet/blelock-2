@@ -30,8 +30,6 @@
 #define INIT_RX 0x00
 #define INIT_COMPLETE 0x01
 
-//程序需要
-#define PROC_FIRST 0X00
 
 // dfu response procedure
 #define PROC_START 0X01
@@ -50,6 +48,21 @@
 #define RESPONSE_OPERATION_FAIL 0X06
 
 
+//命令状态
+enum CommandState {
+    CP_START_DFU,
+    P_SEND_START_DATA,
+    CP_INIT_BEGIN,
+    P_SEND_INIT_DATA,
+    CP_INIT_END,
+    CP_PKT_NOTIFY,
+    CP_DATA_COMMAND,
+    P_DATA,
+    CP_VALIDATE,
+    CP_ACTIVATE
+};
+
+
 /****************************************************************************/
 /*						Service Characteristics								*/
 /****************************************************************************/
@@ -64,7 +77,8 @@ extern NSString *kDfuPacketCharacteristicUUIDString;            //00001531-1212-
 @class BLDfuService;
 
 @protocol BLDfuServiceProtocol<NSObject>
-//- (void) alarmServiceDidChangeStatus:(BLService*)service;
+@required
+- (void) dfuService:(BLDfuService*)service changeForDfuCommandState:(enum CommandState)commandState;
 @end
 
 

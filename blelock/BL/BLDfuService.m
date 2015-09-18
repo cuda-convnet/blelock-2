@@ -28,6 +28,7 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001532-1212-efde-1523-785feab
     CBUUID              *dfuPacketCharacteristicUUID;
     id<BLDfuServiceProtocol>	peripheralDelegate;
     Byte                procedure;
+    BOOL                sendFlag;
 }
 @end
 
@@ -61,8 +62,7 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001532-1212-efde-1523-785feab
 /****************************************************************************/
 /*							Service Interactions							*/
 /****************************************************************************/
-- (void) start
-{
+- (void) start {
     CBUUID	*serviceUUID	= [CBUUID UUIDWithString:kDfuServiceUUIDString];
     NSArray	*serviceArray	= [NSArray arrayWithObjects:serviceUUID, nil];
     NSLog(@"4.搜索Dfu服务");
@@ -176,18 +176,33 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001532-1212-efde-1523-785feab
 //    }
     if ([characteristic.UUID isEqual:dfuControlPointCharacteristicUUID]) {
         NSLog(@"cp命令写成功");
-        if (procedure == PROC_FIRST) {
-            [servicePeripheral setNotifyValue:YES forCharacteristic:characteristic];
-            NSData *dataToWrite = [self commandSendStartData];
-            [servicePeripheral writeValue:dataToWrite forCharacteristic:dfuPacketCharacteristic type:CBCharacteristicWriteWithoutResponse];
-        } else if (procedure == PROC_START) {
-            NSData *dataToWrite = [self commandSendInitData];
-            [servicePeripheral writeValue:dataToWrite forCharacteristic:dfuPacketCharacteristic type:CBCharacteristicWriteWithoutResponse];
+        switch (procedure) {
+            case CP_START_DFU: {
+                [servicePeripheral setNotifyValue:YES forCharacteristic:characteristic];
+                NSData *dataToWrite = [self commandSendStartData];
+                [servicePeripheral writeValue:dataToWrite forCharacteristic:dfuPacketCharacteristic type:CBCharacteristicWriteWithoutResponse];
+                break;
+            }
+            case CP_INIT_BEGIN: {
+                NSData *dataToWrite = [self commandSendInitData];
+                [servicePeripheral writeValue:dataToWrite forCharacteristic:dfuPacketCharacteristic type:CBCharacteristicWriteWithResponse];
+                break;
+            }
+            default:
+                break;
         }
-        
 
     } else if ([characteristic.UUID isEqual:dfuPacketCharacteristicUUID]) {
         NSLog(@"p命令写成功");
+        switch (procedure) {
+            case P_SEND_INIT_DATA: {
+                NSData *dataToWrite = [self commandReceiveInitEnd];
+                [servicePeripheral writeValue:dataToWrite forCharacteristic:dfuControlPointCharacteristic type:CBCharacteristicWriteWithResponse];
+                break;
+            }
+            default:
+                break;
+        }
     }
 }
 #pragma mark -
@@ -198,22 +213,54 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001532-1212-efde-1523-785feab
 //cp
 - (NSData *)commandStartDfuForModeOne {
     NSLog(@"命令：StartDfuForModeOne");
-    procedure = PROC_FIRST;
+    [peripheralDelegate dfuService:self changeForDfuCommandState:CP_START_DFU];
+    procedure = CP_START_DFU;
     Byte command[] = {OP_CODE_START_DFU, MODE_DFU_UPDATE_APP};
     NSData *data = [[NSData alloc] initWithBytes:command length:2];
     return data;
 }
 
-- (NSData *)commandReceiveInit {
-    NSLog(@"命令：ReceiveInit");
+- (NSData *)commandReceiveInitBegin {
+    [peripheralDelegate dfuService:self changeForDfuCommandState:CP_INIT_BEGIN];
+    NSLog(@"命令：ReceiveInitBegin");
+    procedure = CP_INIT_BEGIN;
     Byte command[] = {OP_CODE_RECEIVE_INIT, INIT_RX};
     NSData *data = [[NSData alloc] initWithBytes:command length:2];
     return data;
 }
 
+- (NSData *)commandReceiveInitEnd {
+    [peripheralDelegate dfuService:self changeForDfuCommandState:CP_INIT_END];
+    NSLog(@"命令：ReceiveInitEnd");
+    procedure = CP_INIT_END;
+    Byte command[] = {OP_CODE_RECEIVE_INIT, INIT_COMPLETE};
+    NSData *data = [[NSData alloc] initWithBytes:command length:2];
+    return data;
+}
+
+- (NSData *)commandPktNotify {
+    [peripheralDelegate dfuService:self changeForDfuCommandState:CP_PKT_NOTIFY];
+    NSLog(@"命令：PktNotify");
+    procedure = CP_PKT_NOTIFY;
+    Byte command[] = {OP_CODE_PKT_RCPT_NOTIF_REQ,0X10,0X00};
+    NSData *data = [[NSData alloc] initWithBytes:command length:3];
+    return data;
+}
+
+- (NSData *)commandDataCommand {
+    [peripheralDelegate dfuService:self changeForDfuCommandState:CP_DATA_COMMAND];
+    NSLog(@"命令：DataCommand");
+    procedure = CP_DATA_COMMAND;
+    Byte command[] = {OP_CODE_RECEIVE_FW};
+    NSData *data = [[NSData alloc] initWithBytes:command length:1];
+    return data;
+}
+
 //p
 - (NSData *)commandSendStartData {
+    [peripheralDelegate dfuService:self changeForDfuCommandState:P_SEND_START_DATA];
     NSLog(@"命令：SendStartData");
+    procedure = P_SEND_START_DATA;
     NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"lock_a_release_1.01" ofType:@"bin"];
     NSLog(@"resourcePath: %@", resourcePath);
     NSData *resource = [[NSData alloc]initWithContentsOfFile:resourcePath];
@@ -235,7 +282,9 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001532-1212-efde-1523-785feab
 }
 
 - (NSDate *)commandSendInitData {
+    [peripheralDelegate dfuService:self changeForDfuCommandState:P_SEND_INIT_DATA];
     NSLog(@"命令：SendInitData");
+    procedure = P_SEND_INIT_DATA;
     NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"lock_a_release_1.01" ofType:@"bin"];
     NSLog(@"resourcePath: %@", resourcePath);
     NSData *resource = [[NSData alloc]initWithContentsOfFile:resourcePath];
@@ -243,15 +292,23 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001532-1212-efde-1523-785feab
     short crc = [self crc16_compute:resourceByte size:resource.length];
     NSString *hexString = [self ToHex:crc];
     NSString *hexStringWithZero = [self addZero:hexString length:4];
-    NSData *crcData = [self hexToBytes:hexStringWithZero];
+    NSString *hexLittle =  [self changeToLittleEndian:hexStringWithZero];
+    NSData *crcData = [self hexToBytes:hexLittle];
     NSLog(@"%d",crc);
-    Byte command[] = {0X0C, 0X00, 0X00, 0X0C, 0X00, 0X00, 0X00, 0X00, 1, 67, 0 };
+    Byte command[] = {0X00,0X0C,0X0C,0X00,0X74,0X27,0X00,0X00,0X01,0X00,0X67,0X00};
     NSMutableData *data = [[NSMutableData alloc] initWithBytes:command length:12];
     [data appendData:crcData];
     NSLog(@"data:%@",data);
     return [data copy];
 }
 
+- (NSData *)commandData {
+    NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@"lock_a_release_1.01" ofType:@"bin"];
+    NSLog(@"resourcePath: %@", resourcePath);
+    NSData *resource = [[NSData alloc]initWithContentsOfFile:resourcePath];
+    Byte *resourceByte = (Byte *)[resource bytes];
+    return resource;
+}
 
 
 //读取蓝牙传给app的命令
@@ -294,8 +351,8 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001532-1212-efde-1523-785feab
                 switch (commandBytes[2]) {
                     case RESPONSE_SUCCESS:{
                         NSLog(@"成功");
-                        procedure = PROC_START;
-                        NSData *dataToWrite = [self commandReceiveInit];
+                        
+                        NSData *dataToWrite = [self commandReceiveInitBegin];
                         [servicePeripheral writeValue:dataToWrite forCharacteristic:dfuControlPointCharacteristic type:CBCharacteristicWriteWithResponse];
                         break;
                     }
@@ -321,6 +378,32 @@ NSString *kDfuPacketCharacteristicUUIDString = @"00001532-1212-efde-1523-785feab
             }
             case PROC_INIT: {
                 NSLog(@"阶段：初始化");
+                switch (commandBytes[2]) {
+                    case RESPONSE_SUCCESS:{
+                        NSLog(@"成功");
+                        NSData *dataToWrite = [self commandPktNotify];
+                        [servicePeripheral writeValue:dataToWrite forCharacteristic:dfuControlPointCharacteristic type:CBCharacteristicWriteWithResponse];
+                        break;
+                    }
+                    case RESPONSE_INVALID_STATE:
+                        NSLog(@"状态无效");
+                        break;
+                    case RESPONSE_NOT_SUPPORTED:
+                        NSLog(@"不支持");
+                        break;
+                    case RESPONSE_DATA_SIZE_OVERFLOW:
+                        NSLog(@"数据尺寸溢出");
+                        break;
+                    case RESPONSE_CRC_ERROR:
+                        NSLog(@"CRC错误");
+                        break;
+                    case RESPONSE_OPERATION_FAIL:
+                        NSLog(@"操作失败");
+                        break;
+                    default:
+                        break;
+                }
+
                 break;
             }
             case PROC_RECEIVE_IMAGE: {
