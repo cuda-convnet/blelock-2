@@ -174,8 +174,10 @@
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     NSLog(@"断开！！！！！");
     NSLog(@"断开失败 %@", [error localizedDescription]);
-    [NSThread sleepForTimeInterval:3.0];
-    [self connectPeripheral:peripheral];
+    if (_mode == MODE_DFU) {
+        [NSThread sleepForTimeInterval:3.0];
+        [self connectPeripheral:peripheral];
+    }
 }
 
 //- (void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error

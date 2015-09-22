@@ -34,7 +34,7 @@
 // dfu response procedure
 #define PROC_START 0X01
 #define PROC_INIT 0X02
-#define PROC_RECEIVE_IMAGE 0X03
+#define PROC_RECEIVE_APP 0X03
 #define PROC_VALIDATE 0X04
 #define PROC_ACTIVATE 0X05 // 这个状态不会由芯片返回
 #define PROC_PKT_RCPT_REQ 0X08
@@ -78,7 +78,9 @@ extern NSString *kDfuPacketCharacteristicUUIDString;            //00001531-1212-
 
 @protocol BLDfuServiceProtocol<NSObject>
 @required
-- (void) dfuService:(BLDfuService*)service changeForDfuCommandState:(enum CommandState)commandState;
+- (void) dfuService:(BLDfuService *)service changeForDfuCommandState:(enum CommandState)commandState;
+- (void) dfuService:(BLDfuService *)service changeForDfuProcess:(float) progressPercent;
+- (void) dfuServiceChangeToLockMode:(BLDfuService *)service;
 @end
 
 

@@ -419,4 +419,18 @@
     }
 }
 
+- (void) dfuService:(BLDfuService*)service changeForDfuProcess:(float)progressPercent {
+    _progressView.progress = progressPercent;
+}
+
+- (void) dfuServiceChangeToLockMode:(BLDfuService *)service {
+    _progressView.hidden = YES;
+    [_operateUIButton setBackgroundImage: [UIImage imageNamed : @"bluetooth_black"] forState:UIControlStateNormal];
+    [_operateUIView setBackgroundColor:BLGray];
+    _hintLabel.text = @"点击这里打开蓝牙";
+    _hintLabel.textColor = [UIColor blackColor];
+    _operateUIButton.tag = 0;
+}
+
+
 @end
